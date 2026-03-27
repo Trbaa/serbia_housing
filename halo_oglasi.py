@@ -28,8 +28,10 @@ CSV_COLUMNS = [
     "Internet",
     "Parking",
     "Garaža",
-    "Dodatni opis",
-    "Podrum"
+    'Lift',
+    "Podrum",
+    "Linije gradskog prevoza",
+    "Dodatni opis"
 ]
 
 
@@ -119,6 +121,21 @@ def scrape_listing(page, url):
 
             if feature_name in data:
                 data[feature_name] = "Da"
+
+        # Linije gradskog prevoza
+    transport_block = page.locator("div.city-lines")
+
+    if transport_block.count() > 0:
+        line_items = transport_block.locator("ul li")
+        lines = []
+
+        for i in range(line_items.count()):
+            line_text = line_items.nth(i).inner_text().strip()
+            if line_text:
+                lines.append(line_text)
+
+        if lines:
+            data["Linije gradskog prevoza"] = ", ".join(lines)
 
    # Dodatni opis
     description_block = page.locator(
