@@ -51,8 +51,7 @@ CSV_COLUMNS = [
 
 def get_listings_url(page):
     page.wait_for_selector('a[href*="/prodaja-stanova/"]')
-    links = page.locator('a[href*="/prodaja-stanova/"]')
-    
+    links = page.locator("a").filter(has_text="Beograd").filter(has_text="€/m²") ## samo za kartice gde se pominje Beograd i ima znak €/m²
     urls = []
     for i in range(links.count()):
         href = links.nth(i).get_attribute("href")
@@ -60,6 +59,101 @@ def get_listings_url(page):
             urls.append(urljoin(BASE_URL, href))
 
     return list(dict.fromkeys(urls))
+
+
+def map_features(raw_features, data):
+    for item in raw_features:
+        text = item.lower()
+
+        if "grejanje" in text:
+            data["Grejanje"] = item
+
+        if "uknjižen" in text or "uknjizen" in text:
+            data["Uknjižen"] = "da"
+
+        if "terasa" in text:
+            data["Terasa"] = "da"
+
+        if "interfon" in text:
+            data["Interfon"] = "da"
+
+        if "klima" in text:
+            data["Klima"] = "da"
+
+        if "internet" in text:
+            data["Internet"] = "da"
+
+        if "agencija" in text:
+            data["Oglašivač"] = "agencija"
+
+        if "stanje" in text:
+            data["Stanje objekta"] = item
+
+        if "podrum" in text:
+            data["Podrum"] = "da"
+
+        if "lift" in text:
+            data["Lift"] = "da"
+
+        if "parking" in text:
+            data["Parking"] = "da"
+
+        if "garaža" in text or "garaza" in text:
+            data["Garaža"] = "da"
+
+    return data
+
+def scrape_listings(page,url):
+    page.goto(url, wait_until="domcontentloaded")
+    human_delay(page)
+
+    data = {col: None for col in CSV_COLUMNS}
+    data["url"] = url
+
+
+    title_locator = page.locator("h1")
+    if title_locator.count() > 0:
+        data["title"] = title_locator.first.inner_text().strip()
+
+    price_total_loc = page.locator('p[test-data="ad-price"]')
+    if price_total_loc.count() > 0:
+        data["price_total"] = price_total_loc.first.inner_text().strip()
+
+    price_per_m2 = page.locator('div.text-right p').nth(1)
+    if price_per_m2.count() > 0:
+        data["price_per_m2"] = price_per_m2.first.inner_text().strip()
+
+    details = page.locator("div.flex.gap-px strong")
+    if details.count() > 0:
+        data['Kvadratura'] = details.nth(0).first.inner_text().strip()
+        data['Broj soba'] = details.nth(1).first.inner_text().strip()
+
+        sprat_text = details.nth(2).inner_text().strip()   # npr. 5/5 spratova
+        parts = sprat_text.split("/")
+
+        if len(parts) == 2:
+            data["Sprat"] = parts[0].strip()
+            data["Ukupna spratnost"] = parts[1].replace("spratova", "").replace("sprata", "").strip()
+    
+        raw_features = []
+
+    stan_section = page.locator("section").filter(has=page.locator('strong:has-text("O stanu")'))
+
+    if stan_section.count() > 0:
+        feature_items = stan_section.first.locator("li span")
+
+        for i in range(feature_items.count()):
+            text = feature_items.nth(i).inner_text().strip()
+            if text:
+                raw_features.append(text)
+
+    data = map_features(raw_features, data)
+
+    opis_oglasa = page.locator('div[test-data="rich-text-description"] div.flex.w-full.flex-col.gap-4.whitespace-normal')
+    if opis_oglasa.count() > 0:
+        data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
+
+    return data
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=False, slow_mo=500)
@@ -76,6 +170,6 @@ with sync_playwright() as p:
     print("Broj kartica:", len(cards))
 
     for i in cards:
-        print(i)
-
+        title = scrape_listings(page,i)
+        print(title)
     browser.close()
