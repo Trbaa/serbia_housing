@@ -1,8 +1,23 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
 import csv
+import random
+
+USER_AGENTS = [
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+
+    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
+
+    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+]
 
 BASE_URL = "https://www.halooglasi.com"
+
+def human_delay(page, a=800, b=2000):
+    page.wait_for_timeout(random.randint(a, b))
 
 CSV_COLUMNS = [
     "url",
@@ -50,7 +65,7 @@ def get_listing_urls(page):
 
 def scrape_listing(page, url):
     page.goto(url, wait_until="domcontentloaded")
-    page.wait_for_timeout(1000)
+    human_delay(page)
 
     data = {col: None for col in CSV_COLUMNS}
     data["url"] = url
@@ -161,7 +176,7 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
         print(f"\nObradjujem listing stranu {current_page_num}: {current_url}")
 
         listing_page.goto(current_url, wait_until="domcontentloaded")
-        listing_page.wait_for_timeout(1500)
+        human_delay(detail_page)
 
         urls = get_listing_urls(listing_page)
         print(f"Nadjeno oglasa na strani: {len(urls)}")
@@ -176,7 +191,7 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
                 item = scrape_listing(detail_page, url)
                 writer.writerow(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
-                detail_page.wait_for_timeout(1000)
+                human_delay(detail_page)
             except Exception as e:
                 print(f"  Greska za {url}: {e}")
 
@@ -200,13 +215,27 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
 
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)
-    
-    listing_page = browser.new_page()
-    detail_page = browser.new_page()
+
+    context = browser.new_context(
+    user_agent=random.choice(USER_AGENTS),
+    viewport={"width": 1366, "height": 768},
+    locale="sr-RS",
+    extra_http_headers={
+        "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
+    }
+)
+
+    context.add_init_script("""
+    Object.defineProperty(navigator, 'webdriver', {
+        get: () => undefined
+    });
+    """)
+
+    listing_page = context.new_page()
+    detail_page = context.new_page()
 
     start_url = "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd"
 
-    detail_page = browser.new_page()
 
     with open("nekretnine.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
