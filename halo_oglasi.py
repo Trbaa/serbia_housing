@@ -152,12 +152,59 @@ def scrape_listing(page, url):
     return data
 
 
+def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pages=None):
+    current_url = start_url
+    current_page_num = 1
+    seen_urls = set()
+
+    while True:
+        print(f"\nObradjujem listing stranu {current_page_num}: {current_url}")
+
+        listing_page.goto(current_url, wait_until="domcontentloaded")
+        listing_page.wait_for_timeout(1500)
+
+        urls = get_listing_urls(listing_page)
+        print(f"Nadjeno oglasa na strani: {len(urls)}")
+
+        for i, url in enumerate(urls, start=1):
+            if url in seen_urls:
+                continue
+
+            seen_urls.add(url)
+
+            try:
+                item = scrape_listing(detail_page, url)
+                writer.writerow(item)
+                print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
+                detail_page.wait_for_timeout(1000)
+            except Exception as e:
+                print(f"  Greska za {url}: {e}")
+
+        if max_pages is not None and current_page_num >= max_pages:
+            print("Dostignut max_pages limit.")
+            break
+
+        next_button = listing_page.locator("a.page-link.next")
+
+        if next_button.count() == 0:
+            print("Nema sledece strane. Kraj.")
+            break
+
+        next_href = next_button.first.get_attribute("href")
+        if not next_href:
+            print("Sledeca strana nema href. Kraj.")
+            break
+
+        current_url = urljoin(BASE_URL, next_href)
+        current_page_num += 1
+
 with sync_playwright() as p:
     browser = p.chromium.launch(headless=False)
-    page = browser.new_page()
+    
+    listing_page = browser.new_page()
+    detail_page = browser.new_page()
 
-    page.goto("https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd")
-    urls = get_listing_urls(page)
+    start_url = "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd"
 
     detail_page = browser.new_page()
 
@@ -165,14 +212,15 @@ with sync_playwright() as p:
         writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
         writer.writeheader()
 
-        for url in urls:
-            try:
-                item = scrape_listing(detail_page, url)
-                writer.writerow(item)
-                print(item)
-                detail_page.wait_for_timeout(1500)
-            except Exception as e:
-                print(f"Greska za {url}: {e}")
+        scrape_all_pages_to_csv(
+            listing_page=listing_page,
+            detail_page=detail_page,
+            start_url=start_url,
+            writer=writer,
+            max_pages=3,   # stavi npr 3 dok testiras
+        )
+
+    listing_page.close()
 
     detail_page.close()
     browser.close()
