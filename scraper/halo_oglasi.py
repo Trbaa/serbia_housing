@@ -2,6 +2,7 @@ from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
 import csv
 import random
+from preprocesing.pipeline import preprocess
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -135,7 +136,7 @@ def scrape_listing(page, url):
             feature_name = feature_labels.nth(i).inner_text().strip()
 
             if feature_name in data:
-                data[feature_name] = "Da"
+                data[feature_name] = "da"
 
         # Linije gradskog prevoza
     transport_block = page.locator("div.city-lines")
@@ -189,6 +190,12 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
 
             try:
                 item = scrape_listing(detail_page, url)
+                ##Ovde treba poziv za preproces pipeline
+                #
+                #
+
+                item= preprocess(item)
+
                 writer.writerow(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
@@ -237,7 +244,7 @@ with sync_playwright() as p:
     start_url = "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd"
 
 
-    with open("nekretnine.csv", "w", newline="", encoding="utf-8") as f:
+    with open("halo_oglasi_raw.csv", "w", newline="", encoding="utf-8") as f:
         writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
         writer.writeheader()
 

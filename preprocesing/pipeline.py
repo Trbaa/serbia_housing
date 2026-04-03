@@ -2,6 +2,15 @@ import pandas as pd
 import numpy as np
 
 
+def normalize_missing_df(df):
+    return df.replace({
+        'Nan': np.nan,
+        'NaN': np.nan,
+        'None': np.nan,
+        '': np.nan,
+        ' ': np.nan
+    })
+
 def clean_title(item):
     item["title"] = item["title"].str.replace(r"\d+|EUR|€/m²|€|m²|m2|\.", "", regex=True).str.strip()
     item["title"] = item['title'].str.replace(r", ,","",regex = True).str.strip()
@@ -24,14 +33,14 @@ def clean_price_total(item):
 
 def clean_price_per_m2(item):
     item["price_per_m2"] = (
-    item["price_per_m2"]
-    .str.split("\n").str[0]
-    .str.replace(r"EUR|€/m²|€|m²|m2|\.", "", regex=True).str.strip()
-    .str.replace(r"[.,\s]", "", regex=True)
-    .str.replace(r"od ", "", regex=True)
-    .str.strip()
-    .astype("Int64")
+        item["price_per_m2"]
+        .astype("string")
+        .str.split("\n").str[0]
+        .str.replace(r"od\s+", "", regex=True)
+        .str.replace(r"[^\d]", "", regex=True)
     )
+
+    item["price_per_m2"] = pd.to_numeric(item["price_per_m2"], errors="coerce").astype("Int64")
     return item
 
 def clean_tip_nekretnine(item):
@@ -110,7 +119,7 @@ def clean_grejanje(item):
     return item
 
 def clean_sprat(item):
-    item['Sprat'] = item['Sprat'].str.replace({
+    item['Sprat'] = item['Sprat'].replace({
     'Visoko prizemlje': '0.5',
     'Prizemlje': '0',
     'Suturen': '-0.5'
@@ -528,6 +537,8 @@ def clean_topla_voda(item):
     return item
 
 def preprocess(item):
+    item = pd.DataFrame([item])
+    item = normalize_missing_df(item)
 
     item = item.replace('Nan', np.nan)
     item = clean_title(item)
@@ -554,4 +565,4 @@ def preprocess(item):
     item = clean_podrum(item)
     item = clean_topla_voda(item)
 
-    return item
+    return item.iloc[0].to_dict()
