@@ -11,6 +11,19 @@ def normalize_missing_df(df):
         ' ': np.nan
     })
 
+def convert_to_python_types(item):
+    for col, value in item.items():
+        if pd.isna(value):
+            item[col] = None
+        elif isinstance(value, np.integer):
+            item[col] = int(value)
+        elif isinstance(value, np.floating):
+            item[col] = float(value)
+        elif isinstance(value, np.bool_):
+            item[col] = bool(value)
+
+    return item
+
 def clean_title(item):
     item["title"] = item["title"].str.replace(r"\d+|EUR|€/m²|€|m²|m2|\.", "", regex=True).str.strip()
     item["title"] = item['title'].str.replace(r", ,","",regex = True).str.strip()
@@ -540,7 +553,6 @@ def preprocess(item):
     item = pd.DataFrame([item])
     item = normalize_missing_df(item)
 
-    item = item.replace('Nan', np.nan)
     item = clean_title(item)
     item = clean_price_total(item)
     item = clean_price_per_m2(item)
@@ -565,4 +577,7 @@ def preprocess(item):
     item = clean_podrum(item)
     item = clean_topla_voda(item)
 
-    return item.iloc[0].to_dict()
+    item = item.iloc[0].to_dict()
+    item = convert_to_python_types(item)
+    
+    return item

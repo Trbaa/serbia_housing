@@ -3,6 +3,7 @@ from urllib.parse import urljoin
 import csv
 import random
 from preprocesing.pipeline import preprocess
+from database.insert_row import insert_row
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -195,6 +196,7 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
                 #
 
                 item= preprocess(item)
+                insert_row(item)
 
                 writer.writerow(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
@@ -215,6 +217,7 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
         next_href = next_button.first.get_attribute("href")
         if not next_href:
             print("Sledeca strana nema href. Kraj.")
+            #fallback dodati
             break
 
         current_url = urljoin(BASE_URL, next_href)
