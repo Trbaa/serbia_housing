@@ -179,9 +179,8 @@ def clean_opis(item):
 
 def clean_uknjizen(item):
     item['Uknjižen'] = item['Uknjižen'].replace({
-    'da': 1,
-    'ne': 0})
-    item['Uknjižen'] = pd.to_numeric(item['Uknjižen'], errors='coerce')
+    'da': True,
+    'ne': False})
 
     opis = item['Dodatni opis'].astype('string').str.lower()
 
@@ -213,7 +212,7 @@ def clean_uknjizen(item):
     item.loc[
         item['Uknjižen'].isna() & pos_mask & ~neg_mask,
         'Uknjižen'
-    ] = 1
+    ] = True
 
     return item
 
@@ -536,7 +535,7 @@ def clean_podrum(item):
 
     return item
 
-def clean_topla_voda(item):
+
 
     item['Topla voda'] = (
         item['Topla voda']
@@ -575,7 +574,6 @@ def preprocess(item):
     item = clean_garaza(item)
     item = clean_lift(item)
     item = clean_podrum(item)
-    item = clean_topla_voda(item)
 
     item = item.iloc[0].to_dict()
     item = convert_to_python_types(item)

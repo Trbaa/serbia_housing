@@ -1,17 +1,22 @@
 import psycopg2
-from db_config import get_default_connection_params
+from .db_config import get_scraping_db_connection_params
 
 
-def insert_row(item):
+def insert_row_halo(item):
     conn = None
     cursor = None
 
     try:
-        conn = psycopg2.connect(**get_default_connection_params())
+        conn = psycopg2.connect(**get_scraping_db_connection_params())
         cursor = conn.cursor()
+        
+        cursor.execute("SELECT current_database(), current_schema();")
+        print("Connected to:", cursor.fetchone())
+        cursor.execute("SHOW search_path;")
+        print("Search path:", cursor.fetchone())
 
         query = """
-            INSERT INTO halo_oglasi (
+            INSERT INTO public.halo_oglasi (
                 url,
                 title,
                 price_total,
@@ -27,11 +32,9 @@ def insert_row(item):
                 ukupna_spratnost,
                 uknjizen,
                 terasa,
-                telefon,
                 interfon,
                 klima,
                 video_nadzor,
-                topla_voda,
                 internet,
                 parking,
                 garaza,
@@ -41,7 +44,7 @@ def insert_row(item):
                 dodatni_opis
             )
             VALUES (
-                %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
+                %s, %s, %s, %s, %s, %s, %s, %s,
                 %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,
                 %s, %s, %s, %s, %s, %s, %s
             )
@@ -64,11 +67,9 @@ def insert_row(item):
             item.get("Ukupna spratnost"),
             item.get("Uknjižen"),
             item.get("Terasa"),
-            item.get("Telefon"),
             item.get("Interfon"),
             item.get("Klima"),
             item.get("Video nadzor"),
-            item.get("Topla voda"),
             item.get("Internet"),
             item.get("Parking"),
             item.get("Garaža"),

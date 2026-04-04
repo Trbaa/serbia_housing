@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 import csv
 import random
 from preprocesing.pipeline import preprocess
-from database.insert_row import insert_row
+from database.insert_row import insert_row_halo
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -37,11 +37,9 @@ CSV_COLUMNS = [
     "Ukupna spratnost",
     "Uknjižen",
     "Terasa",
-    "Telefon",
     "Interfon",
     "Klima",
     "Video nadzor",
-    "Topla voda",
     "Internet",
     "Parking",
     "Garaža",
@@ -196,9 +194,10 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
                 #
 
                 item= preprocess(item)
-                insert_row(item)
+                insert_row_halo(item)
 
-                writer.writerow(item)
+
+                #writer.writerow(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
