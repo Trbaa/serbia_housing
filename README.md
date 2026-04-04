@@ -1,51 +1,76 @@
-# Serbia Housing Scraper
+# Serbia Housing
 
-Projekat za prikupljanje podataka o nekretninama sa više sajtova za oglašavanje u Srbiji, njihovo skladištenje u PostgreSQL bazu i kasniju obradu za analizu tržišta i ML modele za predikciju cena stanova.
+Projekat za prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih sajtova za oglase, sa ciljem da kasnije posluži kao osnova za analizu tržišta i trening modela za predikciju cena nekretnina u Srbiji.
 
-## Cilj projekta
+## Trenutno stanje projekta
 
-Cilj projekta je da se izgradi stabilan data pipeline koji:
+Projekat je trenutno organizovan u nekoliko glavnih celina:
 
-- skrejpuje oglase sa više sajtova za nekretnine
-- čuva podatke u PostgreSQL bazu umesto u CSV fajlove
-- omogućava dalje čišćenje, analizu i poređenje oglasa
-- priprema kvalitetan dataset za budući machine learning model za predikciju cena stanova u Srbiji
+- `scraper/` – scraperi za pojedinačne sajtove
+- `preprocesing/` – pipeline za čišćenje i standardizaciju podataka
+- `database/` – konekcija sa PostgreSQL bazom, kreiranje baze/tabela i upis podataka
+- `README.md` – dokumentacija projekta
 
-## Trenutno urađeno
+## Šta je do sada urađeno
 
-Do sada je završeno:
+### 1. Napravljena je struktura projekta
+Kod je podeljen logički po odgovornostima:
+- scraping
+- preprocessing
+- database sloj
 
-- napravljena PostgreSQL baza `scraping_database`
-- napravljene 3 odvojene tabele unutar iste baze:
-  - `halo_oglasi`
-  - `z4ida`
-  - `nekretnine_rs`
-- uvedena konfiguracija preko `.env` fajla
-- uklonjena potreba za hardkodovanjem user/password podataka u kodu
-- dodata zaštita da se osetljivi podaci ne guraju na GitHub
-- definisana zajednička struktura kolona za sve scrape izvore
-- postavljen temelj za prelazak sa CSV logike na direktan upis u bazu
+To je dobar korak jer olakšava dalje širenje projekta na više sajtova i kasnije održavanje.
 
-## Struktura projekta
+### 2. Napravljeni su scraperi za više sajtova
+Trenutno postoje scraperi za:
+- Halo oglasi
+- 4zida
+- Nekretnine.rs
 
-Primer trenutne strukture projekta:
+Svaki scraper prikuplja podatke sa listing i detaljnih stranica oglasa.
 
-```bash
-Serbia_housing/
-│
-├── .env
-├── .gitignore
-├── README.md
-├── scraper_env/
-│
-├── database/
-│   ├── db_config.py
-│   ├── make_database.py
-│   └── make_tables.py
-│
-├── scrapers/
-│   ├── halo_oglasi_scraper.py
-│   ├── z4ida_scraper.py
-│   └── nekretnine_rs_scraper.py
-│
-└── data/
+### 3. Definisan je skup kolona koje se prate
+Za oglase se izvlače bitne informacije kao što su:
+- URL oglasa
+- naslov
+- ukupna cena
+- cena po kvadratu
+- tip nekretnine
+- kvadratura
+- broj soba
+- oglašivač
+- tip i stanje objekta
+- grejanje
+- sprat i ukupna spratnost
+- uknjiženost
+- dodatne karakteristike stana
+- dodatni opis
+
+### 4. Uveden je preprocessing pipeline
+Podaci se pre upisa sređuju kroz poseban pipeline, što je mnogo bolje nego da se sirovi podaci odmah smeštaju u bazu.
+
+To uključuje:
+- čišćenje vrednosti
+- standardizaciju naziva
+- konverziju tipova podataka
+- obradu boolean polja
+- parsiranje podataka iz dodatnog opisa
+
+### 5. Povezan je PostgreSQL
+Napravljen je database sloj koji omogućava:
+- povezivanje na bazu
+- kreiranje baze
+- kreiranje tabela
+- upis pojedinačnih redova u odgovarajuću tabelu
+
+### 6. Rešeni su problemi sa tipovima podataka
+Tokom upisa u bazu ispravljeni su problemi kao što su:
+- boolean kolone koje su dobijale `1/0` umesto `True/False`
+- boolean vrednosti koje su ostajale kao string `"da"` / `"ne"`
+- neusaglašenost između preprocessinga i SQL šeme
+
+### 7. Dodat je `UNIQUE` constraint na URL
+Kolona `url` je postavljena kao jedinstvena, što omogućava:
+
+```sql
+ON CONFLICT (url) DO NOTHING
