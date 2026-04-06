@@ -46,6 +46,7 @@ CSV_COLUMNS = [
     'Lift',
     "Podrum",
     "Linije gradskog prevoza",
+    "Datum_objave",
     "Dodatni opis"
 ]
 #mapiranje jer nisu isti nazivi na sajtu
@@ -161,6 +162,12 @@ def scrape_listings(page,url):
                 raw_features.append(feature)
 
         map_features(raw_features, data)
+
+    #datum_objave
+    raw_datum = page.locator("div.updated span").nth(1).inner_text().strip()
+
+    if raw_datum.startswith("Objavljen:"):
+        data["Datum_objave"] = raw_datum.replace("Objavljen:", "").strip()
 
     #dodatni opis
     opis_oglasa = page.locator("section#opis .cms-content-inner")

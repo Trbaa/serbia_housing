@@ -35,17 +35,16 @@ CSV_COLUMNS = [
     "Ukupna spratnost",
     "Uknjižen",
     "Terasa",
-    "Telefon",
     "Interfon",
     "Klima",
     "Video nadzor",
-    "Topla voda",
     "Internet",
     "Parking",
     "Garaža",
     'Lift',
     "Podrum",
     "Linije gradskog prevoza",
+    "Datum_objave",
     "Dodatni opis"
 ]
 
@@ -149,6 +148,11 @@ def scrape_listings(page,url):
                 raw_features.append(text)
 
     data = map_features(raw_features, data)
+
+    #date_of posting
+    raw_datum = page.locator("span.text-gray-600").filter(has_text="Oglas ažuriran:")
+    datum = raw_datum.locator("span.font-medium").first.inner_text().strip()
+    data["Datum_objave"] = datum
 
     #Opis oglasa - veliki tekst
     opis_oglasa = page.locator('div[test-data="rich-text-description"] div.flex.w-full.flex-col.gap-4.whitespace-normal')

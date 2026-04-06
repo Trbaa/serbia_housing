@@ -2,6 +2,7 @@ from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
 import csv
 import random
+from datetime import datetime
 from preprocesing.pipeline import preprocess
 from database.insert_row import insert_row_halo
 
@@ -46,6 +47,7 @@ CSV_COLUMNS = [
     'Lift',
     "Podrum",
     "Linije gradskog prevoza",
+    "Datum_objave",
     "Dodatni opis"
 ]
 
@@ -152,6 +154,15 @@ def scrape_listing(page, url):
         if lines:
             data["Linije gradskog prevoza"] = ", ".join(lines)
 
+    #Date of posting
+    date = page.locator('div.line').filter(
+        has = page.locator("label.description:has-text('Objavljen')")
+    )
+    raw_date = date.locator('span.value strong').inner_text().strip()
+    datum = raw_date.split(" u ")
+    data['Datum_objave'] = datum
+
+
    # Dodatni opis
     description_block = page.locator(
         "div.tab-attribute:has(div.tab-section-header label:text-is('Dodatni opis'))"
@@ -194,10 +205,10 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
                 #
 
                 item= preprocess(item)
-                insert_row_halo(item)
+                #insert_row_halo(item)
 
 
-                #writer.writerow(item)
+                writer.writerow(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
