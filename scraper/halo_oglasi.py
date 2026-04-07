@@ -1,10 +1,11 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
-import csv
+import psycopg2
+from database.db_config import get_scraping_db_connection_params
+from database.insert_row import insert_row_halo
 import random
 from datetime import datetime
 from preprocesing.pipeline import preprocess
-from database.insert_row import insert_row_halo
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -190,10 +191,11 @@ def scrape_listing(page, url):
     return data
 
 
-def scrape_all_pages_to_csv(listing_page, detail_page, start_url, max_pages=None):
+def scrape_all_pages_to_csv(listing_page, detail_page, start_url,cursor, conn, max_pages=None):
     current_url = start_url
     current_page_num = 1
     seen_urls = set()
+    inserted_count = 0
 
     while True:
         print(f"\nObradjujem listing stranu {current_page_num}: {current_url}")
@@ -213,7 +215,11 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, max_pages=None
             try:
                 item = scrape_listing(detail_page, url)
                 item= preprocess(item)
-                insert_row_halo(item)
+                insert_row_halo(cursor,item)
+                inserted_count += 1
+
+                if inserted_count % 20 == 0:
+                    conn.commit()
 
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
@@ -228,50 +234,69 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, max_pages=None
 
         if next_button.count() == 0:
             print("Nema sledece strane. Kraj.")
+            conn.commit()
             break
 
         next_href = next_button.first.get_attribute("href")
         if not next_href:
             print("Sledeca strana nema href. Kraj.")
-            #fallback dodati
+            conn.commit()
             break
 
         current_url = urljoin(BASE_URL, next_href)
         current_page_num += 1
 
 def run_halo_oglasi(max_pages = 3):
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+    conn = None
+    cursor = None
 
-        context = browser.new_context(
-        user_agent=random.choice(USER_AGENTS),
-        viewport={"width": 1366, "height": 768},
-        locale="sr-RS",
-        extra_http_headers={
-            "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
-        }
-    )
+    try:
+        conn = psycopg2.connect(**get_scraping_db_connection_params())
+        cursor = conn.cursor()
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=False)
 
-        context.add_init_script("""
-        Object.defineProperty(navigator, 'webdriver', {
-            get: () => undefined
-        });
-        """)
+            context = browser.new_context(
+            user_agent=random.choice(USER_AGENTS),
+            viewport={"width": 1366, "height": 768},
+            locale="sr-RS",
+            extra_http_headers={
+                "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
+            }
+        )
 
-        listing_page = context.new_page()
-        detail_page = context.new_page()
+            context.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+            """)
 
-        start_url = "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd"
+            listing_page = context.new_page()
+            detail_page = context.new_page()
+
+            start_url = "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd"
 
 
-        scrape_all_pages_to_csv(
-                listing_page=listing_page,
-                detail_page=detail_page,
-                start_url=start_url,
-                max_pages=max_pages
-            )
-        listing_page.close()
-        detail_page.close()
-        context.close()
-        browser.close()
+            scrape_all_pages_to_csv(
+                    listing_page=listing_page,
+                    detail_page=detail_page,
+                    start_url=start_url,
+                    cursor=cursor,
+                    conn=conn,
+                    max_pages=max_pages
+                )
+            listing_page.close()
+            detail_page.close()
+            context.close()
+            browser.close()
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        print(f"Greska u run_halo_oglasi: {e}")
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 run_halo_oglasi()

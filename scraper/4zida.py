@@ -1,10 +1,11 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
 from datetime import datetime
-import csv
+import psycopg2
+from database.db_config import get_scraping_db_connection_params
+from database.insert_row import insert_row_4zida
 import random
 from preprocesing.pipeline import preprocess
-from database.insert_row import insert_row_4zida
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -163,9 +164,15 @@ def scrape_listings(page,url):
         data = map_features(raw_features, data)
 
         #date_of posting
-        raw_datum = page.locator("span.text-gray-600").filter(has_text="Oglas objavljen:")
-        datum = raw_datum.locator("span.font-medium").first.inner_text().strip()
-        data["Datum_objave"] = datum
+        try:
+            datum_loc = page.locator("span.text-gray-600").filter(
+                has_text="Oglas ažuriran:" # Ovo mora tako jer nema kada je postavljen prvi put
+            ).locator("span.font-medium")
+
+            if datum_loc.count() > 0:
+                data["Datum_objave"] = datum_loc.first.inner_text(timeout=3000).strip()
+        except Exception:
+            data["Datum_objave"] = None # jbg
 
         #Opis oglasa - veliki tekst
         opis_oglasa = page.locator('div[test-data="rich-text-description"] div.flex.w-full.flex-col.gap-4.whitespace-normal')
@@ -173,14 +180,15 @@ def scrape_listings(page,url):
             data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
     except Exception as e:
         save_failed_page(url,str(e))
-        return data
+        return None
     return data
 
 
-def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
+def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = None):
     current_url = start_url
     current_page_num = 1
     seen_urls = set()
+    inserted_count = 0
 
     while True:
         print(f"\nObradjujem listing stranu {current_page_num}: {current_url}")
@@ -198,8 +206,11 @@ def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
             try:
                 item =scrape_listings(detail_page,url)
                 item= preprocess(item)
-                insert_row_4zida(item)
-            
+                insert_row_4zida(cursor,item)
+                inserted_count +=1
+                if inserted_count % 2 == 0:
+                    conn.commit()
+
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
@@ -207,6 +218,7 @@ def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
 
         if max_pages is not None and current_page_num >=max_pages:
             print("Dostignut max_pages limit")
+            conn.commit()
             break
             
        
@@ -217,38 +229,61 @@ def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
             current_url = f"https://www.4zida.rs/prodaja-stanova/beograd?strana={current_page_num}"
         
 def run_4zida(max_pages = 3):
-    with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
-        context = browser.new_context(
-        user_agent=random.choice(USER_AGENTS),
-        viewport={"width": 1366, "height": 768},
-        locale="sr-RS",
-        extra_http_headers={
-            "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
-        }
-    )
+    conn = None
+    cursor = None
 
-        context.add_init_script("""
-        Object.defineProperty(navigator, 'webdriver', {
-            get: () => undefined
-        });
-        """)
+    try:
+        conn = psycopg2.connect(**get_scraping_db_connection_params())
+        cursor = conn.cursor()
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=False)
+            context = browser.new_context(
+            user_agent=random.choice(USER_AGENTS),
+            viewport={"width": 1366, "height": 768},
+            locale="sr-RS",
+            extra_http_headers={
+                "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
+            }
+        )
 
-        listing_page = context.new_page()
-        detail_page = context.new_page()
+            context.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+            """)
+
+            listing_page = context.new_page()
+            detail_page = context.new_page()
 
 
-        start_url = "https://www.4zida.rs/prodaja-stanova/beograd"
-        
-        scrape_all_pages(
-                listing_page=listing_page,
-                detail_page=detail_page,
-                start_url=start_url,
-                max_pages=max_pages
-            )
-        
-        listing_page.close()
-        detail_page.close()
-        context.close()
-        browser.close()
+            start_url = "https://www.4zida.rs/prodaja-stanova/beograd"
+            
+            scrape_all_pages(
+                    listing_page=listing_page,
+                    detail_page=detail_page,
+                    start_url=start_url,
+                    cursor=cursor,
+                    conn=conn,
+                    max_pages=max_pages
+                )
+            
+            listing_page.close()
+            detail_page.close()
+            context.close()
+            browser.close()
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        print(f"Greska u 4zida: {e}")
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
 run_4zida()
