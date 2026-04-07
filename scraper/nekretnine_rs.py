@@ -1,7 +1,9 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
+from datetime import datetime
 import csv
 import random
+from preprocesing.pipeline import preprocess
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -15,6 +17,14 @@ USER_AGENTS = [
 ]
 
 BASE_URL = "https://www.nekretnine.rs/"
+
+FAILED_LOG_FILE = "failed_pages.txt"
+def save_failed_page(url,error_message):
+    with open(FAILED_LOG_FILE,"a",encoding="utf-8") as f:
+        f.write(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]"
+            f"URL: {url} | ERROR: {error_message}\n"
+        )
 
 def human_delay(page, a=800, b=8000):
     page.wait_for_timeout(random.randint(a, b))
@@ -113,70 +123,73 @@ def map_features(raw_features, data):
     return data
 
 def scrape_listings(page,url):
-
-    page.goto(url,wait_until="domcontentloaded")
-    human_delay(page)
-
     data = {col: None for col in CSV_COLUMNS}
     data["url"] = url
 
-    #naslov
-    title_locator = page.locator("h1.detail-title")
-    if title_locator.count() > 0:
-        data["title"] = title_locator.first.inner_text().strip()
+    try:
+        page.goto(url,wait_until="domcontentloaded")
+        human_delay(page)
 
-     #Ukupna cena
-    price_locator = page.locator("h4.stickyBox__price")
-    if price_locator.count() > 0:
-        data["price_total"] = price_locator.first.inner_text().strip()
 
-      # cena po kvadratu
-    m2_locator = page.locator("h4.stickyBox__price span")
-    if m2_locator.count() > 0:
-        data["price_per_m2"] = m2_locator.first.inner_text().strip()
-    
-    # gornji blok: Tip nekretnine / Kvadratura / Broj soba
-    details_section = page.locator("section#detalji")
-    amenity_blocks = details_section.locator("div.property__amenities")
-    for i in range(amenity_blocks.count()):
-        block = amenity_blocks.nth(i)
-        title = block.locator("h3").inner_text().strip()
+        #naslov
+        title_locator = page.locator("h1.detail-title")
+        if title_locator.count() > 0:
+            data["title"] = title_locator.first.inner_text().strip()
 
-        items = block.locator("li")
-        raw_features = []
+        #Ukupna cena
+        price_locator = page.locator("h4.stickyBox__price")
+        if price_locator.count() > 0:
+            data["price_total"] = price_locator.first.inner_text().strip()
 
-        for j in range(items.count()):
-            li = items.nth(j)
-            strong = li.locator("strong")
+        # cena po kvadratu
+        m2_locator = page.locator("h4.stickyBox__price span")
+        if m2_locator.count() > 0:
+            data["price_per_m2"] = m2_locator.first.inner_text().strip()
+        
+        # gornji blok: Tip nekretnine / Kvadratura / Broj soba
+        details_section = page.locator("section#detalji")
+        amenity_blocks = details_section.locator("div.property__amenities")
+        for i in range(amenity_blocks.count()):
+            block = amenity_blocks.nth(i)
+            title = block.locator("h3").inner_text().strip()
 
-            if strong.count() > 0:
-                raw_field_name = li.inner_text().split(":")[0].strip()
-                field_value = strong.inner_text().strip()
+            items = block.locator("li")
+            raw_features = []
 
-                field_name = FIELD_MAP.get(raw_field_name, raw_field_name)
+            for j in range(items.count()):
+                li = items.nth(j)
+                strong = li.locator("strong")
 
-                if field_name in data:
-                    data[field_name] = field_value
-            else:
-                feature = li.inner_text().strip()
-                raw_features.append(feature)
+                if strong.count() > 0:
+                    raw_field_name = li.inner_text().split(":")[0].strip()
+                    field_value = strong.inner_text().strip()
 
-        map_features(raw_features, data)
+                    field_name = FIELD_MAP.get(raw_field_name, raw_field_name)
 
-    #datum_objave
-    raw_datum = page.locator("div.updated span").nth(1).inner_text().strip()
+                    if field_name in data:
+                        data[field_name] = field_value
+                else:
+                    feature = li.inner_text().strip()
+                    raw_features.append(feature)
 
-    if raw_datum.startswith("Objavljen:"):
-        data["Datum_objave"] = raw_datum.replace("Objavljen:", "").strip()
+            map_features(raw_features, data)
 
-    #dodatni opis
-    opis_oglasa = page.locator("section#opis .cms-content-inner")
-    if opis_oglasa.count() > 0:
-        data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
+        #datum_objave
+        raw_datum = page.locator("div.updated span").nth(1).inner_text().strip()
 
+        if raw_datum.startswith("Objavljen:"):
+            data["Datum_objave"] = raw_datum.replace("Objavljen:", "").strip()
+
+        #dodatni opis
+        opis_oglasa = page.locator("section#opis .cms-content-inner")
+        if opis_oglasa.count() > 0:
+            data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
+    except Exception as e:
+        save_failed_page(url,str(e))
+        return data
     return data
 
-def scrape_all_pages(listing_page,detail_page,start_url,writer,max_pages = None):
+def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
     current_url = start_url
     current_page_num = 1
     seen_urls = set()
@@ -196,7 +209,8 @@ def scrape_all_pages(listing_page,detail_page,start_url,writer,max_pages = None)
 
             try:
                 item =scrape_listings(detail_page,url)
-                writer.writerow(item)
+                item= preprocess(item)
+                #insert_row_nekretnine(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
@@ -213,42 +227,42 @@ def scrape_all_pages(listing_page,detail_page,start_url,writer,max_pages = None)
         else:
             current_url = f"https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/{current_page_num}"
 
+def run_nekretnine(max_pages = 3):
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=False,slow_mo=100)
 
-with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False,slow_mo=100)
-
-    context = browser.new_context(
-    user_agent=random.choice(USER_AGENTS),
-    viewport={"width": 1366, "height": 768},
-    locale="sr-RS",
-    extra_http_headers={
-        "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
-    }
-)
-
-    context.add_init_script("""
-    Object.defineProperty(navigator, 'webdriver', {
-        get: () => undefined
-    });
-    """)
-
-    listing_page = context.new_page()
-    details_page = context.new_page()
-
-    start_url = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/"
-
-    with open("nekretnine_rs_raw.csv","w",newline="",encoding="utf-8") as f:
-        writer = csv.DictWriter(f,fieldnames=CSV_COLUMNS)
-        writer.writeheader()
-
-        scrape_all_pages(
-            listing_page=listing_page,
-            detail_page=details_page,
-            start_url=start_url,
-            writer=writer,
-            max_pages=3, #OVO PROMENITI KASNIJE
+            context = browser.new_context(
+            user_agent=random.choice(USER_AGENTS),
+            viewport={"width": 1366, "height": 768},
+            locale="sr-RS",
+            extra_http_headers={
+                "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
+            }
         )
-    
-    listing_page.close()
-    details_page.close()
-    browser.close()
+
+            context.add_init_script("""
+            Object.defineProperty(navigator, 'webdriver', {
+                get: () => undefined
+            });
+            """)
+
+            listing_page = context.new_page()
+            details_page = context.new_page()
+
+            start_url = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/"
+
+            try:
+                scrape_all_pages(
+                        listing_page=listing_page,
+                        detail_page=details_page,
+                        start_url=start_url,
+                        max_pages=max_pages
+                    )
+            
+            finally:
+                listing_page.close()
+                details_page.close()
+                context.close()
+                browser.close()
+
+run_nekretnine()

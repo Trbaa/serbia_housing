@@ -1,5 +1,6 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
+from datetime import datetime
 import csv
 import random
 
@@ -15,6 +16,15 @@ USER_AGENTS = [
 ]
 
 BASE_URL = "https://www.4zida.rs"
+
+FAILED_LOG_FILE = "failed_pages.txt"
+def save_failed_page(url,error_message):
+    with open(FAILED_LOG_FILE,"a",encoding="utf-8") as f:
+        f.write(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]"
+            f"URL: {url} | ERROR: {error_message}\n"
+        )
+
 
 def human_delay(page, a=800, b=8000):
     page.wait_for_timeout(random.randint(a, b))
@@ -107,58 +117,61 @@ def scrape_listings(page,url):
     page.goto(url, wait_until="domcontentloaded")
     human_delay(page)
 
-    data = {col: None for col in CSV_COLUMNS}
-    data["url"] = url
+    try:
+        data = {col: None for col in CSV_COLUMNS}
+        data["url"] = url
 
 
-    title_locator = page.locator("h1")
-    if title_locator.count() > 0:
-        data["title"] = title_locator.first.inner_text().strip()
+        title_locator = page.locator("h1")
+        if title_locator.count() > 0:
+            data["title"] = title_locator.first.inner_text().strip()
 
-    price_total_loc = page.locator('p[test-data="ad-price"]')
-    if price_total_loc.count() > 0:
-        data["price_total"] = price_total_loc.first.inner_text().strip()
+        price_total_loc = page.locator('p[test-data="ad-price"]')
+        if price_total_loc.count() > 0:
+            data["price_total"] = price_total_loc.first.inner_text().strip()
 
-    price_per_m2 = page.locator('div.text-right p').nth(1)
-    if price_per_m2.count() > 0:
-        data["price_per_m2"] = price_per_m2.first.inner_text().strip()
+        price_per_m2 = page.locator('div.text-right p').nth(1)
+        if price_per_m2.count() > 0:
+            data["price_per_m2"] = price_per_m2.first.inner_text().strip()
 
-    details = page.locator("div.flex.gap-px strong")
-    if details.count() > 0:
-        data['Kvadratura'] = details.nth(0).first.inner_text().strip()
-        data['Broj soba'] = details.nth(1).first.inner_text().strip()
+        details = page.locator("div.flex.gap-px strong")
+        if details.count() > 0:
+            data['Kvadratura'] = details.nth(0).first.inner_text().strip()
+            data['Broj soba'] = details.nth(1).first.inner_text().strip()
 
-        sprat_text = details.nth(2).inner_text().strip()   # npr. 5/5 spratova
-        parts = sprat_text.split("/")
+            sprat_text = details.nth(2).inner_text().strip()   # npr. 5/5 spratova
+            parts = sprat_text.split("/")
 
-        if len(parts) == 2:
-            data["Sprat"] = parts[0].strip()
-            data["Ukupna spratnost"] = parts[1].replace("spratova", "").replace("sprata", "").strip()
-    
-        raw_features = []
+            if len(parts) == 2:
+                data["Sprat"] = parts[0].strip()
+                data["Ukupna spratnost"] = parts[1].replace("spratova", "").replace("sprata", "").strip()
+        
+            raw_features = []
 
-    stan_section = page.locator("section").filter(has=page.locator('strong:has-text("O stanu")'))
+        stan_section = page.locator("section").filter(has=page.locator('strong:has-text("O stanu")'))
 
-    if stan_section.count() > 0:
-        feature_items = stan_section.first.locator("li span")
+        if stan_section.count() > 0:
+            feature_items = stan_section.first.locator("li span")
 
-        for i in range(feature_items.count()):
-            text = feature_items.nth(i).inner_text().strip()
-            if text:
-                raw_features.append(text)
+            for i in range(feature_items.count()):
+                text = feature_items.nth(i).inner_text().strip()
+                if text:
+                    raw_features.append(text)
 
-    data = map_features(raw_features, data)
+        data = map_features(raw_features, data)
 
-    #date_of posting
-    raw_datum = page.locator("span.text-gray-600").filter(has_text="Oglas ažuriran:")
-    datum = raw_datum.locator("span.font-medium").first.inner_text().strip()
-    data["Datum_objave"] = datum
+        #date_of posting
+        raw_datum = page.locator("span.text-gray-600").filter(has_text="Oglas ažuriran:")
+        datum = raw_datum.locator("span.font-medium").first.inner_text().strip()
+        data["Datum_objave"] = datum
 
-    #Opis oglasa - veliki tekst
-    opis_oglasa = page.locator('div[test-data="rich-text-description"] div.flex.w-full.flex-col.gap-4.whitespace-normal')
-    if opis_oglasa.count() > 0:
-        data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
-
+        #Opis oglasa - veliki tekst
+        opis_oglasa = page.locator('div[test-data="rich-text-description"] div.flex.w-full.flex-col.gap-4.whitespace-normal')
+        if opis_oglasa.count() > 0:
+            data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
+    except Exception as e:
+        save_failed_page(url,str(e))
+        return data
     return data
 
 
@@ -182,6 +195,8 @@ def scrape_all_pages(listing_page,detail_page,start_url,writer,max_pages = None)
 
             try:
                 item =scrape_listings(detail_page,url)
+                item= preprocess(item)
+                #insert_row_4zida(item)
                 writer.writerow(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)

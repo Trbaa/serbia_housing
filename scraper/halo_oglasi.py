@@ -19,6 +19,14 @@ USER_AGENTS = [
 
 BASE_URL = "https://www.halooglasi.com"
 
+FAILED_LOG_FILE = "failed_pages.txt"
+def save_failed_page(url,error_message):
+    with open(FAILED_LOG_FILE,"a",encoding="utf-8") as f:
+        f.write(
+            f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]"
+            f"URL: {url} | ERROR: {error_message}\n"
+        )
+
 def human_delay(page, a=800, b=2000):
     page.wait_for_timeout(random.randint(a, b))
 
@@ -66,114 +74,118 @@ def get_listing_urls(page):
 
 
 def scrape_listing(page, url):
-    page.goto(url, wait_until="domcontentloaded")
-    human_delay(page)
-
     data = {col: None for col in CSV_COLUMNS}
     data["url"] = url
+    
+    try:
+        page.goto(url, wait_until="domcontentloaded")
+        human_delay(page)
 
-    # naslov
-    title_locator = page.locator("h1")
-    if title_locator.count() > 0:
-        data["title"] = title_locator.first.inner_text().strip()
 
-    # ukupna cena
-    price_locator = page.locator("span[data-value]")
-    if price_locator.count() > 0:
-        data["price_total"] = price_locator.first.inner_text().strip()
+        # naslov
+        title_locator = page.locator("h1")
+        if title_locator.count() > 0:
+            data["title"] = title_locator.first.inner_text().strip()
 
-    # cena po kvadratu
-    m2_locator = page.locator("div.price-by-surface span")
-    if m2_locator.count() > 0:
-        data["price_per_m2"] = m2_locator.first.inner_text().strip()
+        # ukupna cena
+        price_locator = page.locator("span[data-value]")
+        if price_locator.count() > 0:
+            data["price_total"] = price_locator.first.inner_text().strip()
 
-    # gornji blok: Tip nekretnine / Kvadratura / Broj soba
-    prominent_items = page.locator("div.prominent li")
-    for i in range(prominent_items.count()):
-        item = prominent_items.nth(i)
+        # cena po kvadratu
+        m2_locator = page.locator("div.price-by-surface span")
+        if m2_locator.count() > 0:
+            data["price_per_m2"] = m2_locator.first.inner_text().strip()
 
-        field_name_locator = item.locator("span.field-name")
-        field_value_locator = item.locator("span.field-value")
+        # gornji blok: Tip nekretnine / Kvadratura / Broj soba
+        prominent_items = page.locator("div.prominent li")
+        for i in range(prominent_items.count()):
+            item = prominent_items.nth(i)
 
-        if field_name_locator.count() == 0 or field_value_locator.count() == 0:
-            continue
+            field_name_locator = item.locator("span.field-name")
+            field_value_locator = item.locator("span.field-value")
 
-        field_name = field_name_locator.first.inner_text().strip()
-        field_value = field_value_locator.first.inner_text().strip()
+            if field_name_locator.count() == 0 or field_value_locator.count() == 0:
+                continue
 
-        if field_name in data:
-            data[field_name] = field_value
+            field_name = field_name_locator.first.inner_text().strip()
+            field_value = field_value_locator.first.inner_text().strip()
 
-    # desni datasheet blok: Oglašivač, Tip objekta, Sprat...
-    detail_rows = page.locator("div.datasheet.product-basic-details div.basic-view")
-    for i in range(detail_rows.count()):
-        row = detail_rows.nth(i)
+            if field_name in data:
+                data[field_name] = field_value
 
-        cols = row.locator("div.row > div")
-        if cols.count() < 2:
-            continue
+        # desni datasheet blok: Oglašivač, Tip objekta, Sprat...
+        detail_rows = page.locator("div.datasheet.product-basic-details div.basic-view")
+        for i in range(detail_rows.count()):
+            row = detail_rows.nth(i)
 
-        key = cols.nth(0).inner_text().strip()
-        value = cols.nth(1).inner_text().strip()
+            cols = row.locator("div.row > div")
+            if cols.count() < 2:
+                continue
 
-        if key in data:
-            data[key] = value
+            key = cols.nth(0).inner_text().strip()
+            value = cols.nth(1).inner_text().strip()
 
-    # Dodatno + Ostalo
-    # U tim sekcijama svaka pronađena stavka dobija vrednost "Da"
-    feature_sections = ["Dodatno", "Ostalo"]
+            if key in data:
+                data[key] = value
 
-    for section_name in feature_sections:
-        section_block = page.locator(
-            f"div.tab-attribute:has(div.tab-section-header label:text-is('{section_name}'))"
+        # Dodatno + Ostalo
+        # U tim sekcijama svaka pronađena stavka dobija vrednost "Da"
+        feature_sections = ["Dodatno", "Ostalo"]
+
+        for section_name in feature_sections:
+            section_block = page.locator(
+                f"div.tab-attribute:has(div.tab-section-header label:text-is('{section_name}'))"
+            )
+
+            if section_block.count() == 0:
+                continue
+
+            feature_labels = section_block.locator("div.flags-container span.flag-attribute label")
+
+            for i in range(feature_labels.count()):
+                feature_name = feature_labels.nth(i).inner_text().strip()
+
+                if feature_name in data:
+                    data[feature_name] = "da"
+
+            # Linije gradskog prevoza
+        transport_block = page.locator("div.city-lines")
+
+        if transport_block.count() > 0:
+            line_items = transport_block.locator("ul li")
+            lines = []
+
+            for i in range(line_items.count()):
+                line_text = line_items.nth(i).inner_text().strip()
+                if line_text:
+                    lines.append(line_text)
+
+            if lines:
+                data["Linije gradskog prevoza"] = ", ".join(lines)
+
+        #Date of posting
+        date = page.locator('div.line').filter(
+            has = page.locator("label.description:has-text('Objavljen')")
+        )
+        raw_date = date.locator('span.value strong').inner_text().strip()
+        datum = raw_date.split(" u ")
+        data['Datum_objave'] = datum
+
+
+    # Dodatni opis
+        description_block = page.locator(
+            "div.tab-attribute:has(div.tab-section-header label:text-is('Dodatni opis'))"
         )
 
-        if section_block.count() == 0:
-            continue
+        if description_block.count() > 0:
+            description_text = description_block.locator("div.tab-top-group-attr-value span")
 
-        feature_labels = section_block.locator("div.flags-container span.flag-attribute label")
-
-        for i in range(feature_labels.count()):
-            feature_name = feature_labels.nth(i).inner_text().strip()
-
-            if feature_name in data:
-                data[feature_name] = "da"
-
-        # Linije gradskog prevoza
-    transport_block = page.locator("div.city-lines")
-
-    if transport_block.count() > 0:
-        line_items = transport_block.locator("ul li")
-        lines = []
-
-        for i in range(line_items.count()):
-            line_text = line_items.nth(i).inner_text().strip()
-            if line_text:
-                lines.append(line_text)
-
-        if lines:
-            data["Linije gradskog prevoza"] = ", ".join(lines)
-
-    #Date of posting
-    date = page.locator('div.line').filter(
-        has = page.locator("label.description:has-text('Objavljen')")
-    )
-    raw_date = date.locator('span.value strong').inner_text().strip()
-    datum = raw_date.split(" u ")
-    data['Datum_objave'] = datum
-
-
-   # Dodatni opis
-    description_block = page.locator(
-        "div.tab-attribute:has(div.tab-section-header label:text-is('Dodatni opis'))"
-    )
-
-    if description_block.count() > 0:
-        description_text = description_block.locator("div.tab-top-group-attr-value span")
-
-        if description_text.count() > 0:
-            data["Dodatni opis"] = description_text.first.inner_text().strip()
-
+            if description_text.count() > 0:
+                data["Dodatni opis"] = description_text.first.inner_text().strip()
+    except Exception as e:
+        save_failed_page(url,str(e))
+        return data
 
     return data
 
