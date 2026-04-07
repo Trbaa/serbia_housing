@@ -27,7 +27,7 @@ def save_failed_page(url,error_message):
             f"URL: {url} | ERROR: {error_message}\n"
         )
 
-def human_delay(page, a=800, b=2000):
+def human_delay(page, a=800, b=8000):
     page.wait_for_timeout(random.randint(a, b))
 
 CSV_COLUMNS = [
@@ -168,9 +168,9 @@ def scrape_listing(page, url):
         date = page.locator('div.line').filter(
             has = page.locator("label.description:has-text('Objavljen')")
         )
+        #Bolje je da sakupi celu vrednost a pipeline da ocisti
         raw_date = date.locator('span.value strong').inner_text().strip()
-        datum = raw_date.split(" u ")
-        data['Datum_objave'] = datum
+        data["Datum_objave"] = raw_date
 
 
     # Dodatni opis
@@ -190,7 +190,7 @@ def scrape_listing(page, url):
     return data
 
 
-def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pages=None):
+def scrape_all_pages_to_csv(listing_page, detail_page, start_url, max_pages=None):
     current_url = start_url
     current_page_num = 1
     seen_urls = set()
@@ -212,15 +212,9 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
 
             try:
                 item = scrape_listing(detail_page, url)
-                ##Ovde treba poziv za preproces pipeline
-                #
-                #
-
                 item= preprocess(item)
-                #insert_row_halo(item)
+                insert_row_halo(item)
 
-
-                writer.writerow(item)
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
@@ -245,43 +239,39 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url, writer, max_pa
         current_url = urljoin(BASE_URL, next_href)
         current_page_num += 1
 
-with sync_playwright() as p:
-    browser = p.chromium.launch(headless=False)
+def run_halo_oglasi(max_pages = 3):
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)
 
-    context = browser.new_context(
-    user_agent=random.choice(USER_AGENTS),
-    viewport={"width": 1366, "height": 768},
-    locale="sr-RS",
-    extra_http_headers={
-        "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
-    }
-)
+        context = browser.new_context(
+        user_agent=random.choice(USER_AGENTS),
+        viewport={"width": 1366, "height": 768},
+        locale="sr-RS",
+        extra_http_headers={
+            "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
+        }
+    )
 
-    context.add_init_script("""
-    Object.defineProperty(navigator, 'webdriver', {
-        get: () => undefined
-    });
-    """)
+        context.add_init_script("""
+        Object.defineProperty(navigator, 'webdriver', {
+            get: () => undefined
+        });
+        """)
 
-    listing_page = context.new_page()
-    detail_page = context.new_page()
+        listing_page = context.new_page()
+        detail_page = context.new_page()
 
-    start_url = "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd"
+        start_url = "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd"
 
-
-    with open("halo_oglasi_raw.csv", "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=CSV_COLUMNS)
-        writer.writeheader()
 
         scrape_all_pages_to_csv(
-            listing_page=listing_page,
-            detail_page=detail_page,
-            start_url=start_url,
-            writer=writer,
-            max_pages=3,   #PROMENI POSLE
-        )
-
-    listing_page.close()
-
-    detail_page.close()
-    browser.close()
+                listing_page=listing_page,
+                detail_page=detail_page,
+                start_url=start_url,
+                max_pages=max_pages
+            )
+        listing_page.close()
+        detail_page.close()
+        context.close()
+        browser.close()
+run_halo_oglasi()

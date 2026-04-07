@@ -161,7 +161,7 @@ def scrape_listings(page,url):
         data = map_features(raw_features, data)
 
         #date_of posting
-        raw_datum = page.locator("span.text-gray-600").filter(has_text="Oglas ažuriran:")
+        raw_datum = page.locator("span.text-gray-600").filter(has_text="Oglas objavljen:")
         datum = raw_datum.locator("span.font-medium").first.inner_text().strip()
         data["Datum_objave"] = datum
 

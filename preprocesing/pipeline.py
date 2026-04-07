@@ -548,6 +548,31 @@ def clean_podrum(item):
 
     return item
 
+def clean_datum_objave(item):
+    col = "Datum_objave"
+
+    if col not in item.columns:
+        return item
+
+    s = item[col].astype("string")
+
+    s = s.str.replace(r"^\[|\]$", "", regex=True)
+    s = s.str.replace(r"'", "", regex=True)
+    s = s.str.split(r"\s+u\s+").str[0]
+    s = s.str.replace(r"^Objavljen:\s*", "", regex=True)
+
+    # trim
+    s = s.str.strip()
+
+    # pretvaranje u pandas datum
+    item[col] = pd.to_datetime(
+        s,
+        format="%d.%m.%Y",
+        errors="coerce"
+    ).dt.date
+
+    return item
+
 def preprocess(item):
     item = pd.DataFrame([item])
     item = normalize_missing_df(item)
@@ -574,6 +599,7 @@ def preprocess(item):
     item = clean_garaza(item)
     item = clean_lift(item)
     item = clean_podrum(item)
+    item = clean_datum_objave(item)
 
     item = item.iloc[0].to_dict()
     item = convert_to_python_types(item)
