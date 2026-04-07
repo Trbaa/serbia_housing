@@ -1,1 +1,16 @@
-[2026-04-07 15:50:34]URL: https://www.4zida.rs/prodaja-stanova/dorcol-stari-grad-opstina-beograd/trosoban-stan/68e7a5df411eb7c6e6070ab0 | ERROR: cannot access local variable 'raw_features' where it is not associated with a value
+[2026-04-07 16:52:23]URL: https://www.4zida.rs/prodaja-stanova/skupstina-stari-grad-opstina-beograd/petosoban-stan/69a859b78b21510e1b0e3fb4 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("span.text-gray-600").filter(has_text="Oglas objavljen:").locator("span.font-medium").first
+
+[2026-04-07 16:53:07]URL: https://www.4zida.rs/prodaja-stanova/blok-45-novi-beograd-beograd/trosoban-stan/69cfd994f9f48540ef08854f | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("span.text-gray-600").filter(has_text="Oglas objavljen:").locator("span.font-medium").first
+
+[2026-04-07 16:53:47]URL: https://www.4zida.rs/prodaja-stanova/ruzveltova-palilula-opstina-beograd/jednoiposoban-stan/69d3aac8b2d6803dfa09edb5 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("span.text-gray-600").filter(has_text="Oglas objavljen:").locator("span.font-medium").first
+
+[2026-04-07 16:54:27]URL: https://www.4zida.rs/prodaja-stanova/zvezdarska-suma-zvezdara-opstina-beograd/trosoban-stan/688117ef48d73f77c2097c30 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("span.text-gray-600").filter(has_text="Oglas objavljen:").locator("span.font-medium").first
+
