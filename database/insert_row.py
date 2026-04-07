@@ -2,19 +2,7 @@ import psycopg2
 from .db_config import get_scraping_db_connection_params
 
 
-def insert_row_halo(item):
-    conn = None
-    cursor = None
-
-    try:
-        conn = psycopg2.connect(**get_scraping_db_connection_params())
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT current_database(), current_schema();")
-        print("Connected to:", cursor.fetchone())
-        cursor.execute("SHOW search_path;")
-        print("Search path:", cursor.fetchone())
-
+def insert_row_halo(cursor,item):
         query = """
             INSERT INTO public.halo_oglasi (
                 url,
@@ -82,32 +70,9 @@ def insert_row_halo(item):
         )
 
         cursor.execute(query, values)
-        conn.commit()
 
-    except Exception as e:
-        if conn:
-            conn.rollback()
-        print(f"An error occurred: {e}")
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-def insert_row_4zida(item):
-    conn = None
-    cursor = None
-
-    try:
-        conn = psycopg2.connect(**get_scraping_db_connection_params())
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT current_database(), current_schema();")
-        print("Connected to:", cursor.fetchone())
-        cursor.execute("SHOW search_path;")
-        print("Search path:", cursor.fetchone())
-
+def insert_row_4zida(cursor,item):
+    
         query = """
             INSERT INTO public.z4ida (
                 url,
@@ -175,31 +140,8 @@ def insert_row_4zida(item):
         )
 
         cursor.execute(query, values)
-        conn.commit()
 
-    except Exception as e:
-        if conn:
-            conn.rollback()
-        print(f"An error occurred: {e}")
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
-
-def insert_row_nekretnine(item):
-    conn = None
-    cursor = None
-
-    try:
-        conn = psycopg2.connect(**get_scraping_db_connection_params())
-        cursor = conn.cursor()
-        
-        cursor.execute("SELECT current_database(), current_schema();")
-        print("Connected to:", cursor.fetchone())
-        cursor.execute("SHOW search_path;")
-        print("Search path:", cursor.fetchone())
+def insert_row_nekretnine(cursor,item):
 
         query = """
             INSERT INTO public.nekretnine_rs (
@@ -268,15 +210,3 @@ def insert_row_nekretnine(item):
         )
 
         cursor.execute(query, values)
-        conn.commit()
-
-    except Exception as e:
-        if conn:
-            conn.rollback()
-        print(f"An error occurred: {e}")
-
-    finally:
-        if cursor:
-            cursor.close()
-        if conn:
-            conn.close()
