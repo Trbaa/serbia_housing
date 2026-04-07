@@ -67,14 +67,27 @@ def clean_tip_nekretnine(item):
     return item
 
 def clean_kvadratura(item):
-    item["Kvadratura"] = item["Kvadratura"].str.replace(r"m2|m²|kvadrata|~|oko|","",regex = True).str.strip()
-    item["Kvadratura"] = item["Kvadratura"].str.replace(r",",".",regex = True).str.strip()
-    item["Kvadratura"] = item["Kvadratura"].astype(float)
+    item["Kvadratura"] = (
+        item["Kvadratura"]
+        .astype("string")
+        .str.lower()
+        .str.replace(",", ".", regex=False)
+        .str.extract(r"(\d+(?:\.\d+)?)", expand=False)
+    )
 
+    item["Kvadratura"] = pd.to_numeric(item["Kvadratura"], errors="coerce")
     return item
 
 def clean_br_soba(item):
-    item['Broj soba'] = item['Broj soba'].astype(float)
+    item['Broj soba'] = (
+        item['Broj soba']
+        .astype('string')
+        .str.lower()
+        .str.replace(',', '.', regex=False)
+        .str.extract(r'(\d+(?:\.\d+)?)', expand=False)
+    )
+
+    item['Broj soba'] = pd.to_numeric(item['Broj soba'], errors='coerce')
     return item
 
 def clean_tip_objekta(item):
@@ -132,23 +145,34 @@ def clean_grejanje(item):
     return item
 
 def clean_sprat(item):
-    item['Sprat'] = item['Sprat'].replace({
-    'Visoko prizemlje': '0.5',
-    'Prizemlje': '0',
-    'Suturen': '-0.5'
-})
-    item['Sprat'] = pd.to_numeric(item['Sprat'], errors='coerce')
+    item["Sprat"] = (
+        item["Sprat"]
+        .astype("string")
+        .str.strip()
+        .str.lower()
+        .replace({
+            "visoko prizemlje": "0.5",
+            "prizemlje": "0",
+            "suteren": "-0.5", #Ima svakakvih ljudi
+            "suturen": "-0.5", #Ima svakakvih ljudi
+            "vpr": "0.5", #Ima svakakvih ljudi
+        })
+        .str.replace(",", ".", regex=False)
+        .str.extract(r"(-?\d+(?:\.\d+)?)", expand=False)
+    )
+
+    item["Sprat"] = pd.to_numeric(item["Sprat"], errors="coerce")
     return item
 
 def clean_uk_sprat(item):
-    item['Ukupna spratnost'] = (
-    item['Ukupna spratnost']
-    .astype('string')
-    .str.strip()
-    .str.extract(r'(\d+)', expand=False)
-)
+    item["Ukupna spratnost"] = (
+        item["Ukupna spratnost"]
+        .astype("string")
+        .str.strip()
+        .str.extract(r"(\d+)", expand=False)
+    )
 
-    item['Ukupna spratnost'] = pd.to_numeric(item['Ukupna spratnost'], errors='coerce')
+    item["Ukupna spratnost"] = pd.to_numeric(item["Ukupna spratnost"], errors="coerce")
     return item
 
 def clean_opis(item):
