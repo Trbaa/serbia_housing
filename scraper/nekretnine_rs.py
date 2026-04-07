@@ -4,6 +4,7 @@ from datetime import datetime
 import csv
 import random
 from preprocesing.pipeline import preprocess
+from database.insert_row import insert_row_nekretnine
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -210,7 +211,9 @@ def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
             try:
                 item =scrape_listings(detail_page,url)
                 item= preprocess(item)
-                #insert_row_nekretnine(item)
+                insert_row_nekretnine(item)
+
+                
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
