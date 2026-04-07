@@ -122,6 +122,7 @@ def scrape_listings(page,url):
     try:
         data = {col: None for col in CSV_COLUMNS}
         data["url"] = url
+        raw_features = []
 
 
         title_locator = page.locator("h1")
@@ -148,7 +149,6 @@ def scrape_listings(page,url):
                 data["Sprat"] = parts[0].strip()
                 data["Ukupna spratnost"] = parts[1].replace("spratova", "").replace("sprata", "").strip()
         
-            raw_features = []
 
         stan_section = page.locator("section").filter(has=page.locator('strong:has-text("O stanu")'))
 
