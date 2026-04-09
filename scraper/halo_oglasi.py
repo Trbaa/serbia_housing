@@ -6,7 +6,7 @@ from database.insert_row import insert_row_halo
 import random
 from datetime import datetime
 from preprocesing.pipeline import preprocess
-from user_agents import get_browser_profile
+from user_agents import get_context_kwargs
 
 BASE_URL = "https://www.halooglasi.com"
 
@@ -245,19 +245,9 @@ def run_halo_oglasi(max_pages = 3):
         conn = psycopg2.connect(**get_scraping_db_connection_params())
         cursor = conn.cursor()
         with sync_playwright() as p:
-            profile = get_browser_profile()
             browser = p.chromium.launch(headless=False,slow_mo=100)
 
-            context = browser.new_context(
-            user_agent=profile["user_agent"],
-            viewport=profile["viewport"],
-            is_mobile=profile["is_mobile"],
-            has_touch=profile["has_touch"],
-            device_scale_factor=profile["device_scale_factor"],                locale="sr-RS",
-            extra_http_headers={
-                "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
-            }
-        )
+            context = browser.new_context(**get_context_kwargs())
 
             context.add_init_script("""
             Object.defineProperty(navigator, 'webdriver', {

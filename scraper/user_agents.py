@@ -116,3 +116,22 @@ def get_browser_profile():
         "has_touch": True,
         "device_scale_factor": random.choice([2, 3]),
     }
+
+def get_context_kwargs():
+    profile = get_browser_profile()
+
+    headers = {
+        "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+        "Upgrade-Insecure-Requests": "1",
+    }
+
+    return {
+        "user_agent": profile["user_agent"],
+        "viewport": profile["viewport"],
+        "is_mobile": profile["is_mobile"],
+        "has_touch": profile["has_touch"],
+        "device_scale_factor": profile["device_scale_factor"],
+        "locale": "sr-RS",
+        "extra_http_headers": headers,
+    }
