@@ -1,7 +1,7 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
 import psycopg2
-from database.db_config import get_scraping_db_connection_params
+from database.db_config import get_scraping_db_connection_params,ensure_connection
 from database.insert_row import insert_row_halo
 import random
 from datetime import datetime
@@ -10,7 +10,7 @@ from scraper.user_agents import get_context_kwargs
 
 BASE_URL = "https://www.halooglasi.com"
 
-FAILED_LOG_FILE = "failed_pages.txt"
+FAILED_LOG_FILE = "HALO_failed_pages.txt"
 def save_failed_page(url,error_message):
     with open(FAILED_LOG_FILE,"a",encoding="utf-8") as f:
         f.write(
@@ -219,24 +219,36 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url,cursor, conn, m
                 item= preprocess(item)
                 if item is None:
                     continue
-
-                insert_row_halo(cursor,item)
+                    
+                if inserted_count > 0 and inserted_count % 50 == 0:
+                    conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
+                try:
+                    insert_row_halo(cursor,item)
+                except Exception:
+                    conn.rollback()
+                    conn,cursor = ensure_connection(conn,cursor,get_scraping_db_connection_params)
+                    insert_row_halo(cursor,item) # #probam retry unosa
                 inserted_count += 1
 
-                if inserted_count % 2 == 0:
+                if inserted_count > 0 and inserted_count % 20 == 0:
                     conn.commit()
+                if inserted_count % 35 == 0:
+                    human_delay(listing_page,30000,90000)
 
                 print(f"  [{i}/{len(urls)}] [HALO] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
-                conn.rollback()
-                print(f" [HALO] Greska za {url}: {e}")
+                try:
+                    conn.rollback()
+                except Exception:
+                    pass
+                print(f"[HALO] Greska za {url}: {e}")
 
         if new_urls_on_page == 0:
             pages_without_new_url +=1
             print(f"[HALO] Strana bez novih URL-ova ({pages_without_new_url}/{max_pages_without_new_url})")
         else:
-            max_pages_without_new_url = 0
+            pages_without_new_url = 0
             
         if pages_without_new_url >= max_pages_without_new_url:
             print("[HALO] Pet strana zaredom bez novih oglasa, prekid.")
@@ -269,7 +281,13 @@ def run_halo_oglasi(max_pages = 3):
     cursor = None
 
     try:
-        conn = psycopg2.connect(**get_scraping_db_connection_params())
+        conn = psycopg2.connect(
+            **get_scraping_db_connection_params(),
+            keepalives = 1,
+            keepalives_idle = 30,
+            keepalives_interval = 10,
+            keepalives_count = 5)
+        
         cursor = conn.cursor()
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=False,slow_mo=100)

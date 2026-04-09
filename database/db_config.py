@@ -1,5 +1,7 @@
 import os
 from dotenv import load_dotenv
+import psycopg2
+from psycopg2 import OperationalError, InterfaceError,DatabaseError
 
 load_dotenv()
 
@@ -28,3 +30,40 @@ def get_scraping_db_connection_params():
         "user": DB_USER,
         "password": DB_PASSWORD
     }
+
+
+def ensure_connection(conn, cursor, get_params):
+    try:
+        # 1) nema konekcije ili je zatvorena
+        if conn is None or conn.closed != 0:
+            conn = psycopg2.connect(**get_params())
+            cursor = conn.cursor()
+            return conn, cursor
+
+        # 2) ako je transakcija pukla, očisti je
+        try:
+            conn.rollback()
+        except Exception:
+            pass
+
+        # 3) proveri da li konekcija i cursor stvarno rade
+        cursor.execute("SELECT 1")
+        cursor.fetchone()
+
+    except (OperationalError, InterfaceError, DatabaseError):
+        try:
+            if cursor:
+                cursor.close()
+        except Exception:
+            pass
+
+        try:
+            if conn:
+                conn.close()
+        except Exception:
+            pass
+
+        conn = psycopg2.connect(**get_params())
+        cursor = conn.cursor()
+
+    return conn, cursor
