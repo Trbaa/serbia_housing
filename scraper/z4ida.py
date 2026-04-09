@@ -53,14 +53,19 @@ CSV_COLUMNS = [
 ]
 
 def get_listings_url(page):
-    page.wait_for_selector('a[href*="/prodaja-stanova/"]')
-    human_delay(page)
-    links = page.locator("a").filter(has_text="Beograd").filter(has_text="€/m²") ## samo za kartice gde se pominje Beograd i ima znak €/m²
+    page.wait_for_selector('[test-data="ad-search-card"]', timeout=10000)
+
+    hrefs = page.locator(
+        '[test-data="ad-search-card"] a[href*="/prodaja-stanova/"]'
+    ).evaluate_all("""
+        els => els.map(el => el.getAttribute('href')).filter(Boolean)
+    """)
+
     urls = []
-    for i in range(links.count()):
-        href = links.nth(i).get_attribute("href")
-        if href:
-            urls.append(urljoin(BASE_URL, href))
+    for href in hrefs:
+        full_url = urljoin(BASE_URL, href)
+        if "-stan/" in full_url:
+            urls.append(full_url)
 
     return list(dict.fromkeys(urls))
 
@@ -280,7 +285,7 @@ def run_4zida(max_pages = 3):
         
         cursor = conn.cursor()
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False,slow_mo=100)
+            browser = p.chromium.launch(headless=False,slow_mo=150)
             context = browser.new_context(**get_context_kwargs())
         
 
@@ -320,3 +325,5 @@ def run_4zida(max_pages = 3):
             cursor.close()
         if conn:
             conn.close()
+
+run_4zida(max_pages=3)
