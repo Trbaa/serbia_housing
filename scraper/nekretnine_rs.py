@@ -1,10 +1,11 @@
 from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
 from datetime import datetime
-import csv
+import psycopg2
+from database.db_config import get_scraping_db_connection_params
+from database.insert_row import insert_row_nekretnine
 import random
 from preprocesing.pipeline import preprocess
-from database.insert_row import insert_row_nekretnine
 
 USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
@@ -190,18 +191,19 @@ def scrape_listings(page,url):
         return data
     return data
 
-def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
+def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = None):
     current_url = start_url
     current_page_num = 1
     seen_urls = set()
+    inserted_count = 0
 
     while True:
-        print(f"\nObradjujem listing stranu {current_page_num}: {current_url}")
+        print(f"\n[NEKRETNINE] Obradjujem listing stranu {current_page_num}: {current_url}")
         listing_page.goto(current_url,wait_until = 'domcontentloaded')
         human_delay(listing_page)
 
         urls = get_listings_url(listing_page)
-        print(f"Nadjeno oglasa na strani: {len(urls)}")
+        print(f"[NEKRETNINE] Nadjeno oglasa na strani: {len(urls)}")
 
         for i,url in enumerate(urls,start = 1):
             if url in seen_urls:
@@ -211,12 +213,16 @@ def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
             try:
                 item =scrape_listings(detail_page,url)
                 item= preprocess(item)
-                insert_row_nekretnine(item)
+                insert_row_nekretnine(cursor,item)
+                inserted_count +=1
+                if inserted_count % 2 == 0:
+                    conn.commit()
 
                 
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
+                conn.rollback()
                 print(f"Greska za {url}:{e}")
 
         if max_pages is not None and current_page_num >=max_pages:
@@ -231,6 +237,12 @@ def scrape_all_pages(listing_page,detail_page,start_url,max_pages = None):
             current_url = f"https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/{current_page_num}"
 
 def run_nekretnine(max_pages = 3):
+    conn = None
+    cursor = None
+
+    try:
+        conn = psycopg2.connect(**get_scraping_db_connection_params())
+        cursor = conn.cursor()
         with sync_playwright() as p:
             browser = p.chromium.launch(headless=False,slow_mo=100)
 
@@ -254,18 +266,34 @@ def run_nekretnine(max_pages = 3):
 
             start_url = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/"
 
-            try:
-                scrape_all_pages(
+
+            scrape_all_pages(
                         listing_page=listing_page,
                         detail_page=details_page,
                         start_url=start_url,
+                        cursor=cursor,
+                        conn=conn,
                         max_pages=max_pages
                     )
             
-            finally:
-                listing_page.close()
-                details_page.close()
-                context.close()
-                browser.close()
 
-run_nekretnine()
+            listing_page.close()
+            details_page.close()
+            context.close()
+            browser.close()
+
+    except Exception as e:
+        if conn:
+            conn.rollback()
+        print(f"Greska u 4zida: {e}")
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+
+    finally:
+        if cursor:
+            cursor.close()
+        if conn:
+            conn.close()
+

@@ -191,12 +191,12 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
     inserted_count = 0
 
     while True:
-        print(f"\nObradjujem listing stranu {current_page_num}: {current_url}")
+        print(f"\n[4ZIDA] Obradjujem listing stranu {current_page_num}: {current_url}")
         listing_page.goto(current_url,wait_until = 'domcontentloaded')
         human_delay(listing_page)
 
         urls = get_listings_url(listing_page)
-        print(f"Nadjeno oglasa na strani: {len(urls)}")
+        print(f"[4ZIDA] Nadjeno oglasa na strani: {len(urls)}")
 
         for i,url in enumerate(urls,start = 1):
             if url in seen_urls:
@@ -214,6 +214,7 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
                 print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
+                conn.rollback()
                 print(f"Greska za {url}:{e}")
 
         if max_pages is not None and current_page_num >=max_pages:
@@ -286,4 +287,3 @@ def run_4zida(max_pages = 3):
             cursor.close()
         if conn:
             conn.close()
-run_4zida()
