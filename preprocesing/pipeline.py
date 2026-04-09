@@ -34,14 +34,18 @@ def clean_title(item):
 def clean_price_total(item):
     item["price_total"] = (
     item["price_total"]
+    .astype("string")
     .str.split("\n").str[0]
-    .str.replace(r"EUR|eur|€|RSD|rsd|DIN|din|Evra|evra|Eura|eura", "", regex=True)
+    .str.lower()
+    .str.replace(r"od\s*", "", regex=True)
+   .str.replace(r"eur|€|rsd|din|evra|eura", "", regex=True)
     .str.replace(r"[.,\s]", "", regex=True)
     .str.replace(r"od ", "", regex=True)
+    .str.replace(r"[^\d]", "", regex=True)
     .str.strip()
-    .astype("Int64")
 
     )
+    item["price_total"] = pd.to_numeric(item["price_total"], errors="coerce").astype("Int64")
     return item
 
 def clean_price_per_m2(item):
