@@ -6,17 +6,8 @@ from database.db_config import get_scraping_db_connection_params
 from database.insert_row import insert_row_4zida
 import random
 from preprocesing.pipeline import preprocess
+from user_agents import get_browser_profile
 
-USER_AGENTS = [
-    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-
-    "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36",
-
-    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-]
 
 BASE_URL = "https://www.4zida.rs"
 
@@ -237,11 +228,15 @@ def run_4zida(max_pages = 3):
         conn = psycopg2.connect(**get_scraping_db_connection_params())
         cursor = conn.cursor()
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False)
+            profile = get_browser_profile()
+            browser = p.chromium.launch(headless=False,slow_mo=100)
+
             context = browser.new_context(
-            user_agent=random.choice(USER_AGENTS),
-            viewport={"width": 1366, "height": 768},
-            locale="sr-RS",
+            user_agent=profile["user_agent"],
+            viewport=profile["viewport"],
+            is_mobile=profile["is_mobile"],
+            has_touch=profile["has_touch"],
+            device_scale_factor=profile["device_scale_factor"],                locale="sr-RS",
             extra_http_headers={
                 "Accept-Language": "sr-RS,sr;q=0.9,en-US;q=0.8,en;q=0.7"
             }
