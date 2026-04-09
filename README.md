@@ -1,76 +1,86 @@
 # Serbia Housing
 
-Projekat za prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih sajtova za oglase, sa ciljem da kasnije posluži kao osnova za analizu tržišta i trening modela za predikciju cena nekretnina u Srbiji.
+Projekat za prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih sajtova za oglase. Cilj projekta je izgradnja pouzdane baze podataka koja kasnije može da se koristi za analizu tržišta, vizuelizaciju trendova i razvoj modela za procenu cena nekretnina u Srbiji.
+
+Ovaj README je osvežena verzija postojeće dokumentacije i uključuje novi korak u arhitekturi projekta: paralelno pokretanje sva 3 scrapera iz jednog `main` fajla, preprocessing podataka i individualni upis u odgovarajuće tabele unutar zajedničke PostgreSQL baze.
 
 ## Trenutno stanje projekta
 
-Projekat je trenutno organizovan u nekoliko glavnih celina:
+Projekat je trenutno funkcionalan end-to-end za tri izvora podataka:
+
+- **Halo oglasi**
+- **4zida**
+- **Nekretnine.rs**
+
+Za svaki izvor postoji poseban scraper, a svi scraperi se sada mogu pokretati paralelno iz jednog centralnog ulaznog fajla. Nakon scrape-a, podaci prolaze kroz preprocessing pipeline i zatim se pojedinačno upisuju u odgovarajuću tabelu u okviru zajedničke baze.
+
+Sistem je testiran i potvrđeno je da radi:
+
+- za svaki scraper pojedinačno
+- za paralelno pokretanje sva 3 scrapera
+- za preprocessing pipeline
+- za individualni insert u bazu
+- za upis u svaku ciljnu tabelu unutar zajedničke PostgreSQL baze
+
+## Arhitektura projekta
+
+Projekat je organizovan u nekoliko glavnih celina:
 
 - `scraper/` – scraperi za pojedinačne sajtove
 - `preprocesing/` – pipeline za čišćenje i standardizaciju podataka
-- `database/` – konekcija sa PostgreSQL bazom, kreiranje baze/tabela i upis podataka
+- `database/` – konekcija sa PostgreSQL bazom, kreiranje tabela i insert logika
+- `main` fajl – centralno pokretanje svih scrapera, uključujući paralelan rad
 - `README.md` – dokumentacija projekta
 
-## Šta je do sada urađeno
+Ovakva podela olakšava:
 
-### 1. Napravljena je struktura projekta
-Kod je podeljen logički po odgovornostima:
-- scraping
-- preprocessing
-- database sloj
+- održavanje koda
+- dodavanje novih izvora podataka
+- testiranje pojedinačnih komponenti
+- prelazak na veće scrape sesije i kasniju analitiku
 
-To je dobar korak jer olakšava dalje širenje projekta na više sajtova i kasnije održavanje.
+## Trenutni tok obrade podataka
 
-### 2. Napravljeni su scraperi za više sajtova
-Trenutno postoje scraperi za:
-- Halo oglasi
-- 4zida
-- Nekretnine.rs
+Tok podataka trenutno izgleda ovako:
 
-Svaki scraper prikuplja podatke sa listing i detaljnih stranica oglasa.
+1. `main` fajl pokreće sva 3 scrapera paralelno
+2. svaki scraper obilazi listing i detaljne stranice svog sajta
+3. izvučeni sirovi podaci se prosleđuju u preprocessing pipeline
+4. preprocessing čisti i standardizuje vrednosti
+5. svaki obrađeni oglas se individualno upisuje u odgovarajuću tabelu baze
+6. duplikati se preskaču pomoću `UNIQUE` ograničenja nad URL kolonom i `ON CONFLICT (url) DO NOTHING`
 
-### 3. Definisan je skup kolona koje se prate
-Za oglase se izvlače bitne informacije kao što su:
-- URL oglasa
-- naslov
-- ukupna cena
-- cena po kvadratu
-- tip nekretnine
-- kvadratura
-- broj soba
-- oglašivač
-- tip i stanje objekta
-- grejanje
-- sprat i ukupna spratnost
-- uknjiženost
-- dodatne karakteristike stana
-- dodatni opis
+To znači da sistem ne zavisi od ručnog brisanja starih podataka i može bezbedno da se koristi za veće scrape-ove bez pucanja na duplikatima.
 
-### 4. Uveden je preprocessing pipeline
-Podaci se pre upisa sređuju kroz poseban pipeline, što je mnogo bolje nego da se sirovi podaci odmah smeštaju u bazu.
+## Sledeći logični koraci
 
-To uključuje:
-- čišćenje vrednosti
-- standardizaciju naziva
-- konverziju tipova podataka
-- obradu boolean polja
-- parsiranje podataka iz dodatnog opisa
+Nakon trenutne stabilizacije sistema, prirodni naredni koraci su:
 
-### 5. Povezan je PostgreSQL
-Napravljen je database sloj koji omogućava:
-- povezivanje na bazu
-- kreiranje baze
-- kreiranje tabela
-- upis pojedinačnih redova u odgovarajuću tabelu
+### 1. Masovni scrape
+Pokretanje većeg broja stranica i dužih scrape sesija radi punjenja baze većim brojem oglasa.
 
-### 6. Rešeni su problemi sa tipovima podataka
-Tokom upisa u bazu ispravljeni su problemi kao što su:
-- boolean kolone koje su dobijale `1/0` umesto `True/False`
-- boolean vrednosti koje su ostajale kao string `"da"` / `"ne"`
-- neusaglašenost između preprocessinga i SQL šeme
+### 2. Analitika i modelovanje
+Kada baza dovoljno poraste, sledeća faza može da uključi:
 
-### 7. Dodat je `UNIQUE` constraint na URL
-Kolona `url` je postavljena kao jedinstvena, što omogućava:
+- eksplorativnu analizu podataka
+- vizuelizaciju tržišta nekretnina
+- feature engineering
+- trening modela za procenu cena
 
-```sql
-ON CONFLICT (url) DO NOTHING
+## Napomena
+
+Ovaj projekat je trenutno u fazi izgradnje stabilnog scraping i data ingestion sistema. Fokus je na tome da pipeline bude pouzdan, proširiv i spreman za veći obim podataka pre nego što krene ozbiljnija analitika i modelovanje.
+
+## Sažetak
+
+U ovom trenutku projekat već ima:
+
+- 3 funkcionalna scrapera
+- preprocessing pipeline
+- PostgreSQL bazu sa odvojenim tabelama
+- individualni insert podataka
+- zaštitu od duplikata
+- paralelno pokretanje sva 3 scrapera iz jednog `main` fajla
+- potvrđen rad kroz testiranje za sve ključne komponente
+
+To je vrlo dobra osnova za sledeću fazu: masovno prikupljanje podataka i izgradnju kvalitetnog dataseta za analizu tržišta nekretnina u Srbiji.
