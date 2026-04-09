@@ -6,7 +6,7 @@ from database.db_config import get_scraping_db_connection_params
 from database.insert_row import insert_row_4zida
 import random
 from preprocesing.pipeline import preprocess
-from user_agents import get_context_kwargs
+from scraper.user_agents import get_context_kwargs
 
 
 BASE_URL = "https://www.4zida.rs"
@@ -130,10 +130,12 @@ def scrape_listings(page,url):
             data["price_per_m2"] = price_per_m2.first.inner_text().strip()
 
         details = page.locator("div.flex.gap-px strong")
-        if details.count() > 0:
+        count = details.count()
+        if count >= 1:
             data['Kvadratura'] = details.nth(0).first.inner_text().strip()
+        if count >= 2:
             data['Broj soba'] = details.nth(1).first.inner_text().strip()
-
+        if count >= 3:
             sprat_text = details.nth(2).inner_text().strip()   # npr. 5/5 spratova
             parts = sprat_text.split("/")
 
@@ -202,14 +204,14 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
                 if inserted_count % 2 == 0:
                     conn.commit()
 
-                print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
+                print(f"  [{i}/{len(urls)}][4ZIDA] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
                 conn.rollback()
-                print(f"Greska za {url}:{e}")
+                print(f"[4ZIDA] Greska za {url}:{e}")
 
         if max_pages is not None and current_page_num >=max_pages:
-            print("Dostignut max_pages limit")
+            print("[4ZIDA] Dostignut max_pages limit")
             conn.commit()
             break
             

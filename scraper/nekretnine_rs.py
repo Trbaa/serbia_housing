@@ -6,7 +6,7 @@ from database.db_config import get_scraping_db_connection_params
 from database.insert_row import insert_row_nekretnine
 import random
 from preprocesing.pipeline import preprocess
-from user_agents import get_context_kwargs
+from scraper.user_agents import get_context_kwargs
 
 BASE_URL = "https://www.nekretnine.rs/"
 
@@ -209,14 +209,14 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
                     conn.commit()
 
                 
-                print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
+                print(f"  [{i}/{len(urls)}] [NEKRETNINE] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
                 conn.rollback()
                 print(f"Greska za {url}:{e}")
 
         if max_pages is not None and current_page_num >=max_pages:
-            print("Dostignut max_pages limit")
+            print("[NEKRETNINE] Dostignut max_pages limit")
             break
             
        

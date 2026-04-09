@@ -6,7 +6,7 @@ from database.insert_row import insert_row_halo
 import random
 from datetime import datetime
 from preprocesing.pipeline import preprocess
-from user_agents import get_context_kwargs
+from scraper.user_agents import get_context_kwargs
 
 BASE_URL = "https://www.halooglasi.com"
 
@@ -208,29 +208,29 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url,cursor, conn, m
                 insert_row_halo(cursor,item)
                 inserted_count += 1
 
-                if inserted_count % 20 == 0:
+                if inserted_count % 2 == 0:
                     conn.commit()
 
-                print(f"  [{i}/{len(urls)}] Sacuvan: {url}")
+                print(f"  [{i}/{len(urls)}] [HALO] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
                 conn.rollback()
-                print(f"  Greska za {url}: {e}")
+                print(f" [HALO] Greska za {url}: {e}")
 
         if max_pages is not None and current_page_num >= max_pages:
-            print("Dostignut max_pages limit.")
+            print("[HALO] Dostignut max_pages limit.")
             break
 
         next_button = listing_page.locator("a.page-link.next")
 
         if next_button.count() == 0:
-            print("Nema sledece strane. Kraj.")
+            print("[HALO] Nema sledece strane. Kraj.")
             conn.commit()
             break
 
         next_href = next_button.first.get_attribute("href")
         if not next_href:
-            print("Sledeca strana nema href. Kraj.")
+            print("[HALO] Sledeca strana nema href. Kraj.")
             conn.commit()
             break
 
