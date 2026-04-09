@@ -187,6 +187,10 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
     seen_urls = set()
     inserted_count = 0
 
+    max_pages_without_new_url = 5
+    pages_without_new_url = 0
+    hard_max_pages = 1000
+
     while True:
         print(f"\n[NEKRETNINE] Obradjujem listing stranu {current_page_num}: {current_url}")
         listing_page.goto(current_url,wait_until = 'domcontentloaded')
@@ -194,37 +198,61 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
 
         urls = get_listings_url(listing_page)
         print(f"[NEKRETNINE] Nadjeno oglasa na strani: {len(urls)}")
+        if not urls:
+            print("[NEKRETNINE] Nema URL-ova, prekid.")
+            conn.comit()
+            break
 
+        new_urls_on_page = 0
         for i,url in enumerate(urls,start = 1):
             if url in seen_urls:
                 continue
             seen_urls.add(url)
+            new_urls_on_page +=1
 
             try:
                 item =scrape_listings(detail_page,url)
+                if item is None:
+                    continue
                 item= preprocess(item)
+                if item is None:
+                    continue
+                
                 insert_row_nekretnine(cursor,item)
                 inserted_count +=1
                 if inserted_count % 2 == 0:
                     conn.commit()
 
-                
                 print(f"  [{i}/{len(urls)}] [NEKRETNINE] Sacuvan: {url}")
                 human_delay(detail_page)
             except Exception as e:
                 conn.rollback()
                 print(f"Greska za {url}:{e}")
 
+        if new_urls_on_page == 0:
+            pages_without_new_url +=1
+            print(f"[NEKRETNINE] Strana bez novih URL-ova ({pages_without_new_url}/{max_pages_without_new_url})")
+        else:
+            max_pages_without_new_url = 0
+        
+        if pages_without_new_url >= max_pages_without_new_url:
+            print("[NEKRETNINE] Pet strana zaredom bez novih oglasa, prekid.")
+            conn.commit()
+            break
+
         if max_pages is not None and current_page_num >=max_pages:
             print("[NEKRETNINE] Dostignut max_pages limit")
+            break
+
+        if current_page_num >= hard_max_pages:
+            print("Safety stop: dostignut max_pages.")
+            conn.commit()
             break
             
        
         current_page_num +=1
-        if current_page_num == 1:
-            current_url = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/"
-        else:
-            current_url = f"https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/{current_page_num}"
+        current_url = f"https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/{current_page_num}"
+    conn.commit()
 
 def run_nekretnine(max_pages = 3):
     conn = None

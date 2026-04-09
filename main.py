@@ -4,9 +4,9 @@ from scraper.halo_oglasi import run_halo_oglasi
 from scraper.nekretnine_rs import run_nekretnine
 
 def main():
-    jobs = [("4zida", run_4zida,3),
-            ("halo_oglasi",run_halo_oglasi,3),
-            ("nekretnien",run_nekretnine,3)
+    jobs = [("4zida", run_4zida,None),
+            ("halo_oglasi",run_halo_oglasi,None),
+            ("nekretnien",run_nekretnine,None)
             ]
     with ProcessPoolExecutor(max_workers=3) as executor:
         futures = {

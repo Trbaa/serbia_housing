@@ -187,6 +187,9 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url,cursor, conn, m
     seen_urls = set()
     inserted_count = 0
 
+    max_pages_without_new_url = 5
+    pages_without_new_url = 0
+
     while True:
         print(f"\n[HALO] Obradjujem listing stranu {current_page_num}: {current_url}")
 
@@ -196,15 +199,27 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url,cursor, conn, m
         urls = get_listing_urls(listing_page)
         print(f"[HALO] Nadjeno oglasa na strani: {len(urls)}")
 
+        if not urls:
+            print("[HALO] Nema URL-ova. Kraj.")
+            conn.commit()
+            break
+        new_urls_on_page = 0
         for i, url in enumerate(urls, start=1):
             if url in seen_urls:
                 continue
 
             seen_urls.add(url)
+            new_urls_on_page += 1
 
             try:
                 item = scrape_listing(detail_page, url)
+                if item is None:
+                    continue
+
                 item= preprocess(item)
+                if item is None:
+                    continue
+
                 insert_row_halo(cursor,item)
                 inserted_count += 1
 
@@ -216,6 +231,17 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url,cursor, conn, m
             except Exception as e:
                 conn.rollback()
                 print(f" [HALO] Greska za {url}: {e}")
+
+        if new_urls_on_page == 0:
+            pages_without_new_url +=1
+            print(f"[HALO] Strana bez novih URL-ova ({pages_without_new_url}/{max_pages_without_new_url})")
+        else:
+            max_pages_without_new_url = 0
+            
+        if pages_without_new_url >= max_pages_without_new_url:
+            print("[HALO] Pet strana zaredom bez novih oglasa, prekid.")
+            conn.commit()
+            break
 
         if max_pages is not None and current_page_num >= max_pages:
             print("[HALO] Dostignut max_pages limit.")
@@ -236,6 +262,7 @@ def scrape_all_pages_to_csv(listing_page, detail_page, start_url,cursor, conn, m
 
         current_url = urljoin(BASE_URL, next_href)
         current_page_num += 1
+    conn.commit()
 
 def run_halo_oglasi(max_pages = 3):
     conn = None
