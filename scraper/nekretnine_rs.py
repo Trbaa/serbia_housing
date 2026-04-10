@@ -10,13 +10,34 @@ from scraper.user_agents import get_context_kwargs
 
 BASE_URL = "https://www.nekretnine.rs/"
 
-FAILED_LOG_FILE = "NEKRETNINE_failed_pages.txt"
+FAILED_LOG_FILE = "NEKRETNINE_failed_pages_V02.txt"
 def save_failed_page(url,error_message):
     with open(FAILED_LOG_FILE,"a",encoding="utf-8") as f:
         f.write(
             f"[{datetime.now().strftime('%Y-%m-%d %H:%M:%S')}]"
             f"URL: {url} | ERROR: {error_message}\n"
         )
+
+#Smanjuje opterecenje na context prozor
+def block_resources(route):
+    resource_type = route.request.resource_type
+    url = route.request.url.lower()
+
+    blocked_types = {"image", "media", "font"}
+    blocked_keywords = [
+        "doubleclick",
+        "googletagmanager",
+        "google-analytics",
+        "facebook",
+        "analytics",
+        "ads",
+    ]
+
+    if resource_type in blocked_types or any(word in url for word in blocked_keywords):
+        route.abort()
+    else:
+        route.continue_()
+
 
 def human_delay(page, a=800, b=8000):
     page.wait_for_timeout(random.randint(a, b))
@@ -59,6 +80,17 @@ FIELD_MAP = {
     "Ukupan broj spratova": "Ukupna spratnost",
     "Stanje nekretnine": "Stanje objekta",
 }
+
+def protect_data(locator,field_name,url,timeout = 3000):
+    try:
+        if locator.count() == 0:
+            return None
+        text = locator.first.inner_text(timeout= timeout)
+        if text:
+            return text.strip() if text else None
+    except Exception as e:
+        save_failed_page(url,error_message=str(e))
+        return None
 
 def get_listings_url(page):
     page.wait_for_selector("h2.offer-title a")
@@ -114,7 +146,8 @@ def map_features(raw_features, data):
 
     return data
 
-def scrape_listings(page,url):
+def scrape_listings(context,url):
+    page = context.new_page()
     data = {col: None for col in CSV_COLUMNS}
     data["url"] = url
 
@@ -124,64 +157,103 @@ def scrape_listings(page,url):
 
 
         #naslov
-        title_locator = page.locator("h1.detail-title")
-        if title_locator.count() > 0:
-            data["title"] = title_locator.first.inner_text().strip()
+        data["title"] = protect_data(
+            page.locator("h1.detail-title"),
+            "title",
+            url,
+            timeout=2000
+        )
 
         #Ukupna cena
-        price_locator = page.locator("h4.stickyBox__price")
-        if price_locator.count() > 0:
-            data["price_total"] = price_locator.first.inner_text().strip()
+        data["price_total"] = protect_data(
+            page.locator("h4.stickyBox__price"),
+            "price_total",
+            url,
+            timeout=2000
+        )
 
         # cena po kvadratu
-        m2_locator = page.locator("h4.stickyBox__price span")
-        if m2_locator.count() > 0:
-            data["price_per_m2"] = m2_locator.first.inner_text().strip()
+        data['price_per_m2'] = protect_data(page.locator("h4.stickyBox__price span"),"price_per_m2",url)
         
         # gornji blok: Tip nekretnine / Kvadratura / Broj soba
-        details_section = page.locator("section#detalji")
-        amenity_blocks = details_section.locator("div.property__amenities")
-        for i in range(amenity_blocks.count()):
-            block = amenity_blocks.nth(i)
-            title = block.locator("h3").inner_text().strip()
+        try:
+            details_section = page.locator("section#detalji")
+            amenity_blocks = details_section.locator("div.property__amenities")
+            block_count = amenity_blocks.count()
+            for i in range(block_count):
+                try:
+                    block = amenity_blocks.nth(i)
 
-            items = block.locator("li")
-            raw_features = []
+                    items = block.locator("li")
+                    raw_features = []
+                    item_count = items.count()
 
-            for j in range(items.count()):
-                li = items.nth(j)
-                strong = li.locator("strong")
+                    for j in range(item_count):
+                        try:
+                            li = items.nth(j)
+                            strong = li.locator("strong")
 
-                if strong.count() > 0:
-                    raw_field_name = li.inner_text().split(":")[0].strip()
-                    field_value = strong.inner_text().strip()
+                            if strong.count() > 0:
+                                full_text = protect_data(li, f"detail_li_{i}_{j}", url, timeout=1500)
+                                field_value = protect_data(strong, f"detail_strong_{i}_{j}", url, timeout=1500)
 
-                    field_name = FIELD_MAP.get(raw_field_name, raw_field_name)
+                                if not full_text or not field_value:
+                                    continue
+                                
+                                raw_field_name = full_text.split(":")[0].strip()
+                                field_name = FIELD_MAP.get(raw_field_name, raw_field_name)
 
-                    if field_name in data:
-                        data[field_name] = field_value
-                else:
-                    feature = li.inner_text().strip()
-                    raw_features.append(feature)
-
-            map_features(raw_features, data)
+                                if field_name in data:
+                                    data[field_name] = field_value
+                            else:
+                                feature = protect_data(li,f"feature_li_{i}_{j}",url)
+                                
+                                if feature:
+                                    raw_features.append(feature)
+                        except Exception as e:
+                            save_failed_page(url,error_message=str(e))
+                    try:
+                        map_features(raw_features, data)
+                    except Exception as e:
+                        save_failed_page(url,error_message=str(e))
+                except Exception as e:
+                    save_failed_page(url,error_message=str(e))
+        except Exception as e:
+            save_failed_page(url,error_message=str(e))
 
         #datum_objave
-        raw_datum = page.locator("div.updated span").nth(1).inner_text().strip()
+        try:
+            raw_datum = protect_data(page.locator("div.updated span").nth(1),"Datum_objave",url)
 
-        if raw_datum.startswith("Objavljen:"):
-            data["Datum_objave"] = raw_datum.replace("Objavljen:", "").strip()
+            if raw_datum.startswith("Objavljen:"):
+                data["Datum_objave"] = raw_datum.replace("Objavljen:", "").strip()
+            else:
+                data["Datum_objave"] = raw_datum.strip()
+        except Exception as e:
+            save_failed_page(url,error_message=str(e))
 
         #dodatni opis
-        opis_oglasa = page.locator("section#opis .cms-content-inner")
-        if opis_oglasa.count() > 0:
-            data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
+        try:
+            opis_oglasa = protect_data(page.locator("section#opis .cms-content-inner"),"Dodatni_opis",url)
+            if opis_oglasa:
+                data["Dodatni opis"] = " ".join(opis_oglasa.split())
+        except Exception as e:
+            save_failed_page(url,str(e))
+
+        return data
+
     except Exception as e:
         save_failed_page(url,str(e))
-        return data
-    return data
+        return None
+    
+    finally:
+        try:
+            page.close()
+        except Exception:
+            pass
 
-def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = None):
+
+def scrape_all_pages(listing_page,context,start_url,cursor,conn,max_pages = None):
     current_url = start_url
     current_page_num = 1
     seen_urls = set()
@@ -211,7 +283,7 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
             new_urls_on_page +=1
 
             try:
-                item =scrape_listings(detail_page,url)
+                item =scrape_listings(context,url)
                 if item is None:
                     continue
 
@@ -231,11 +303,8 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
                 inserted_count +=1
                 if inserted_count > 0 and inserted_count % 20 == 0:
                     conn.commit()
-                if inserted_count % 35 == 0:
-                    human_delay(listing_page,30000,90000)
 
                 print(f"  [{i}/{len(urls)}] [NEKRETNINE] Sacuvan: {url}")
-                human_delay(detail_page)
             except Exception as e:
                 try:
                     conn.rollback()
@@ -282,9 +351,10 @@ def run_nekretnine(max_pages = 3):
         
         cursor = conn.cursor()
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False,slow_mo=100)
+            browser = p.chromium.launch(headless=True,slow_mo=100)
 
             context = browser.new_context(**get_context_kwargs())
+            context.route("**/*", block_resources)
 
             context.add_init_script("""
             Object.defineProperty(navigator, 'webdriver', {
@@ -293,14 +363,14 @@ def run_nekretnine(max_pages = 3):
             """)
 
             listing_page = context.new_page()
-            details_page = context.new_page()
+            #details_page = context.new_page()
 
             start_url = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/"
 
 
             scrape_all_pages(
                         listing_page=listing_page,
-                        detail_page=details_page,
+                        context=context,
                         start_url=start_url,
                         cursor=cursor,
                         conn=conn,
@@ -309,7 +379,7 @@ def run_nekretnine(max_pages = 3):
             
 
             listing_page.close()
-            details_page.close()
+            #details_page.close()
             context.close()
             browser.close()
 

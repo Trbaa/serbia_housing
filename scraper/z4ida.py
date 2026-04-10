@@ -11,7 +11,7 @@ from scraper.user_agents import get_context_kwargs
 
 BASE_URL = "https://www.4zida.rs"
 
-FAILED_LOG_FILE = "Z4IDA_failed_pages.txt"
+FAILED_LOG_FILE = "Z4IDA_failed_pages_V02.txt"
 def save_failed_page(url,error_message):
     with open(FAILED_LOG_FILE,"a",encoding="utf-8") as f:
         f.write(
@@ -19,6 +19,25 @@ def save_failed_page(url,error_message):
             f"URL: {url} | ERROR: {error_message}\n"
         )
 
+#Smanjuje opterecenje na context prozor
+def block_resources(route):
+    resource_type = route.request.resource_type
+    url = route.request.url.lower()
+
+    blocked_types = {"image", "media", "font"}
+    blocked_keywords = [
+        "doubleclick",
+        "googletagmanager",
+        "google-analytics",
+        "facebook",
+        "analytics",
+        "ads",
+    ]
+
+    if resource_type in blocked_types or any(word in url for word in blocked_keywords):
+        route.abort()
+    else:
+        route.continue_()
 
 def human_delay(page, a=800, b=8000):
     page.wait_for_timeout(random.randint(a, b))
@@ -69,6 +88,17 @@ def get_listings_url(page):
 
     return list(dict.fromkeys(urls))
 
+def protect_data(locator,field_name,url,timeout = 3000):
+    try:
+        if locator.count() == 0:
+            return None
+        text = locator.first.inner_text(timeout= timeout)
+        if text:
+            return text.strip() if text else None
+    except Exception as e:
+        save_failed_page(url,error_message=e)
+        return None
+
 
 def map_features(raw_features, data):
     for item in raw_features:
@@ -112,7 +142,8 @@ def map_features(raw_features, data):
 
     return data
 
-def scrape_listings(page,url):
+def scrape_listings(context,url):
+    page = context.new_page()
     page.goto(url, wait_until="domcontentloaded")
     human_delay(page)
 
@@ -121,68 +152,72 @@ def scrape_listings(page,url):
         data["url"] = url
         raw_features = []
 
-
-        title_locator = page.locator("h1")
-        if title_locator.count() > 0:
-            data["title"] = title_locator.first.inner_text().strip()
-
-        price_total_loc = page.locator('p[test-data="ad-price"]')
-        if price_total_loc.count() > 0:
-            data["price_total"] = price_total_loc.first.inner_text().strip()
-
-        price_per_m2 = page.locator('div.text-right p').nth(1)
-        if price_per_m2.count() > 0:
-            data["price_per_m2"] = price_per_m2.first.inner_text().strip()
+        data['title'] = protect_data(page.locator('h1'),'title',url)
+        data['price_total'] =protect_data(page.locator('p[test-data="ad-price"]'),'price_total',url)
+        data['price_per_m2'] = protect_data(page.locator('div.text-right p').nth(1),'price_per_m2',url)
 
         details = page.locator("div.flex.gap-px strong")
-        count = details.count()
-        if count >= 1:
-            data['Kvadratura'] = details.nth(0).first.inner_text().strip()
-        if count >= 2:
-            data['Broj soba'] = details.nth(1).first.inner_text().strip()
-        if count >= 3:
-            sprat_text = details.nth(2).inner_text().strip()   # npr. 5/5 spratova
-            parts = sprat_text.split("/")
-
-            if len(parts) == 2:
-                data["Sprat"] = parts[0].strip()
-                data["Ukupna spratnost"] = parts[1].replace("spratova", "").replace("sprata", "").strip()
-        
-
-        stan_section = page.locator("section").filter(has=page.locator('strong:has-text("O stanu")'))
-
-        if stan_section.count() > 0:
-            feature_items = stan_section.first.locator("li span")
-
-            for i in range(feature_items.count()):
-                text = feature_items.nth(i).inner_text().strip()
-                if text:
-                    raw_features.append(text)
-
-        data = map_features(raw_features, data)
-
-        #date_of posting
         try:
-            datum_loc = page.locator("span.text-gray-600").filter(
-                has_text="Oglas ažuriran:" # Ovo mora tako jer nema kada je postavljen prvi put
-            ).locator("span.font-medium")
+            count = details.count()
+            if count >= 1:
+                data['Kvadratura'] = details.nth(0).first.inner_text().strip()
+            if count >= 2:
+                data['Broj soba'] = details.nth(1).first.inner_text().strip()
+            if count >= 3:
+                sprat_text = details.nth(2).inner_text().strip()   # npr. 5/5 spratova
+                parts = sprat_text.split("/")
 
-            if datum_loc.count() > 0:
-                data["Datum_objave"] = datum_loc.first.inner_text(timeout=3000).strip()
-        except Exception:
-            data["Datum_objave"] = None # jbg
+                if len(parts) == 2:
+                    data["Sprat"] = parts[0].strip()
+                    data["Ukupna spratnost"] = parts[1].replace("spratova", "").replace("sprata", "").strip()
+        except Exception as e:
+            save_failed_page(url,str(e))
+
+        try:
+            stan_section = page.locator("section").filter(has=page.locator('strong:has-text("O stanu")'))
+
+            if stan_section.count() > 0:
+                feature_items = stan_section.first.locator("li span")
+
+                for i in range(feature_items.count()):
+                    try:
+                        text = feature_items.nth(i).inner_text().strip()
+                        if text:
+                            raw_features.append(text)
+                    except Exception as e:
+                        save_failed_page(url,str(e))
+        except Exception as e:
+            save_failed_page(url,str(e))
+        try:
+            data = map_features(raw_features, data)
+        except Exception as e:
+            save_failed_page(url,str(e))
+
+    #date_of posting
+        datum_loc = page.locator("span.text-gray-600").filter(
+            has_text="Oglas ažuriran:" # Ovo mora tako jer nema kada je postavljen prvi put
+        ).locator("span.font-medium")
+        data["Datum_objave"] = protect_data(datum_loc,'Datum_objave',url)
 
         #Opis oglasa - veliki tekst
-        opis_oglasa = page.locator('div[test-data="rich-text-description"] div.flex.w-full.flex-col.gap-4.whitespace-normal')
-        if opis_oglasa.count() > 0:
-            data["Dodatni opis"] = " ".join(opis_oglasa.first.inner_text().split())
+        opis_oglasa =protect_data(page.locator('div[test-data="rich-text-description"] div.flex.w-full.flex-col.gap-4.whitespace-normal'),'Dodatni_opis',url)
+        if opis_oglasa:
+            data["Dodatni opis"] = " ".join(opis_oglasa.split())
+    
+        return data
+
     except Exception as e:
         save_failed_page(url,str(e))
         return None
-    return data
+    
+    finally:
+        try:
+            page.close()
+        except Exception:
+            pass
 
 
-def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = None):
+def scrape_all_pages(listing_page,context,start_url,cursor,conn,max_pages = None):
     current_url = start_url
     current_page_num = 1
     seen_urls = set()
@@ -212,7 +247,7 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
             new_urls_on_page +=1
 
             try:
-                item =scrape_listings(detail_page,url)
+                item =scrape_listings(context,url)
                 
                 if item is None:
                     continue
@@ -232,11 +267,8 @@ def scrape_all_pages(listing_page,detail_page,start_url,cursor,conn,max_pages = 
                 inserted_count +=1
                 if inserted_count > 0 and inserted_count % 20 == 0:
                     conn.commit()
-                if inserted_count % 35 == 0:
-                    human_delay(listing_page,30000,90000)
 
                 print(f"  [{i}/{len(urls)}][4ZIDA] Sacuvan: {url}")
-                human_delay(detail_page)
             except Exception as e:
                 try:
                     conn.rollback()
@@ -285,8 +317,9 @@ def run_4zida(max_pages = 3):
         
         cursor = conn.cursor()
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False,slow_mo=150)
+            browser = p.chromium.launch(headless=True,slow_mo=150)
             context = browser.new_context(**get_context_kwargs())
+            context.route("**/*", block_resources)
         
 
             context.add_init_script("""
@@ -296,14 +329,14 @@ def run_4zida(max_pages = 3):
             """)
 
             listing_page = context.new_page()
-            detail_page = context.new_page()
+            #detail_page = context.new_page()
 
 
             start_url = "https://www.4zida.rs/prodaja-stanova/beograd"
             
             scrape_all_pages(
                     listing_page=listing_page,
-                    detail_page=detail_page,
+                    context=context,
                     start_url=start_url,
                     cursor=cursor,
                     conn=conn,
@@ -311,7 +344,7 @@ def run_4zida(max_pages = 3):
                 )
             
             listing_page.close()
-            detail_page.close()
+            #detail_page.close()
             context.close()
             browser.close()
 
@@ -325,5 +358,3 @@ def run_4zida(max_pages = 3):
             cursor.close()
         if conn:
             conn.close()
-
-run_4zida(max_pages=3)
