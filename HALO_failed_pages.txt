@@ -1,0 +1,1376 @@
+[2026-04-09 20:01:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/jednosoban-stan-u-blizini-beogradjanke-terazi/5425647003667?kid=4&sid=1775757626655 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:02:02]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-miljakovac-uknjizen-suteren/5425646546851?kid=4&sid=1775757626655 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:04:24]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/inobacka-dedinjenovogradnjacetvorosoban/5425645586760?kid=4&sid=1775757626655 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:05:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/inobacka-dedinjenovogradnjatrosoban/5425645587040?kid=4&sid=1775757626655 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:09:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lekino-brdo-novogradnja-2-5-60m2-garaza/5425647000741?kid=4&sid=1775757938846 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:10:50]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-salonac-364l-1-5-parking-mesto/5425647000120?kid=4&sid=1775758209391 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:11:40]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/cara-dusan-gornji-dorcol/5425646912735?kid=4&sid=1775758209391 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:13:16]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-svetao-useljiv/5425646530064?kid=4&sid=1775758209391 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:14:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara--mirijevo-dvosoban-50-54m2-kredit/5425647000343?kid=4&sid=1775758209391 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:17:34]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/sjajan-stan-u-centru/5425646337751?kid=4&sid=1775758588729 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:18:27]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-skyline-potpuno-namesten/5425645899650?kid=4&sid=1775758588729 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:19:21]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prvomajska-svetao/5425645676440?kid=4&sid=1775758588729 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:20:47]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/bw-terraces-4-0-dizajnerski-namesten-stan/5425646862691?kid=4&sid=1775758588729 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:21:36]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-2-0/5425646872905?kid=4&sid=1775758588729 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:22:19]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-lux-stan-na-top-lokaciji-id131896/5425645248309?kid=4&sid=1775758588729 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:23:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/dobar-stan-vrhunska-lokacija-id24948/5425647000067?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:25:13]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/centar-skupstina-palmoticeva-5-0-108-m2/5425646694039?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:26:24]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/arena-cetvoroiposoban-113m2/5425646843516?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:27:20]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/adaptibilan-odlican-stan/5425646872937?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:28:02]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-centar-2-0-odlican/5425646820585?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:30:20]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-jedosoban-odmah-useljiv/5425646985693?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:30:57]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/sakura-lux/5425646235295?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:31:39]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/opremljen-lux-garaza/5425646994509?kid=4&sid=1775758964046 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:33:04]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-mirijevo-a-bugarskog-cena-sa-pdv-/5425646665215?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:33:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/2-5-soban-izuzetna-lokacija-kod-tc-zira/5425647000052?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:35:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lep-i-svetao-stan-na-sjajnoj-lokaciji-id14363/5425646877939?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:36:14]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/jedinstven-stan-odmah-useljiv-uknjizen-id3363/5425646850484?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:36:48]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-novi-dorcol-venizelosova/5425646998845?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:37:30]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/na-prodaju-dvosoban-stan-od-104m2-vozdovac-be/5425646718484?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:38:37]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-odmah-useljiv/5425646905918?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:39:33]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/top-ponuda-lekino-brdo-65m2-mogucnost-nadogra/5425646987405?kid=4&sid=1775759521843 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:40:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-odmah-useljiv/5425646905968?kid=4&sid=1775759976967 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:43:11]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/svetao-dvosoban-dupleks-na-konjarniku/5425646967482?kid=4&sid=1775759976967 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:44:18]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-mali-stan/5425646692259?kid=4&sid=1775759976967 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:45:07]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-sumatovacka-2-0-59m2-iv-sp-bez-lifta/5425646868930?kid=4&sid=1775759976967 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:46:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/ekskluzivan-uknjizen-kompletno-namesten-duple/5425646844305?kid=4&sid=1775759976967 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:47:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-kumanovska-vlasnik/5425645046151?kid=4&sid=1775760377869 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:47:36]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/izuzetan-trosoban-stan-kod-cvetkove-pijace--c/5425646997455?kid=4&sid=1775760377869 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:50:08]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/retka-ponuda105m-prvi-red-do-save/5425646997411?kid=4&sid=1775760377869 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:51:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/dorcol-gundulicev-venac-senjanina-ive/5425646997458?kid=4&sid=1775760377869 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:52:19]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-sa-pogledom-koji-inspirise/5425645810995?kid=4&sid=1775760700976 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:55:50]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/savrsen-mali-stan-zemun-novogradnja-bez-ulaga/5425646983475?kid=4&sid=1775760700976 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:56:28]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/palilula-karaburma---dr-nika-miljanica/5425646859674?kid=4&sid=1775760700976 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:57:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/dupleks-na-prodaju---medakovic-3/5425646369587?kid=4&sid=1775760700976 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:58:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/jednosoban-stan---novi-beograd---blok-61/5425646368909?kid=4&sid=1775760700976 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:58:55]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-najlepsem-delu-c-krsta-id1918/5425646794780?kid=4&sid=1775760700976 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 20:59:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/fantasticna-prilika-novogradnja-115-m2-parkin/5425646813157?kid=4&sid=1775760700976 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:00:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/medakovic-iii-komforan-stan-98-m/5425646999120?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:01:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/27-marta/5425646997410?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:02:04]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/landmark-residence-lux-garaza-id-25278/5425646718958?sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:03:11]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prazan-odmah-useljiv-id3294/5425646634615?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:03:52]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-kalvarija-id1438/5425646995235?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:05:07]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-sumatovacka-dvosoban-stan-65-m2/5425646475143?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:05:44]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-2-5-soban-stan-banovo-brdo-brdovita/5425646966009?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:06:29]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-opremljen-2-0-stan--west-65/5425646997002?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:07:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemunske-kapije-moderan-cetvorosoban-stan/5425646996127?kid=4&sid=1775761190004 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:09:15]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/ledine-ugao-surcinske-i-valtroviceve-u-izgrad/5425645924786?kid=4&sid=1775761720032 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:10:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-penthouse-direktno-od-investitora/5425646996606?kid=4&sid=1775761720032 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:11:50]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-2-0-stan-centar-zemuna-id2341/5425646821651?kid=4&sid=1775761720032 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:14:13]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/bw-st-regis-residence-kula-beograd/5425646986901?kid=4&sid=1775761991035 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:16:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stojana-protica-odlican-stan-od-158-32m2/5425645433418?kid=4&sid=1775761991035 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:18:51]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kanarevo-brdo-vukasoviceva/5425646824171?kid=4&sid=1775762293281 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:20:38]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-22-antifasisticke-borbe-uknjizen-snizena/5425646992650?kid=4&sid=1775762293281 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:21:49]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/2-0-stan-u-vrhunskoj-zgradi---sada-po-super-p/5425646229933?kid=4&sid=1775762293281 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:23:10]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/komforan-stan-na-fontani-pvc-stolarija-pravo/5425646973182?kid=4&sid=1775762293281 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:24:13]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/useljiv-renoviran-moderan/5425646714299?kid=4&sid=1775762610945 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:26:25]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prostran-i-svetao-trosoban-stan-zemun-82m2/5425646532709?kid=4&sid=1775762610945 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:31:07]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-trosoban-stan-u-viva-residence-kompleksu/5425646605240?kid=4&sid=1775762982223 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:32:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-namesten-4-0-stan-vracar-kursulina-renovi/5425646290011?kid=4&sid=1775762982223 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:34:20]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/luks-dupleks-stan-na-vracaru-4-0-mutapova-163/5425646917891?kid=4&sid=1775762982223 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:35:04]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/izuzetan-luks-stan-na-obilicevom-vencu-id1467/5425646992448?kid=4&sid=1775762982223 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:37:40]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-65-newport-nov-2-0-neuseljivan-pogled/5425646964083?kid=4&sid=1775763311678 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:38:32]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/extra-lux-stan-u-izgradnji-bez-provizije/5425645569902?kid=4&sid=1775763311678 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:41:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-krunska-48m2-uknjizen-prazan/5425646651034?kid=4&sid=1775763609718 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:43:24]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kompleto-renoviran-3-0-stan-suncan-i-svetao-i/5425646992385?kid=4&sid=1775763609718 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:44:48]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prelep-porodican-stan-retko-u-ponudi/5425646992894?kid=4&sid=1775763609718 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:46:45]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/sremcica-104m2-pr-5-0-dve-terase-cg-uknjizen/5425646950030?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:47:50]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/extra-lux-stan-u-izgradnji-bez-provizije/5425646512098?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:49:07]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-bezanijska-kompletno-namesten-id13737/5425646696334?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:49:42]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/mali-stan-za-renoviranje-id13942/5425646778788?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:50:27]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/juzni-bulevar-lux-duplex-id14615/5425646964364?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:51:48]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-45-blizina-reke-id14664/5425646984056?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:52:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/fantastican-2-0-stan-west-65-wellport-id1762/5425646061367?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:53:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/elegantan-4-0-salonski-stan-u-nusicevoj-ulici/5425646229100?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:53:57]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-na-vracaru-nevesinjska-ulica-3-0/5425646924278?kid=4&sid=1775763963600 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:54:41]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-novogradnja-garaza-id-25298/5425646732597?kid=4&sid=1775764443185 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:56:08]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-vojvodjanska-33-surcin/5425646681392?kid=4&sid=1775764443185 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:57:13]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-na-vodi-quartet-3-trosoban-pogled-na/5425646991855?kid=4&sid=1775764443185 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:58:10]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/michigan-hill--mirijevo/5425646989212?kid=4&sid=1775764443185 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-09 21:58:45]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/michigan-hill--mirijevo/5425646991647?kid=4&sid=1775764443185 | ERROR: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("div.line").filter(has=locator("label.description:has-text('Objavljen')")).locator("span.value strong")
+
+[2026-04-10 07:17:20]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-cetvorosoban-stan-na-zvezdari-157m2-id327/5425646552821?kid=1&sid=1775798033071 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-cetvorosoban-stan-na-zvezdari-157m2-id327/5425646552821?kid=1&sid=1775798033071", waiting until "domcontentloaded"
+
+[2026-04-10 07:17:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-trg-risanska-29m2-2-0-id3269/5425646533038?kid=1&sid=1775798033071 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-trg-risanska-29m2-2-0-id3269/5425646533038?kid=1&sid=1775798033071", waiting until "domcontentloaded"
+
+[2026-04-10 07:17:25]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kluz-u-izgradnji-46-2m2-2-0-id3084/5425646713634?kid=1&sid=1775798033071 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/kluz-u-izgradnji-46-2m2-2-0-id3084/5425646713634?kid=1&sid=1775798033071", waiting until "domcontentloaded"
+
+[2026-04-10 07:17:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-lekino-brdo-40-79-m2-cena-pdv/5425646981938?kid=1&sid=1775798033071 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-lekino-brdo-40-79-m2-cena-pdv/5425646981938?kid=1&sid=1775798033071", waiting until "domcontentloaded"
+
+[2026-04-10 07:17:41]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-lekio-brdo-53-18-m2-cena-pdv/5425646981937?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-lekio-brdo-53-18-m2-cena-pdv/5425646981937?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:17:48]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/medakovic-3-brace-srnic-73m2-trosoban-stan/5425646980699?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/medakovic-3-brace-srnic-73m2-trosoban-stan/5425646980699?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:17:55]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-lion---suboticka/5425646980505?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-lion---suboticka/5425646980505?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:17:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodajem-uknjizen-1-5-soban-stan-u-mirijevu/5425646981752?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodajem-uknjizen-1-5-soban-stan-u-mirijevu/5425646981752?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:02]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/altina-novogradnja-30m2/5425646982159?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/altina-novogradnja-30m2/5425646982159?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-zemunske-kapije/5425646572205?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-zemunske-kapije/5425646572205?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:14]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-38---milutina-milankovica/5425645741114?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-38---milutina-milankovica/5425645741114?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:20]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/salonski-troiposoban-stan-admirala-geprata-ko/5425646713622?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/salonski-troiposoban-stan-admirala-geprata-ko/5425646713622?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:25]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kvalitetna-novogradnja-na-lekinom-brdu-id1350/5425646582305?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/kvalitetna-novogradnja-na-lekinom-brdu-id1350/5425646582305?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:30]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-centar-bulevar-despota-stefana-57m/5425645870322?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-centar-bulevar-despota-stefana-57m/5425645870322?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:32]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vruhunski-stan-na-vracaru-lux-gradnje-id10979/5425646981922?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vruhunski-stan-na-vracaru-lux-gradnje-id10979/5425646981922?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:38]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/sumice-mali-stan-koji-se-lako-izdaje-id9127/5425646847279?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/sumice-mali-stan-koji-se-lako-izdaje-id9127/5425646847279?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/premium-stan-na-vrhunskoj-lokaciji-uknjizen-i/5425646981920?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/premium-stan-na-vrhunskoj-lokaciji-uknjizen-i/5425646981920?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:49]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/krunski-venac-722t-lux/5425646981919?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/krunski-venac-722t-lux/5425646981919?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:54]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/luksuzan-stan-bw-lumia-investicija-i-dom/5425646981912?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/luksuzan-stan-bw-lumia-investicija-i-dom/5425646981912?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:18:56]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zapadno-orjentisan-trosoban-stan/5425646982153?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zapadno-orjentisan-trosoban-stan/5425646982153?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-renoviran-namesten-2-0-id14654/5425646981908?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-renoviran-namesten-2-0-id14654/5425646981908?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:04]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/medakovic-3-brace-srnic-3-5-103-m-id3268/5425646533039?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/medakovic-3-brace-srnic-3-5-103-m-id3268/5425646533039?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:11]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-sumadijska-37m2-1-0-id2898/5425646713609?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-sumadijska-37m2-1-0-id2898/5425646713609?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:14]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kneza-milosa-54m2-ii5-dvosoban-lodja-renovira/5425646846165?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/kneza-milosa-54m2-ii5-dvosoban-lodja-renovira/5425646846165?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kompaktan-dvosoban-stan-u-zgradi-bw-iskra/5425646981880?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/kompaktan-dvosoban-stan-u-zgradi-bw-iskra/5425646981880?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:28]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/karaburma-marijane-gregoran-50m2/5425646980684?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/karaburma-marijane-gregoran-50m2/5425646980684?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:34]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-mirijevo-i--ladne-vode-2-0-41m2-t/5425646713223?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-mirijevo-i--ladne-vode-2-0-41m2-t/5425646713223?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:39]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-uzun-mirkovoj-ulici/5425646663270?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-uzun-mirkovoj-ulici/5425646663270?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:19:47]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-4-0-dva-garazna-mesta-namesten-125m2/5425645270000?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-4-0-dva-garazna-mesta-namesten-125m2/5425645270000?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:19]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/visegradska-centar-kvalitetna-gradnja/5425646287327?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/visegradska-centar-kvalitetna-gradnja/5425646287327?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:20]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/krnjaca-grge-andrijanovica-0-5-uknjizen-id351/5425646980029?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/krnjaca-grge-andrijanovica-0-5-uknjizen-id351/5425646980029?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:24]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/mirijevo---centar-zvezdara-2-0-id1819/5425646252994?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/mirijevo---centar-zvezdara-2-0-id1819/5425646252994?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:29]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/penthaus-na-vracaru-sa-spektakularnim-pogledo/5425644656021?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/penthaus-na-vracaru-sa-spektakularnim-pogledo/5425644656021?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:37]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/moderan-stan-sa-prostranim-dvoristem/5425646981749?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/moderan-stan-sa-prostranim-dvoristem/5425646981749?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:38]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/pogled-na-reku-i-park---bw-garden-palace-na-r/5425646711962?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/pogled-na-reku-i-park---bw-garden-palace-na-r/5425646711962?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:44]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kompaktan-trosoban-stan---bw-garden-palace-na/5425646711963?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/kompaktan-trosoban-stan---bw-garden-palace-na/5425646711963?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:53]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-s-pogledom-na-reku---bw-garden-palace-na/5425646711964?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-s-pogledom-na-reku---bw-garden-palace-na/5425646711964?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:21:57]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-garsonjera-cerak-prodaja-id1515/5425646843135?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-garsonjera-cerak-prodaja-id1515/5425646843135?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:02]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo-lux-novogradnja-57-34m2-pdv/5425646980471?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo-lux-novogradnja-57-34m2-pdv/5425646980471?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:09]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-sumatovacka-64m2-i-ta/5425646847223?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-sumatovacka-64m2-i-ta/5425646847223?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:15]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-novogradnja-ledine-miodraga-petrovica-cka/5425645421749?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-novogradnja-ledine-miodraga-petrovica-cka/5425645421749?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:18]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prelep-salonac-mereno-111m2-id13169/5425646446993?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prelep-salonac-mereno-111m2-id13169/5425646446993?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:25]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/2-5-stan-na-top-lokaciji-id136408/5425646978495?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/2-5-stan-na-top-lokaciji-id136408/5425646978495?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-odlican-4-s-mereno-120m2-id12075/5425646011054?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-odlican-4-s-mereno-120m2-id12075/5425646011054?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:41]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-63m2-iii-eg/5425646845591?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-63m2-iii-eg/5425646845591?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-43---104-m-parking/5425646980961?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-43---104-m-parking/5425646980961?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:48]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/cvetkova-pijaca-2-0-novogradnja/5425646781064?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/cvetkova-pijaca-2-0-novogradnja/5425646781064?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:56]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/raritetna-unikatna-zgrada-u-ulici-kneza-milos/5425646701305?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/raritetna-unikatna-zgrada-u-ulici-kneza-milos/5425646701305?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:22:57]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stambeno-poslovni-objekat-sava-residence/5425644407303?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stambeno-poslovni-objekat-sava-residence/5425644407303?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-43---104-m-parking/5425646981449?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-43---104-m-parking/5425646981449?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:08]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/najkomforniji-2-0-stan-kod-bulevara/5425646845581?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/najkomforniji-2-0-stan-kod-bulevara/5425646845581?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:15]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/banjica-crnotravska/5425646845582?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/banjica-crnotravska/5425646845582?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:17]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-3-0-stan-na-novom-beogradu-retko-id1/5425646979129?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-3-0-stan-na-novom-beogradu-retko-id1/5425646979129?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/renoviran-2-0-stan-u-zemunu-meandri-backa-68m/5425646980451?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/renoviran-2-0-stan-u-zemunu-meandri-backa-68m/5425646980451?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:26]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/airport-garden-nov-2-0-garaza-brzo-useljiv/5425645551804?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/airport-garden-nov-2-0-garaza-brzo-useljiv/5425645551804?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:34]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/2-5-cara-dusana-zemun-id1037/5425646792724?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/2-5-cara-dusana-zemun-id1037/5425646792724?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:41]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/4-0-novogradnja-cara-dusana-zemun-id1017/5425646792731?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/4-0-novogradnja-cara-dusana-zemun-id1017/5425646792731?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/3-o-novogradnja--gornji-grad-id1051/5425646840760?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/3-o-novogradnja--gornji-grad-id1051/5425646840760?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:47]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-uknjizen-stan-zemunske-kapije-id151/5425646979172?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-uknjizen-stan-zemunske-kapije-id151/5425646979172?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:52]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/brace-jerkovic---jovana-bijelica-61kvm/5425646843529?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/brace-jerkovic---jovana-bijelica-61kvm/5425646843529?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:23:57]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-na-vodi-luksuzan-2-0-stan/5425645513853?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-na-vodi-luksuzan-2-0-stan/5425645513853?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:24:04]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/luksuzno-renoviran-trosoban-stan-karaburma/5425645522515?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/luksuzno-renoviran-trosoban-stan-karaburma/5425645522515?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:24:08]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-stan-pogled-na-adu-karposeva-20-banovo-br/5425646825606?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-stan-pogled-na-adu-karposeva-20-banovo-br/5425646825606?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:24:14]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/penthouse-pogled-na-adu-karposeva-25-banovo-b/5425646836973?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/penthouse-pogled-na-adu-karposeva-25-banovo-b/5425646836973?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:25:44]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-3-soban-stan-s2-karposeva-20-banovo-brdo/5425646838031?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-3-soban-stan-s2-karposeva-20-banovo-brdo/5425646838031?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:25:52]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/salonski-5-0-autentican-sarm-kod-kalemegdana/5425646446969?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/salonski-5-0-autentican-sarm-kod-kalemegdana/5425646446969?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:25:53]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/postanska-stedionica-35m2-viii-cg-lux/5425646287287?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/postanska-stedionica-35m2-viii-cg-lux/5425646287287?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:25:58]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-4-soban-stan-karposeva-20-banovo-brdo/5425646838026?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-4-soban-stan-karposeva-20-banovo-brdo/5425646838026?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kopitareva-gradina-id1264/5425642185690?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/kopitareva-gradina-id1264/5425642185690?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:10]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-skupstina---kosovska/5425645156823?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-skupstina---kosovska/5425645156823?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:12]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/grocka-kaludjerica---izvorska/5425645362723?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/grocka-kaludjerica---izvorska/5425645362723?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:16]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-centar---kondina-lux-parking/5425646418724?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-centar---kondina-lux-parking/5425646418724?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-svetog-save---stojana-protica/5425642934947?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-svetog-save---stojana-protica/5425642934947?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:28]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-dorcol---cara-urosa/5425645473825?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-dorcol---cara-urosa/5425645473825?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:36]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-botanicka-basta---budimska/5425645472985?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-botanicka-basta---budimska/5425645472985?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:39]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-pravni-fakultet---beogradska/5425645381111?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-pravni-fakultet---beogradska/5425645381111?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-svetog-save---branicevska/5425645376397?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-svetog-save---branicevska/5425645376397?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:49]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-vukov-spomenik---ruzveltova/5425645957812?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-vukov-spomenik---ruzveltova/5425645957812?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:57]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-centar---kneza-mihaila/5425646843484?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-centar---kneza-mihaila/5425646843484?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:26:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-crveni-krst---sazonova/5425644807688?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-crveni-krst---sazonova/5425644807688?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/strahinjica-bana-mogucnost-dobijanja-2-stana/5425646843459?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/strahinjica-bana-mogucnost-dobijanja-2-stana/5425646843459?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:07]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-44-cg-101-m2-uknjizen-renoviran/5425646447861?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stari-grad-44-cg-101-m2-uknjizen-renoviran/5425646447861?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:09]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/maricka-rakovica-id7689/5425645622213?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/maricka-rakovica-id7689/5425645622213?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:17]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/centar---dorcol---dositejeva-id3859/5425643309087?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/centar---dorcol---dositejeva-id3859/5425643309087?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-4-0-stan-od-142-09m2-loznicka/5425645420357?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-4-0-stan-od-142-09m2-loznicka/5425645420357?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:35]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-4-0-stan-od-318-75m2-dvoriste-76-46m2-atr/5425645420359?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-4-0-stan-od-318-75m2-dvoriste-76-46m2-atr/5425645420359?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/jedinstven-4-0-stan-sa-dvoristem-180-m2-pored/5425645622026?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/jedinstven-4-0-stan-sa-dvoristem-180-m2-pored/5425645622026?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:47]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-dvosoban-stan-u-vladetinoj-ulici/5425646948527?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-dvosoban-stan-u-vladetinoj-ulici/5425646948527?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:27:54]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/pozeska-66m2/5425646979442?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/pozeska-66m2/5425646979442?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/bw-vista-uknjizen-odmah-useljiv-id3702/5425645207991?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/bw-vista-uknjizen-odmah-useljiv-id3702/5425645207991?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/senjak---23kvm/5425646826619?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/senjak---23kvm/5425646826619?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:09]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/podujevska-17-19-prodajem-42m2-kao-stan-ili-l/5425644487291?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/podujevska-17-19-prodajem-42m2-kao-stan-ili-l/5425644487291?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:10]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lestane-residence-u-strogom-centru-pored-crkv/5425642713402?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lestane-residence-u-strogom-centru-pored-crkv/5425642713402?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:17]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/fontana---studentska-id5596/5425646979182?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/fontana---studentska-id5596/5425646979182?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:19]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-mali-salonac-u-strogom-centru-uknjize/5425645868822?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-mali-salonac-u-strogom-centru-uknjize/5425645868822?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-na-top-lokaciji-lion---suboticka/5425646978554?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-na-top-lokaciji-lion---suboticka/5425646978554?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:30]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/knez-mihailova-170m2-v-cg/5425646844308?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/knez-mihailova-170m2-v-cg/5425646844308?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:36]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odvojen-deo-za-spavanje/5425646978848?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odvojen-deo-za-spavanje/5425646978848?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:28:39]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/garsonjera-23m2-odlicna-lokacija-id14271/5425646844304?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/garsonjera-23m2-odlicna-lokacija-id14271/5425646844304?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:02]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/ekskluzivan-uknjizen-kompletno-namesten-duple/5425646844305?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/ekskluzivan-uknjizen-kompletno-namesten-duple/5425646844305?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:05]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/santiceva-4-0-91-kv-dorcol-moze-kao-pp/5425646125614?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/santiceva-4-0-91-kv-dorcol-moze-kao-pp/5425646125614?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/2-0-bw-st-regis-residence-kula-beograd-29-spr/5425646775558?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/2-0-bw-st-regis-residence-kula-beograd-29-spr/5425646775558?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:11]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-2-0-lux-stana-autokomnda/5425646978547?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-2-0-lux-stana-autokomnda/5425646978547?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:16]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/izuzetan-stan-na-odlicnoj-lokaciji-id12800/5425646285685?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/izuzetan-stan-na-odlicnoj-lokaciji-id12800/5425646285685?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/centar-marsala-birjuzova/5425646979229?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/centar-marsala-birjuzova/5425646979229?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:26]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-evolution-residence/5425644996602?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-evolution-residence/5425644996602?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:32]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/skadarlija-cetinjska-80m2-i-cg/5425646979137?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/skadarlija-cetinjska-80m2-i-cg/5425646979137?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:34]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/cukaricka-padina---u-blizini-crkve-id5593/5425646979136?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/cukaricka-padina---u-blizini-crkve-id5593/5425646979136?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:38]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/sunnyville-47-30-m2/5425646979135?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/sunnyville-47-30-m2/5425646979135?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:40]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/postanska-stedionica-dalmatinska-56m2-id2076/5425646979134?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/postanska-stedionica-dalmatinska-56m2-id2076/5425646979134?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:41]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/skadarlija---cetinjska/5425645864244?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/skadarlija---cetinjska/5425645864244?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:49]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odmah-useljiv-4-0-stan-sa-pogledom-na-hram/5425644953377?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odmah-useljiv-4-0-stan-sa-pogledom-na-hram/5425644953377?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:53]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/profesorska-kolonija-3-0-stan-mereno-83m2-id7/5425644356133?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/profesorska-kolonija-3-0-stan-mereno-83m2-id7/5425644356133?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:54]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/centar---crnogorska-id3014/5425641586636?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/centar---crnogorska-id3014/5425641586636?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:56]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/altina-odlican-3-0-stan-id14268/5425646844295?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/altina-odlican-3-0-stan-id14268/5425646844295?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:30:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/namesten-uknjizen-odmah-dostupan-id4470/5425646979126?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/namesten-uknjizen-odmah-dostupan-id4470/5425646979126?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-vozdovac--brace-jerkovic-2-0-49m2/5425646707561?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-vozdovac--brace-jerkovic-2-0-49m2/5425646707561?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-trosarina-lux-komplex-direktna-proda/5425646979223?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-trosarina-lux-komplex-direktna-proda/5425646979223?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:12]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/na-prodaju-luksuzan-cetvorosoban-stan-na-nbeo/5425646822785?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/na-prodaju-luksuzan-cetvorosoban-stan-na-nbeo/5425646822785?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:19]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/trosarina-vozdovac-lux-komplex-direktna-proda/5425646978539?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/trosarina-vozdovac-lux-komplex-direktna-proda/5425646978539?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-179m2-garaza-dvoriste-id127801/5425646285660?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-179m2-garaza-dvoriste-id127801/5425646285660?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:25]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-trosarina-lux-komplex-direktna-proda/5425646978538?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-trosarina-lux-komplex-direktna-proda/5425646978538?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:29]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-useljiv-sa-vinskim-podrumom-id4200/5425646285451?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-useljiv-sa-vinskim-podrumom-id4200/5425646285451?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/renoviran-i-namesten-stan-u-centru-mladenovca/5425646937649?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/renoviran-i-namesten-stan-u-centru-mladenovca/5425646937649?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:42]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/ljubomira-stojanovica-komforan-renoviran-stan/5425646856490?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/ljubomira-stojanovica-komforan-renoviran-stan/5425646856490?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:50]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nesvakidasnji-stan-retko-u-ponudi/5425644951269?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/nesvakidasnji-stan-retko-u-ponudi/5425644951269?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:31:55]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/najluksuzniji-penthouse-na-banovom-brdu/5425644952598?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/najluksuzniji-penthouse-na-banovom-brdu/5425644952598?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:32:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/penthouse-cuvene-grcke-arhitekte-hristine-zer/5425644952618?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/penthouse-cuvene-grcke-arhitekte-hristine-zer/5425644952618?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:32:02]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/izvanredan-stan-proverenog-investitora/5425644952637?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/izvanredan-stan-proverenog-investitora/5425644952637?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:32:08]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odmah-useljiv-smart-home-stan/5425644952641?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odmah-useljiv-smart-home-stan/5425644952641?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:32:13]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/komforan-stan-na-popularnoj-lokaciji/5425644952642?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/komforan-stan-na-popularnoj-lokaciji/5425644952642?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:32:16]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-novogradnja-garaza-id14644/5425646978509?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-novogradnja-garaza-id14644/5425646978509?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:32:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/centar---dom-omladine---makedonska-116m2-id54/5425646498066?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/centar---dom-omladine---makedonska-116m2-id54/5425646498066?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:32:30]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/salonski-5-0-autentican-sarm-kod-kalemegdana/5425646445028?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/salonski-5-0-autentican-sarm-kod-kalemegdana/5425646445028?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:21]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-na-vodi-zgrada-bw-magnolia-194m2/5425646978505?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-na-vodi-zgrada-bw-magnolia-194m2/5425646978505?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:24]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-zelena-avenija-petra-kocica-3-0-uknjize/5425646562711?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-zelena-avenija-petra-kocica-3-0-uknjize/5425646562711?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:28]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/strumicka-id42728/5425646805654?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/strumicka-id42728/5425646805654?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:31]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-id43232/5425646805655?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-id43232/5425646805655?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:37]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-dvosoban-stan-u-barajevu-naselje-gaj/5425646844282?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-dvosoban-stan-u-barajevu-naselje-gaj/5425646844282?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:40]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zeleznik-odlican-duplex-id14265/5425646844284?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zeleznik-odlican-duplex-id14265/5425646844284?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:47]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/petlovo-brdo-36-30m2/5425646978834?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/petlovo-brdo-36-30m2/5425646978834?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:51]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/trg-republike-4-0-uknjizen/5425646570896?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/trg-republike-4-0-uknjizen/5425646570896?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:52]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo--novogradnja-kod-hipodroma-id8601/5425646285444?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo--novogradnja-kod-hipodroma-id8601/5425646285444?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:33:55]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/becmen-glavna-37-48m2/5425646843722?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/becmen-glavna-37-48m2/5425646843722?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/surcin-centar-odmah-useljiv/5425645277380?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/surcin-centar-odmah-useljiv/5425645277380?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:10]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/labudovo-brdo-dupleks-pi-140m2-100m240m2-t/5425645802276?sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/labudovo-brdo-dupleks-pi-140m2-100m240m2-t/5425645802276?sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:12]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/skyline-89m2-lux-3-0-stan/5425646978830?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/skyline-89m2-lux-3-0-stan/5425646978830?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:16]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-snezane-hrepevnik-63m2/5425646812275?sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-snezane-hrepevnik-63m2/5425646812275?sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:18]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/bogoslovija-bata-lakina/5425646843103?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/bogoslovija-bata-lakina/5425646843103?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-dobanovacka-zen-hill/5425646440664?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-dobanovacka-zen-hill/5425646440664?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:24]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-sumice-djordja-kratovca-48m2/5425646467415?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-sumice-djordja-kratovca-48m2/5425646467415?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:28]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vidikovac-sretena-mladenovica-mike-49m2/5425645989928?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vidikovac-sretena-mladenovica-mike-49m2/5425645989928?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:35]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo-ivice-devcica-58m2/5425645866867?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo-ivice-devcica-58m2/5425645866867?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/bw-thalia-studio-32m2/5425646978498?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/bw-thalia-studio-32m2/5425646978498?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:46]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/2-5-76m22l-dunavski-kej---tadeusa-koscuska/5425646444668?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/2-5-76m22l-dunavski-kej---tadeusa-koscuska/5425646444668?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:49]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/trosoban-stan---bw-iskra---bez-provizije/5425646978497?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/trosoban-stan---bw-iskra---bez-provizije/5425646978497?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:56]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo-233m2-i-eg-dupleks/5425645397854?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/banovo-brdo-233m2-i-eg-dupleks/5425645397854?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:34:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/kvalitetna-gradnja-odlicna-investicija-id7559/5425645529908?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/kvalitetna-gradnja-odlicna-investicija-id7559/5425645529908?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:05]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-novogradnji-u-izgradnji-kod-hipodroma/5425646978491?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-novogradnji-u-izgradnji-kod-hipodroma/5425646978491?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:12]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/premium-3-0-stan-na-1-5km-od-vukovog-spomenik/5425646445006?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/premium-3-0-stan-na-1-5km-od-vukovog-spomenik/5425646445006?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:15]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun--karadjordjev-trg---raskosan-salonski-s/5425646978489?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun--karadjordjev-trg---raskosan-salonski-s/5425646978489?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:16]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-bez-provizije-useljenje-sep-2026/5425646843380?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-bez-provizije-useljenje-sep-2026/5425646843380?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:21]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/garsije-lorke-karaburma-palilula-id9126/5425646843164?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/garsije-lorke-karaburma-palilula-id9126/5425646843164?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:22]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-sa-garazom-blok-22-sava-centar-id9125/5425646843165?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-sa-garazom-blok-22-sava-centar-id9125/5425646843165?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:28]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/arena-cetvoroiposoban-113m2-id9124/5425646843166?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/arena-cetvoroiposoban-113m2-id9124/5425646843166?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:33]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/t-c-stadion-troiposoban-stan-mirce-aceva-vozd/5425646976384?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/t-c-stadion-troiposoban-stan-mirce-aceva-vozd/5425646976384?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:39]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/mirijevo-za-miran-porodican-zivot/5425646285419?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/mirijevo-za-miran-porodican-zivot/5425646285419?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:40]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-stan-vrhunska-lokacija/5425646444976?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-stan-vrhunska-lokacija/5425646444976?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:35:46]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/trosoban-stan-u-bw-vizia/5425646978451?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/trosoban-stan-u-bw-vizia/5425646978451?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:36:44]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lestane-38m2-jednosoban-stan-novogradnja/5425646978522?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lestane-38m2-jednosoban-stan-novogradnja/5425646978522?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:36:46]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/palata-pravde-bez-ulaganja-uknjizen/5425646605947?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/palata-pravde-bez-ulaganja-uknjizen/5425646605947?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:36:47]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-u-izgradnji-na-lepoj-lokaciji/5425646841846?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-u-izgradnji-na-lepoj-lokaciji/5425646841846?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:36:53]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-stan-fasadna-cigla---mirijevo-id3993/5425646285354?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-stan-fasadna-cigla---mirijevo-id3993/5425646285354?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:36:55]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-nov-lux-stan/5425646978616?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-nov-lux-stan/5425646978616?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-trg-stan-24m2---opremljen-id2309/5425645996292?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-trg-stan-24m2---opremljen-id2309/5425645996292?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-stan-kod-londona---ul-kneza-milosa/5425643348671?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-stan-kod-londona---ul-kneza-milosa/5425643348671?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:12]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novi-beograd-novija-gradnja-1-5-uknjizen/5425645908354?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novi-beograd-novija-gradnja-1-5-uknjizen/5425645908354?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:18]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novi-beograd-hotel-jugoslavija-3-5-99/5425646838369?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novi-beograd-hotel-jugoslavija-3-5-99/5425646838369?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novi-beograd-blok-22-3-0-68m2-57/5425646563691?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novi-beograd-blok-22-3-0-68m2-57/5425646563691?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:27]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodajem-stan-u-silerovoj-60-47m2-novogradnja/5425645977103?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodajem-stan-u-silerovoj-60-47m2-novogradnja/5425645977103?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:35]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-karadjordjev-trg-2-0-68-m2-44/5425646690326?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-hram-karadjordjev-trg-2-0-68-m2-44/5425646690326?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:37]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-dvoiposoban-stan-u-brace-jerkovic/5425646978444?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-dvoiposoban-stan-u-brace-jerkovic/5425646978444?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:40]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/ekskluzivna-prilika-stan-sa-ogromnim-potencij/5425646978442?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/ekskluzivna-prilika-stan-sa-ogromnim-potencij/5425646978442?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:47]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/poslednji-slobodan-dvosoban-stan-savrsena-lok/5425646978441?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/poslednji-slobodan-dvosoban-stan-savrsena-lok/5425646978441?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:54]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-centru-savski-venac-karadjordjeva-ulic/5425646978440?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-centru-savski-venac-karadjordjeva-ulic/5425646978440?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:37:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-novogradnji-u-izgradnji-kod-hipodroma/5425646978439?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/stan-u-novogradnji-u-izgradnji-kod-hipodroma/5425646978439?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/visnjiceva---salonac/5425646978037?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/visnjiceva---salonac/5425646978037?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:09]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar---kalenic-pijaca---1-5-id24698/5425646464929?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar---kalenic-pijaca---1-5-id24698/5425646464929?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:13]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/dvosoban-stan-u-ulici-vojvode-micka-krstica-6/5425646976291?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/dvosoban-stan-u-ulici-vojvode-micka-krstica-6/5425646976291?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:18]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/cukarica-banovo-brdo---brdovita-85m2/5425646978436?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/cukarica-banovo-brdo---brdovita-85m2/5425646978436?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:24]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaje-se-3-0-stan-u-skadarliji-kod-trga-80m/5425646978318?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaje-se-3-0-stan-u-skadarliji-kod-trga-80m/5425646978318?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:25]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/salonac-u-zemunu-47m-1-5-soban-3-sprat/5425646978317?sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/salonac-u-zemunu-47m-1-5-soban-3-sprat/5425646978317?sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:30]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/luksuzan-penthouse-nvg-id9901/5425645206996?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/luksuzan-penthouse-nvg-id9901/5425645206996?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:35]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-na-vodi-quartet-1-nov-2-0-stan-sa-gar/5425645521682?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-na-vodi-quartet-1-nov-2-0-stan-sa-gar/5425645521682?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:37]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/backa-renoviran-stan-mereno-49m2-id14264/5425646843139?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/backa-renoviran-stan-mereno-49m2-id14264/5425646843139?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:44]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/otvoren-pogled-na-reku-bw-victoria-id4185/5425646225900?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/otvoren-pogled-na-reku-bw-victoria-id4185/5425646225900?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:45]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/senjak-stan-u-predratnoj-zgradi-sa-3-stana/5425646825107?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/senjak-stan-u-predratnoj-zgradi-sa-3-stana/5425646825107?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:48]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/renoviran-retko-u-ponudi-id3359/5425646843130?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/renoviran-retko-u-ponudi-id3359/5425646843130?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:49]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/brace-jerkovic-36m2-297-renoviran-uknjizen/5425646978027?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/brace-jerkovic-36m2-297-renoviran-uknjizen/5425646978027?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:51]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-kanarevo-brdo---petra-konjovica-49m2/5425646973250?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-kanarevo-brdo---petra-konjovica-49m2/5425646973250?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:38:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/cukarica-cerak---partizanske-vode-94m2/5425646841044?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/cukarica-cerak---partizanske-vode-94m2/5425646841044?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:39:03]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-43---104-m-parking/5425646978025?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-43---104-m-parking/5425646978025?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:39:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-atraktivan-3-0-stan-id12792/5425646284762?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-atraktivan-3-0-stan-id12792/5425646284762?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:39:19]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/batajnica-1-5-jednoiposoban/5425646978215?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/batajnica-1-5-jednoiposoban/5425646978215?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:40:38]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-zvezdara-djeram-pijaca---djevdjelijsk/5425646843121?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/beograd-zvezdara-djeram-pijaca---djevdjelijsk/5425646843121?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:40:40]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-3-5-stan-novogradnja-stepina-magnolija/5425646977590?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-3-5-stan-novogradnja-stepina-magnolija/5425646977590?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:40:45]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-novogradska-32-mogucnost-prosirenja/5425646665437?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-novogradska-32-mogucnost-prosirenja/5425646665437?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:40:49]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-novogradska-34-novija-gradnja/5425646665436?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-novogradska-34-novija-gradnja/5425646665436?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:40:54]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-3-0-stan-89m2-mirijevo/5425646700793?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-3-0-stan-89m2-mirijevo/5425646700793?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/gundulicev-venac-lux/5425646978212?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/gundulicev-venac-lux/5425646978212?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/ljubinke-bobic---investicija/5425646837929?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/ljubinke-bobic---investicija/5425646837929?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:06]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-stan-okruzen-zelenilom/5425645612899?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odlican-stan-okruzen-zelenilom/5425645612899?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:11]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-62-jednoiposoban-45m2/5425646157432?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-62-jednoiposoban-45m2/5425646157432?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:19]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-kvalitetan-1-5-stan/5425646700840?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-kvalitetan-1-5-stan/5425646700840?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/sumice-beoshoping-1-5-44m2-renoviran/5425646978112?sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/sumice-beoshoping-1-5-44m2-renoviran/5425646978112?sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:25]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-parking/5425646978019?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/nov-stan-borca-parking/5425646978019?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:33]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-renovirana-garsonjera-karaburma---c/5425646700823?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-renovirana-garsonjera-karaburma---c/5425646700823?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:37]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-venac-novogradnja-garaza-id-25268/5425646700223?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-venac-novogradnja-garaza-id-25268/5425646700223?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lekino-brdo-lux-u-izgradnji-garaza-id-25371/5425646843176?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lekino-brdo-lux-u-izgradnji-garaza-id-25371/5425646843176?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:50]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lekino-brdo-lux-u-izgradnji-garaza-id-25373/5425646841949?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lekino-brdo-lux-u-izgradnji-garaza-id-25373/5425646841949?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:41:55]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-novogradnja-dusanovac-danijelova/5425645173849?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-novogradnja-dusanovac-danijelova/5425645173849?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-novogradnja-dusanovac-danijelova/5425645173073?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-novogradnja-dusanovac-danijelova/5425645173073?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:04]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/barajevo-gaj-carice-milice/5425646410268?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/barajevo-gaj-carice-milice/5425646410268?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:10]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lion-1-5-stan-odlican-za-zivot-ili-izdavanje/5425646977578?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lion-1-5-stan-odlican-za-zivot-ili-izdavanje/5425646977578?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:13]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaje-se-stan-senjak-102-m2-3-0-eg-id1387/5425644078229?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaje-se-stan-senjak-102-m2-3-0-eg-id1387/5425644078229?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:18]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/jabucki-rit-jabucki-rit-2-0-53-m2-id1615/5425645830277?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/jabucki-rit-jabucki-rit-2-0-53-m2-id1615/5425645830277?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:26]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaje-se-stan-strogi-centar-grada-id1643/5425646266164?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaje-se-stan-strogi-centar-grada-id1643/5425646266164?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:29]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lion-prodaje-se-stan-76m2-id1690/5425646839173?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lion-prodaje-se-stan-76m2-id1690/5425646839173?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:30]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-venac-centar-visegradska-69m2-id15934/5425645295574?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/savski-venac-centar-visegradska-69m2-id15934/5425645295574?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:35]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/gradic-pejton-ul-cernisevskog-hram-na-550m-id/5425645729549?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/gradic-pejton-ul-cernisevskog-hram-na-550m-id/5425645729549?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:42]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-krunski-venac-kneginje-zorke-112m2-id3/5425646837362?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vracar-krunski-venac-kneginje-zorke-112m2-id3/5425646837362?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:43]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-lekino-brdo-veljka-milicevica-duplek/5425646703105?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/vozdovac-lekino-brdo-veljka-milicevica-duplek/5425646703105?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:51]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-petlovo-brdo-oplenacka-odlican-troso/5425645989856?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/rakovica-petlovo-brdo-oplenacka-odlican-troso/5425645989856?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:55]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zgrada-iz-2016-e-stan-bez-ulaganja-odlicne-ce/5425645733222?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zgrada-iz-2016-e-stan-bez-ulaganja-odlicne-ce/5425645733222?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:57]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-kluz-rudjera-boskovica-65m2-id20262/5425645615519?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zvezdara-kluz-rudjera-boskovica-65m2-id20262/5425645615519?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:42:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/jugoistocna-orjentacija-lokacija-odlicna-cena/5425646440653?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/jugoistocna-orjentacija-lokacija-odlicna-cena/5425646440653?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:43:07]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/sopot-centar-kneza-milosa-penthaus-103m2-id77/5425642893261?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/sopot-centar-kneza-milosa-penthaus-103m2-id77/5425642893261?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:43:10]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-2-5-novi-dorcol-velika-terasa-78m2/5425646976276?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-2-5-novi-dorcol-velika-terasa-78m2/5425646976276?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:43:15]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-stan-u-novogradnji-bez-provizije/5425646841845?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/prodaja-stan-u-novogradnji-bez-provizije/5425646841845?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:43:51]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-novogradnja-3-0-autokomanda-id7089/5425646284747?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/lux-novogradnja-3-0-autokomanda-id7089/5425646284747?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:43:59]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/odlicna-investiciona-prilika-za-stan-velike-k/5425646763910?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/odlicna-investiciona-prilika-za-stan-velike-k/5425646763910?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:05]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-gornjogradska-161m2-izvanredan-moguc-ga/5425646400715?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/zemun-gornjogradska-161m2-izvanredan-moguc-ga/5425646400715?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:07]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-garsonjera-na-sumicama/5425646843100?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizena-garsonjera-na-sumicama/5425646843100?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:16]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/denkova-basta/5425645996851?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/denkova-basta/5425645996851?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:23]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-u-srcu-vracara-id12445/5425646133925?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-u-srcu-vracara-id12445/5425646133925?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:28]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/komforan-3-0-stan-na-cukarici-id12444/5425646133926?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/komforan-3-0-stan-na-cukarici-id12444/5425646133926?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:36]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/bilecka-vozdovac-jove-ilica-luks-stan/5425646976848?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/bilecka-vozdovac-jove-ilica-luks-stan/5425646976848?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:41]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-4-0-stan-bele-vode-sa-garazom/5425646843092?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/uknjizen-4-0-stan-bele-vode-sa-garazom/5425646843092?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:48]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/autokomanda-horizontala-66m2-100m2-4-0-2-lodj/5425646908159?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/autokomanda-horizontala-66m2-100m2-4-0-2-lodj/5425646908159?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:52]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-37-95m2-renoviran-lux/5425646977566?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/blok-37-95m2-renoviran-lux/5425646977566?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:54]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-ledine-uknjizena-odlicna-lokacija/5425646282616?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/novogradnja-ledine-uknjizena-odlicna-lokacija/5425646282616?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:44:58]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/crveni-krst-dvoetazni-penthouse-mereno-160m2/5425646442387?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/crveni-krst-dvoetazni-penthouse-mereno-160m2/5425646442387?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:45:00]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/dorcol-cara-dusana-mereno-30m2-id10513/5425646442388?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/dorcol-cara-dusana-mereno-30m2-id10513/5425646442388?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
+[2026-04-10 07:45:01]URL: https://www.halooglasi.com/nekretnine/prodaja-stanova/2-0-54-m2terasa-kralja-milana/5425646398697?kid=1&sid=1775798253789 | ERROR: Page.goto: Page crashed
+Call log:
+  - navigating to "https://www.halooglasi.com/nekretnine/prodaja-stanova/2-0-54-m2terasa-kralja-milana/5425646398697?kid=1&sid=1775798253789", waiting until "domcontentloaded"
+
