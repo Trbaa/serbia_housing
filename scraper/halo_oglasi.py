@@ -38,6 +38,15 @@ def block_resources(route):
     else:
         route.continue_()
 
+def close_halo_popups(page):
+    try:
+        popup_button = page.locator("button:has-text('U redu'), input[value='U redu'], a:has-text('U redu')")
+        if popup_button.count() > 0:
+            popup_button.first.click(timeout=2000)
+            page.wait_for_timeout(1000)
+    except Exception:
+        pass
+
 def human_delay(page, a=800, b=8000):
     page.wait_for_timeout(random.randint(a, b))
 
@@ -82,8 +91,14 @@ def protect_data(locator,field_name,url,timeout = 3000):
         return None
 
 
-def get_listing_urls(page):
-    page.wait_for_selector("h3.product-title a")
+def get_listing_urls(page, current_url):
+    try:
+        page.wait_for_selector("h3.product-title a", state="attached", timeout=20000)
+        page.wait_for_timeout(1500)
+    except Exception as e:
+        save_failed_page(current_url, f"Listing load failed: {e}")
+        return []
+
     links = page.locator("h3.product-title a")
 
     urls = []
@@ -94,15 +109,17 @@ def get_listing_urls(page):
 
     return list(dict.fromkeys(urls))
 
-
 def scrape_listing(context, url):
     page = context.new_page()
+    human_delay(page)
     data = {col: None for col in CSV_COLUMNS}
     data["url"] = url
     
     try:
-        page.goto(url, wait_until="domcontentloaded")
-        human_delay(page)
+        page.goto(url, wait_until="domcontentloaded", timeout=60000)
+        close_halo_popups(page)
+        page.wait_for_selector("h1", state="attached", timeout=15000)
+        page.wait_for_timeout(1500)
 
 
         # naslov
@@ -258,9 +275,10 @@ def scrape_all_pages_to_csv(listing_page, context, start_url,cursor, conn, max_p
         print(f"\n[HALO] Obradjujem listing stranu {current_page_num}: {current_url}")
 
         listing_page.goto(current_url, wait_until="domcontentloaded")
-        human_delay(listing_page)
+        close_halo_popups(current_url)
+        listing_page.wait_for_timeout(2000)
 
-        urls = get_listing_urls(listing_page)
+        urls = get_listing_urls(listing_page,current_url)
         print(f"[HALO] Nadjeno oglasa na strani: {len(urls)}")
 
         if not urls:
@@ -303,6 +321,7 @@ def scrape_all_pages_to_csv(listing_page, context, start_url,cursor, conn, max_p
                     conn.rollback()
                 except Exception:
                     pass
+                save_failed_page(url,str(e))
                 print(f"[HALO] Greska za {url}: {e}")
 
         if new_urls_on_page == 0:
@@ -319,22 +338,9 @@ def scrape_all_pages_to_csv(listing_page, context, start_url,cursor, conn, max_p
         if max_pages is not None and current_page_num >= max_pages:
             print("[HALO] Dostignut max_pages limit.")
             break
-
-        next_button = listing_page.locator("a.page-link.next")
-
-        if next_button.count() == 0:
-            print("[HALO] Nema sledece strane. Kraj.")
-            conn.commit()
-            break
-
-        next_href = next_button.first.get_attribute("href")
-        if not next_href:
-            print("[HALO] Sledeca strana nema href. Kraj.")
-            conn.commit()
-            break
-
-        current_url = urljoin(BASE_URL, next_href)
+        
         current_page_num += 1
+        current_url = f"{start_url}?page={current_page_num}"
     conn.commit()
 
 def run_halo_oglasi(max_pages = 3):
@@ -351,7 +357,7 @@ def run_halo_oglasi(max_pages = 3):
         
         cursor = conn.cursor()
         with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True,slow_mo=100)
+            browser = p.chromium.launch(headless=False,slow_mo=150)
 
             context = browser.new_context(**get_context_kwargs())
             context.route("**/*", block_resources)
