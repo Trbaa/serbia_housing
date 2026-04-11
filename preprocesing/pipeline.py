@@ -149,6 +149,24 @@ def clean_grejanje(item):
     return item
 
 def clean_sprat(item):
+    roman_map = {
+        "i": "1",
+        "ii": "2",
+        "iii": "3",
+        "iv": "4",
+        "v": "5",
+        "vi": "6",
+        "vii": "7",
+        "viii": "8",
+        "ix": "9",
+        "x": "10",
+        "xi": "11",
+        "xii": "12",
+        "xiii": "13",
+        "xiv": "14",
+        "xv": "15",
+    }
+
     item["Sprat"] = (
         item["Sprat"]
         .astype("string")
@@ -157,15 +175,25 @@ def clean_sprat(item):
         .replace({
             "visoko prizemlje": "0.5",
             "prizemlje": "0",
-            "suteren": "-0.5", #Ima svakakvih ljudi
-            "suturen": "-0.5", #Ima svakakvih ljudi
-            "vpr": "0.5", #Ima svakakvih ljudi
+            "suteren": "-0.5",
+            "suturen": "-0.5",
+            "vpr": "0.5",
+            "pr": "0",
+            "p": "0",
         })
         .str.replace(",", ".", regex=False)
-        .str.extract(r"(-?\d+(?:\.\d+)?)", expand=False)
+        .str.replace(r"\bsprat\b", "", regex=True)
+        .str.strip()
     )
 
+    for roman, arabic in sorted(roman_map.items(), key=lambda x: len(x[0]), reverse=True):
+        item["Sprat"] = item["Sprat"].str.replace(
+            rf"\b{roman}\b", arabic, regex=True
+        )
+
+    item["Sprat"] = item["Sprat"].str.extract(r"(-?\d+(?:\.\d+)?)", expand=False)
     item["Sprat"] = pd.to_numeric(item["Sprat"], errors="coerce")
+
     return item
 
 def clean_uk_sprat(item):
@@ -588,11 +616,11 @@ def clean_datum_objave(item):
     s = s.str.replace(r"'", "", regex=True)
     s = s.str.split(r"\s+u\s+").str[0]
     s = s.str.replace(r"^Objavljen:\s*", "", regex=True)
-
-    # trim
     s = s.str.strip()
 
-    # pretvaranje u pandas datum
+    # skini završnu tačku ako postoji: 11.04.2026. -> 11.04.2026
+    s = s.str.replace(r"\.$", "", regex=True)
+
     item[col] = pd.to_datetime(
         s,
         format="%d.%m.%Y",
