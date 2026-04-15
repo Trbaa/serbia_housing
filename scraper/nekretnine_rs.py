@@ -2,8 +2,9 @@ from playwright.sync_api import sync_playwright
 from urllib.parse import urljoin
 from datetime import datetime
 import psycopg2
-from database.db_config import get_scraping_db_connection_params,ensure_connection
-from database.insert_row import insert_row_nekretnine
+from database.db_config import get_scraping_db_connection_params, ensure_connection
+from database.insert_row import insert_row_nekretnine, update_full_row_nekretnine
+from scraper.url_checker import check_url_status,extract_oglas_id,  URL_NEW, URL_INCOMPLETE, URL_COMPLETE
 import random
 from preprocesing.pipeline import preprocess
 from scraper.user_agents import get_context_kwargs
@@ -146,13 +147,41 @@ def map_features(raw_features, data):
 
     return data
 
+def extract_datum(page,url):
+    try:
+        updated_div = page.locator("div.updated")
+        if updated_div.count() == 0:
+            return None
+        spans = updated_div.locator("span")
+        span_count = spans.count()
+
+        objavljen = None
+        azuriran = None
+
+        for i in range(span_count):
+            try:
+                text = spans.nth(i).inner_text(timeout = 2000).strip()
+                if not text:
+                    continue
+                if "Objavljen" in text:
+                    objavljen = text.replace("Objavljen:","").strip()
+                elif "Ažuriran" in text or "Azuriran" in text:
+                    azuriran + text.replace("Ažuriran","").replace("Azuriran","").strip()
+            except Exception:
+                continue
+        return objavljen if objavljen else azuriran
+    except Exception as e:
+        save_failed_page(url,f"extract_datum: {e}")
+        return None
+
 def scrape_listings(context,url):
     page = context.new_page()
     data = {col: None for col in CSV_COLUMNS}
     data["url"] = url
+    data["oglas_id"] = extract_oglas_id(url,"nekretnine_rs")
 
     try:
-        page.goto(url,wait_until="domcontentloaded")
+        page.goto(url,wait_until="domcontentloaded",timeout = 60000)
         human_delay(page)
 
 
@@ -161,7 +190,7 @@ def scrape_listings(context,url):
             page.locator("h1.detail-title"),
             "title",
             url,
-            timeout=2000
+            timeout=3000
         )
 
         #Ukupna cena
@@ -169,7 +198,7 @@ def scrape_listings(context,url):
             page.locator("h4.stickyBox__price"),
             "price_total",
             url,
-            timeout=2000
+            timeout=3000
         )
 
         # cena po kvadratu
@@ -222,15 +251,7 @@ def scrape_listings(context,url):
             save_failed_page(url,error_message=str(e))
 
         #datum_objave
-        try:
-            raw_datum = protect_data(page.locator("div.updated span").nth(1),"Datum_objave",url)
-
-            if raw_datum.startswith("Objavljen:"):
-                data["Datum_objave"] = raw_datum.replace("Objavljen:", "").strip()
-            else:
-                data["Datum_objave"] = raw_datum.strip()
-        except Exception as e:
-            save_failed_page(url,error_message=str(e))
+        data['Datum_objave'] = extract_datum(page,url)
 
         #dodatni opis
         try:
@@ -258,6 +279,8 @@ def scrape_all_pages(listing_page,context,start_url,cursor,conn,max_pages = None
     current_page_num = 1
     seen_urls = set()
     inserted_count = 0
+    updated_count    = 0
+    skipped_count    = 0
 
     max_pages_without_new_url = 5
     pages_without_new_url = 0
@@ -280,37 +303,57 @@ def scrape_all_pages(listing_page,context,start_url,cursor,conn,max_pages = None
             if url in seen_urls:
                 continue
             seen_urls.add(url)
-            new_urls_on_page +=1
-
             try:
+                status = check_url_status(cursor,url,"nekretnine_rs")
+                if status == URL_COMPLETE:
+                    skipped_count += 1
+                    print(f"  [{i}/{len(urls)}] [NEKRETNINE] Preskacem (kompletan): {url}")
+                    continue
+
+                new_urls_on_page +=1
                 item =scrape_listings(context,url)
                 if item is None:
                     continue
-
+                oglas_id_backup = extract_oglas_id(url, "nekretnine_rs") 
                 item= preprocess(item)
                 if item is None:
                     continue
-                
-                if inserted_count > 0 and inserted_count % 50 == 0:
+                item["oglas_id"] = oglas_id_backup
+
+                total = inserted_count + updated_count
+                if total > 0 and total % 50 == 0:
                     conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
-                try:
-                    insert_row_nekretnine(cursor,item)
-                except Exception:
-                    conn.rollback()
-                    conn,cursor = ensure_connection(conn,cursor,get_scraping_db_connection_params)
-                    insert_row_nekretnine(cursor,item)
+                if status == URL_NEW:
+                    try:
+                        insert_row_nekretnine(cursor,item)
+                    except Exception:
+                        conn.rollback()
+                        conn,cursor = ensure_connection(conn,cursor,get_scraping_db_connection_params)
+                        insert_row_nekretnine(cursor,item)
 
-                inserted_count +=1
-                if inserted_count > 0 and inserted_count % 20 == 0:
+                    inserted_count += 1
+                    print(f"  [{i}/{len(urls)}] [NEKRETNINE] INSERT: {url}")
+                elif status == URL_INCOMPLETE:
+                    try:
+                        rows = update_full_row_nekretnine(cursor,item)
+                    except Exception:
+                        conn.rollback()
+                        conn,cursor = ensure_connection(conn,cursor,get_scraping_db_connection_params)
+                        rows = update_full_row_nekretnine(cursor,item)
+                    
+                    updated_count += 1
+                    print(f"  [{i}/{len(urls)}] [NEKRETNINE] UPDATE ({rows} red): {url}")
+                total = inserted_count + updated_count
+                if total > 0 and total % 20 == 0:
                     conn.commit()
-
-                print(f"  [{i}/{len(urls)}] [NEKRETNINE] Sacuvan: {url}")
+                    print(f"  [COMMIT] INSERT={inserted_count} UPDATE={updated_count} SKIP={skipped_count}")
+ 
             except Exception as e:
                 try:
                     conn.rollback()
                 except Exception:
                     pass
-                print(f"Greska za {url}:{e}")
+                print(f"[NEKRETNINE] Greska za {url}:{e}")
 
         if new_urls_on_page == 0:
             pages_without_new_url +=1
@@ -334,10 +377,10 @@ def scrape_all_pages(listing_page,context,start_url,cursor,conn,max_pages = None
             
        
         current_page_num +=1
-        current_url = f"https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/stranica/{current_page_num}"
+        current_url = f"https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/20/stranica/{current_page_num}"
     conn.commit()
-
-def run_nekretnine(max_pages = 3):
+ 
+def run_nekretnine(max_pages = None):
     conn = None
     cursor = None
 
@@ -365,7 +408,7 @@ def run_nekretnine(max_pages = 3):
             listing_page = context.new_page()
             #details_page = context.new_page()
 
-            start_url = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/10/"
+            start_url = "https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/20/"
 
 
             scrape_all_pages(

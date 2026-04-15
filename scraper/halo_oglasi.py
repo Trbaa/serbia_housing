@@ -1,12 +1,15 @@
 from playwright.sync_api import sync_playwright
+from playwright_stealth import Stealth
 from urllib.parse import urljoin
-import psycopg2
-from database.db_config import get_scraping_db_connection_params,ensure_connection
-from database.insert_row import insert_row_halo
-import random
 from datetime import datetime
+import psycopg2
+from database.db_config import get_scraping_db_connection_params, ensure_connection
+from database.insert_row import insert_row_halo, update_full_row_halo
+from scraper.url_checker import check_url_status, extract_oglas_id, URL_NEW, URL_INCOMPLETE, URL_COMPLETE
+import random
 from preprocesing.pipeline import preprocess
 from scraper.user_agents import get_context_kwargs
+
 
 BASE_URL = "https://www.halooglasi.com"
 
@@ -114,12 +117,14 @@ def scrape_listing(context, url):
     human_delay(page)
     data = {col: None for col in CSV_COLUMNS}
     data["url"] = url
+    data["oglas_id"] = extract_oglas_id(url,"halo_oglasi")
     
     try:
         page.goto(url, wait_until="domcontentloaded", timeout=60000)
         close_halo_popups(page)
         page.wait_for_selector("h1", state="attached", timeout=15000)
         page.wait_for_timeout(1500)
+
 
 
         # naslov
@@ -224,13 +229,19 @@ def scrape_listing(context, url):
 
 
         #Date of posting
-        date_row = page.locator("div.line", has_text="Objavljen")
-        data["Datum_objave"] = protect_data(
-            date_row.locator("span.value strong"),
-            "Datum_objave",
-            url,
-            timeout=1500
-        )
+        try:
+            date_row = page.locator("div.line", has_text="Objavljen")
+            data["Datum_objave"] = protect_data(
+                date_row.locator("span.value strong"),
+                "Datum_objave", url, timeout=5000,
+            )
+            if data["Datum_objave"] is None:
+                data["Datum_objave"] = protect_data(
+                    page.locator("span.value strong").first,
+                    "Datum_objave_fallback", url, timeout=3000,
+                )
+        except Exception as e:
+            save_failed_page(url, f"datum block: {e}")
 
 
         # Dodatni opis
@@ -267,6 +278,8 @@ def scrape_all_pages_to_csv(listing_page, context, start_url,cursor, conn, max_p
     current_page_num = 1
     seen_urls = set()
     inserted_count = 0
+    updated_count  = 0
+    skipped_count  = 0
 
     max_pages_without_new_url = 5
     pages_without_new_url = 0
@@ -291,31 +304,53 @@ def scrape_all_pages_to_csv(listing_page, context, start_url,cursor, conn, max_p
                 continue
 
             seen_urls.add(url)
-            new_urls_on_page += 1
 
             try:
+                status = check_url_status(cursor,url,"halo_oglasi")
+                if status == URL_COMPLETE:
+                    skipped_count +=1
+                    print(f"  [{i}/{len(urls)}] [HALO] Preskačem (kompletan): {url}")
+                    continue
+                new_urls_on_page += 1
+
                 item = scrape_listing(context, url)
                 if item is None:
                     continue
 
+                oglas_id_backup = extract_oglas_id(url, "halo_oglasi") 
                 item= preprocess(item)
                 if item is None:
                     continue
-                    
+                item["oglas_id"] = oglas_id_backup
+
                 if inserted_count > 0 and inserted_count % 50 == 0:
                     conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
-                try:
-                    insert_row_halo(cursor,item)
-                except Exception:
-                    conn.rollback()
-                    conn,cursor = ensure_connection(conn,cursor,get_scraping_db_connection_params)
-                    insert_row_halo(cursor,item) # #probam retry unosa
-                inserted_count += 1
+                
+                if status == URL_NEW:
+                    try:
+                        insert_row_halo(cursor,item)
+                    except Exception:
+                        conn.rollback()
+                        conn,cursor = ensure_connection(conn,cursor,get_scraping_db_connection_params)
+                        insert_row_halo(cursor,item) # #probam retry unosa
+                    inserted_count += 1
+                    print(f"  [{i}/{len(urls)}] [HALO] INSERT: {url}")
+                elif status == URL_INCOMPLETE:
 
-                if inserted_count > 0 and inserted_count % 20 == 0:
+                    try:
+                            rows = update_full_row_halo(cursor, item)
+                    except Exception:
+                        conn.rollback()
+                        conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
+                        rows = update_full_row_halo(cursor, item)
+                        
+                    updated_count += 1
+                    print(f"  [{i}/{len(urls)}] [HALO] UPDATE ({rows} red): {url}")
+ 
+                total = inserted_count + updated_count
+                if total > 0 and total % 20 == 0:
                     conn.commit()
-
-                print(f"  [{i}/{len(urls)}] [HALO] Sacuvan: {url}")
+                    print(f"  [COMMIT] INSERT={inserted_count} UPDATE={updated_count} SKIP={skipped_count}")
             except Exception as e:
                 try:
                     conn.rollback()
@@ -343,7 +378,7 @@ def scrape_all_pages_to_csv(listing_page, context, start_url,cursor, conn, max_p
         current_url = f"{start_url}?page={current_page_num}"
     conn.commit()
 
-def run_halo_oglasi(max_pages = 3):
+def run_halo_oglasi(max_pages = None):
     conn = None
     cursor = None
 
@@ -356,8 +391,8 @@ def run_halo_oglasi(max_pages = 3):
             keepalives_count = 5)
         
         cursor = conn.cursor()
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=False,slow_mo=150)
+        with Stealth().use_sync(sync_playwright()) as p:
+            browser = p.chromium.launch(headless=True,slow_mo=300)
 
             context = browser.new_context(**get_context_kwargs())
             context.route("**/*", block_resources)
