@@ -1,0 +1,47 @@
+-- BRISANJE DUPLIKATA
+WITH ranked AS (
+    SELECT
+        id,
+        ROW_NUMBER() OVER (
+            PARTITION BY substring(url from '/([0-9]+)(?:\?|$)')
+            ORDER BY
+                (
+                    (price_total       IS NOT NULL)::int +
+                    (price_per_m2      IS NOT NULL)::int +
+                    (tip_nekretnine    IS NOT NULL)::int +
+                    (kvadratura        IS NOT NULL)::int +
+                    (broj_soba         IS NOT NULL)::int +
+                    (oglasivac         IS NOT NULL)::int +
+                    (tip_objekta       IS NOT NULL)::int +
+                    (stanje_objekta    IS NOT NULL)::int +
+                    (grejanje          IS NOT NULL)::int +
+                    (sprat             IS NOT NULL)::int +
+                    (ukupna_spratnost  IS NOT NULL)::int +
+                    (uknjizen          IS NOT NULL)::int +
+                    (terasa            IS NOT NULL)::int +
+                    (interfon          IS NOT NULL)::int +
+                    (klima             IS NOT NULL)::int +
+                    (video_nadzor      IS NOT NULL)::int +
+                    (internet          IS NOT NULL)::int +
+                    (parking           IS NOT NULL)::int +
+                    (garaza            IS NOT NULL)::int +
+                    (lift              IS NOT NULL)::int +
+                    (podrum            IS NOT NULL)::int +
+                    (linije_gradskog_prevoza IS NOT NULL)::int +
+                    (datum_objave      IS NOT NULL)::int +
+                    (dodatni_opis      IS NOT NULL)::int
+                ) DESC,
+                id ASC
+        ) AS rn
+    FROM halo_oglasi
+    WHERE substring(url from '/([0-9]+)(?:\?|$)') IS NOT NULL
+)
+DELETE FROM halo_oglasi
+WHERE id IN (SELECT id FROM ranked WHERE rn > 1);
+
+
+Proveri nekoliko konkretnih redova koji su dobili datum
+SELECT id, url, title,price_total,price_per_m2, datum_objave
+FROM halo_oglasi
+WHERE datum_objave IS NOT NULL
+ORDER BY id DESC
