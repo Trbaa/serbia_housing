@@ -5,6 +5,8 @@ from scraper.halo_oglasi import run_halo_oglasi
 from scraper.z4ida import run_4zida
 from scraper.nekretnine_rs import run_nekretnine
 
+import subprocess #za ec2
+
 
 def run_full():
     """
@@ -66,3 +68,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+    print("[MAIN] Scraper završen — stopiranje EC2...")
+    subprocess.run(["sudo", "shutdown", "-h", "now"])
