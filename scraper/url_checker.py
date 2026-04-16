@@ -65,3 +65,14 @@ def check_url_status(cursor, url: str, table: str) -> str:
             return URL_INCOMPLETE
 
     return URL_INCOMPLETE if has_missing else URL_COMPLETE
+
+def oglas_id_exists(cursor, oglas_id: str, table: str) -> bool:
+    if not oglas_id:
+        return False
+ 
+    cursor.execute(
+        f"SELECT 1 FROM {table} WHERE oglas_id = %s LIMIT 1;",
+        (oglas_id,)
+    )
+    return cursor.fetchone() is not None
+ 

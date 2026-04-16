@@ -9,10 +9,11 @@ from scraper.url_checker import check_url_status, extract_oglas_id, URL_NEW, URL
 import random
 from preprocesing.pipeline import preprocess
 from scraper.user_agents import get_context_kwargs
+from scraper.url_checker import oglas_id_exists
 
 
 BASE_URL = "https://www.halooglasi.com"
-
+MAX_CONSECUTIVE_DUPLICATES = 3 
 FAILED_LOG_FILE = "HALO_failed_pages_V02.txt"
 def save_failed_page(url,error_message):
     with open(FAILED_LOG_FILE,"a",encoding="utf-8") as f:
@@ -129,6 +130,10 @@ def scrape_listing(context, url):
 
         # naslov
         data['title'] = protect_data(page.locator("h1"),'title',url)
+        if data["title"] and "halooglasi" in data["title"].lower():
+            save_failed_page(url, "Anti-bot page detected")
+            return None
+        
         # ukupna cena
         data['price_total'] =protect_data(page.locator("span[data-value]"),'price_total',url)
         # cena po kvadratu
@@ -273,112 +278,117 @@ def scrape_listing(context, url):
 
 
 
-def scrape_all_pages_to_csv(listing_page, context, start_url,cursor, conn, max_pages=None):
-    current_url = start_url
-    current_page_num = 1
-    seen_urls = set()
-    inserted_count = 0
-    updated_count  = 0
-    skipped_count  = 0
-
+def scrape_all_pages_to_csv(listing_page, context, start_url, cursor, conn,
+                             max_pages=None, mode="daily"):
+    current_url          = start_url
+    current_page_num     = 1
+    seen_urls            = set()
+    inserted_count       = 0
+    consecutive_existing = 0  # brojač uzastopnih duplikata za daily mode
+ 
     max_pages_without_new_url = 5
-    pages_without_new_url = 0
-
+    pages_without_new_url     = 0
+ 
     while True:
         print(f"\n[HALO] Obradjujem listing stranu {current_page_num}: {current_url}")
-
         listing_page.goto(current_url, wait_until="domcontentloaded")
-        close_halo_popups(current_url)
+        close_halo_popups(listing_page)
         listing_page.wait_for_timeout(2000)
-
-        urls = get_listing_urls(listing_page,current_url)
+ 
+        urls = get_listing_urls(listing_page, current_url)
         print(f"[HALO] Nadjeno oglasa na strani: {len(urls)}")
-
+ 
         if not urls:
             print("[HALO] Nema URL-ova. Kraj.")
             conn.commit()
             break
+ 
         new_urls_on_page = 0
+        stop_early       = False
+ 
         for i, url in enumerate(urls, start=1):
             if url in seen_urls:
                 continue
-
             seen_urls.add(url)
-
+ 
             try:
-                status = check_url_status(cursor,url,"halo_oglasi")
-                if status == URL_COMPLETE:
-                    skipped_count +=1
-                    print(f"  [{i}/{len(urls)}] [HALO] Preskačem (kompletan): {url}")
+                oglas_id = extract_oglas_id(url, "halo_oglasi")
+ 
+                if mode == "daily" and oglas_id_exists(cursor, oglas_id, "halo_oglasi"):
+                    consecutive_existing += 1
+                    print(f"  [{i}/{len(urls)}] [HALO] Postoji ({consecutive_existing}/{MAX_CONSECUTIVE_DUPLICATES}): {url}")
+                    if consecutive_existing >= MAX_CONSECUTIVE_DUPLICATES:
+                        print(f"  [HALO] {MAX_CONSECUTIVE_DUPLICATES} uzastopna duplikata — zaustavljam.")
+                        stop_early = True
+                        break
                     continue
+ 
+                # Novi oglas — resetuj brojač
+                consecutive_existing = 0
                 new_urls_on_page += 1
-
+ 
                 item = scrape_listing(context, url)
                 if item is None:
                     continue
-
-                oglas_id_backup = extract_oglas_id(url, "halo_oglasi") 
-                item= preprocess(item)
+ 
+                item = preprocess(item)
                 if item is None:
                     continue
-                item["oglas_id"] = oglas_id_backup
-
+ 
+                item["oglas_id"] = oglas_id
+ 
                 if inserted_count > 0 and inserted_count % 50 == 0:
                     conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
-                
-                if status == URL_NEW:
-                    try:
-                        insert_row_halo(cursor,item)
-                    except Exception:
-                        conn.rollback()
-                        conn,cursor = ensure_connection(conn,cursor,get_scraping_db_connection_params)
-                        insert_row_halo(cursor,item) # #probam retry unosa
-                    inserted_count += 1
-                    print(f"  [{i}/{len(urls)}] [HALO] INSERT: {url}")
-                elif status == URL_INCOMPLETE:
-
-                    try:
-                            rows = update_full_row_halo(cursor, item)
-                    except Exception:
-                        conn.rollback()
-                        conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
-                        rows = update_full_row_halo(cursor, item)
-                        
-                    updated_count += 1
-                    print(f"  [{i}/{len(urls)}] [HALO] UPDATE ({rows} red): {url}")
  
-                total = inserted_count + updated_count
-                if total > 0 and total % 20 == 0:
+                try:
+                    insert_row_halo(cursor, item)
+                except Exception:
+                    conn.rollback()
+                    conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
+                    insert_row_halo(cursor, item)
+ 
+                inserted_count += 1
+                print(f"  [{i}/{len(urls)}] [HALO] INSERT: {url}")
+ 
+                if inserted_count % 5 == 0:
                     conn.commit()
-                    print(f"  [COMMIT] INSERT={inserted_count} UPDATE={updated_count} SKIP={skipped_count}")
+                    print(f"  [COMMIT] INSERT={inserted_count}")
+ 
             except Exception as e:
                 try:
                     conn.rollback()
                 except Exception:
                     pass
-                save_failed_page(url,str(e))
+                save_failed_page(url, str(e))
                 print(f"[HALO] Greska za {url}: {e}")
-
+ 
+        if stop_early:
+            print(f"[HALO] Early stop — svi novi oglasi skrejpovani.")
+            conn.commit()
+            break
+ 
         if new_urls_on_page == 0:
-            pages_without_new_url +=1
+            pages_without_new_url += 1
             print(f"[HALO] Strana bez novih URL-ova ({pages_without_new_url}/{max_pages_without_new_url})")
         else:
             pages_without_new_url = 0
-            
+ 
         if pages_without_new_url >= max_pages_without_new_url:
             print("[HALO] Pet strana zaredom bez novih oglasa, prekid.")
             conn.commit()
             break
-
+ 
         if max_pages is not None and current_page_num >= max_pages:
             print("[HALO] Dostignut max_pages limit.")
             break
-        
+ 
         current_page_num += 1
         current_url = f"{start_url}?page={current_page_num}"
+ 
     conn.commit()
+    print(f"\n[HALO] ZAVRŠENO — INSERT={inserted_count}")
 
-def run_halo_oglasi(max_pages = None):
+def run_halo_oglasi(max_pages = None,mode = "daily"):
     conn = None
     cursor = None
 
