@@ -1,4 +1,5 @@
 from playwright.sync_api import sync_playwright
+from playwright_stealth import Stealth
 from urllib.parse import urljoin
 from datetime import datetime
 import psycopg2
@@ -73,7 +74,20 @@ CSV_COLUMNS = [
 ]
 
 def get_listings_url(page):
-    page.wait_for_selector('[test-data="ad-search-card"]', timeout=10000)
+    # Retry do 3 puta
+    for attempt in range(1, 4):
+        try:
+            page.wait_for_selector(
+                '[test-data="ad-search-card"]', 
+                timeout=20000  # povećaj sa 10000 na 20000
+            )
+            break  # ako uspe izađi iz petlje
+        except Exception as e:
+            print(f"[4ZIDA] Timeout na listingu, pokušaj {attempt}/3")
+            if attempt == 3:
+                return []
+            page.wait_for_timeout(random.randint(3000, 7000))  # čekaj pa pokušaj ponovo
+            page.reload(wait_until="domcontentloaded")
 
     hrefs = page.locator(
         '[test-data="ad-search-card"] a[href*="/prodaja-stanova/"]'
@@ -376,7 +390,7 @@ def run_4zida(max_pages = None):
             keepalives_count=5)
         
         cursor = conn.cursor()
-        with sync_playwright() as p:
+        with Stealth().use_sync(sync_playwright()) as p:
             browser = p.chromium.launch(headless=True,slow_mo=150)
             context = browser.new_context(**get_context_kwargs())
             context.route("**/*", block_resources)

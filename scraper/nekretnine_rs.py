@@ -1,6 +1,8 @@
 from playwright.sync_api import sync_playwright
+from playwright_stealth import Stealth
 from urllib.parse import urljoin
 from datetime import datetime
+import time
 import psycopg2
 from database.db_config import get_scraping_db_connection_params, ensure_connection
 from database.insert_row import insert_row_nekretnine, update_full_row_nekretnine
@@ -59,11 +61,9 @@ CSV_COLUMNS = [
     "Ukupna spratnost",
     "Uknjižen",
     "Terasa",
-    "Telefon",
     "Interfon",
     "Klima",
     "Video nadzor",
-    "Topla voda",
     "Internet",
     "Parking",
     "Garaža",
@@ -166,7 +166,7 @@ def extract_datum(page,url):
                 if "Objavljen" in text:
                     objavljen = text.replace("Objavljen:","").strip()
                 elif "Ažuriran" in text or "Azuriran" in text:
-                    azuriran + text.replace("Ažuriran","").replace("Azuriran","").strip()
+                    azuriran = text.replace("Ažuriran","").replace("Azuriran","").strip()
             except Exception:
                 continue
         return objavljen if objavljen else azuriran
@@ -375,7 +375,7 @@ def scrape_all_pages(listing_page,context,start_url,cursor,conn,max_pages = None
             conn.commit()
             break
             
-       
+        time.sleep(random.uniform(3.0, 8.0))
         current_page_num +=1
         current_url = f"https://www.nekretnine.rs/stambeni-objekti/stanovi/izdavanje-prodaja/prodaja/grad/beograd/lista/po-stranici/20/stranica/{current_page_num}"
     conn.commit()
@@ -393,7 +393,7 @@ def run_nekretnine(max_pages = None):
             keepalives_count=5)
         
         cursor = conn.cursor()
-        with sync_playwright() as p:
+        with Stealth().use_sync(sync_playwright()) as p:
             browser = p.chromium.launch(headless=True,slow_mo=100)
 
             context = browser.new_context(**get_context_kwargs())
