@@ -40,6 +40,7 @@ def _build_params(item: dict) -> dict:
         "linije_gradskog_prevoza":  item.get("Linije gradskog prevoza"),
         "datum_objave":             item.get("Datum_objave"),
         "dodatni_opis":             item.get("Dodatni opis"),
+        "lokacija":                 item.get("lokacija"),
     }
 
 
@@ -52,7 +53,7 @@ def _insert_query(table: str) -> str:
             ukupna_spratnost, uknjizen, terasa, interfon,
             klima, video_nadzor, internet, parking, garaza,
             lift, podrum, linije_gradskog_prevoza,
-            datum_objave, dodatni_opis
+            datum_objave, dodatni_opis,lokacija
         )
         VALUES (
             %(url)s,%(oglas_id)s, %(title)s, %(price_total)s, %(price_per_m2)s,
@@ -61,7 +62,7 @@ def _insert_query(table: str) -> str:
             %(ukupna_spratnost)s, %(uknjizen)s, %(terasa)s, %(interfon)s,
             %(klima)s, %(video_nadzor)s, %(internet)s, %(parking)s, %(garaza)s,
             %(lift)s, %(podrum)s, %(linije_gradskog_prevoza)s,
-            %(datum_objave)s, %(dodatni_opis)s
+            %(datum_objave)s, %(dodatni_opis)s, %(lokacija)s
         )
         ON CONFLICT (oglas_id) DO UPDATE SET
             url                     = EXCLUDED.url,
@@ -90,6 +91,7 @@ def _insert_query(table: str) -> str:
             linije_gradskog_prevoza = COALESCE(NULLIF({table}.linije_gradskog_prevoza, ''), NULLIF(EXCLUDED.linije_gradskog_prevoza, '')),
             datum_objave            = COALESCE({table}.datum_objave,            EXCLUDED.datum_objave),
             dodatni_opis            = COALESCE(NULLIF({table}.dodatni_opis, ''),            NULLIF(EXCLUDED.dodatni_opis, ''));
+            lokacija                = COALESCE(NULLIF({table}.lokacija, 'Nepoznato'), NULLIF(EXCLUDED.lokacija, 'Nepoznato'));
     """
 
 
@@ -122,6 +124,7 @@ def _update_query(table: str) -> str:
             linije_gradskog_prevoza = COALESCE({table}.linije_gradskog_prevoza, %(linije_gradskog_prevoza)s),
             datum_objave            = COALESCE({table}.datum_objave,            %(datum_objave)s),
             dodatni_opis            = COALESCE({table}.dodatni_opis,            %(dodatni_opis)s)
+            lokacija                = COALESCE(NULLIF({table}.lokacija, 'Nepoznato'), %(lokacija)s)
         WHERE {table}.oglas_id = %(oglas_id)s;
     """
 
