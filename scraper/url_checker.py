@@ -7,6 +7,8 @@ URL_COMPLETE   = "complete"    # oglas postoji, svi podaci su tu → PRESKOČI
 URL_INCOMPLETE = "incomplete"  # oglas postoji, nedostaju podaci → UPDATE
 
 
+import re
+
 def extract_oglas_id(url: str, table: str) -> str | None:
     """
     Izvlači jedinstveni ID oglasa iz URL-a zavisno od sajta.
@@ -14,22 +16,32 @@ def extract_oglas_id(url: str, table: str) -> str | None:
     halo_oglasi:   numerički ID, 10+ cifara  → 5425647022667
     z4ida:         hex string, 24 karaktera  → 69dfc44bf8af725eaf03ca39
     nekretnine_rs: alphanumerički, 4-20 kar  → NksEAVNuU57
-
-    Args:
-        url:   URL oglasa
-        table: ime tabele
+                   ili numerički             → 664845
     """
     if not url:
         return None
 
+    # Ukloni query parametre i trailing whitespace
+    # npr. .../NkiuQRBNlDr/?order=2 → .../NkiuQRBNlDr/
+    url = url.split("?")[0].strip()
+
     if table == "halo_oglasi":
-        m = re.search(r'/(\d{10,})(?:\?|$)', url)
+        m = re.search(r'/(\d{10,})(?:/)?$', url)
 
     elif table == "z4ida":
-        m = re.search(r'/([a-f0-9]{24})$', url)
+        m = re.search(r'/([a-f0-9]{24})(?:/)?$', url)
 
     elif table == "nekretnine_rs":
-        m = re.search(r'/([A-Za-z0-9_-]{4,20})/?$', url)
+        # Pokriva:
+        # → novi format: NkiuQRBNlDr, Nkh10QBF-j6
+        # → stari format: 664845, 1867895
+        m = re.search(r'/([A-Za-z0-9_-]{4,20})(?:/)?$', url)
+
+        # Debug log — privremeno dok ne riješiš problem
+        if m:
+            print(f"[extract_oglas_id] URL: {url} → ID: {m.group(1)}")
+        else:
+            print(f"[extract_oglas_id] NIJE NAĐEN ID za URL: {url}")
 
     else:
         return None
