@@ -1,6 +1,86 @@
 import pandas as pd
 import numpy as np
+import re
 
+def _normalize(text:str) -> str:
+    zamene = {
+        'č': 'c', 'ć': 'c', 'š': 's', 'ž': 'z', 'đ': 'd',
+        'Č': 'c', 'Ć': 'c', 'Š': 's', 'Ž': 'z', 'Đ': 'd',
+    }
+    text = text.lower()
+    for origin,repl in zamene.items():
+        text = text.replace(origin,repl)
+    return text
+
+LOKACIJE = sorted([
+    # Opštine
+    "Stari Grad", "Savski Venac", "Vracar", "Novi Beograd", "Zemun",
+    "Palilula", "Vozdovac", "Cukarica", "Rakovica", "Zvezdara",
+    "Grocka", "Barajevo", "Mladenovac", "Lazarevac", "Obrenovac",
+    "Surcin", "Sopot",
+
+    # Šira gradska naselja
+    "Banjica", "Dedinje", "Senjak", "Banovo Brdo", "Cerak",
+    "Cerak Vinogradi", "Konjarnik", "Karaburma", "Mirijevo",
+    "Mirijevo 1", "Mirijevo 2", "Mirijevo 3",
+    "Zeleznik", "Altina", "Borca", "Krnjaca", "Kotez",
+    "Batajnica", "Bezanijska Kosa", "Bezanijska Kosa 1",
+    "Bezanijska Kosa 2", "Bezanijska Kosa 3",
+    "Blok 1", "Blok 2", "Blok 3", "Blok 4", "Blok 7",
+    "Blok 21", "Blok 22", "Blok 23", "Blok 28", "Blok 29",
+    "Blok 30", "Blok 33", "Blok 37", "Blok 38",
+    "Blok 44", "Blok 45", "Blok 61", "Blok 62",
+    "Blok 63", "Blok 64", "Blok 70", "Blok 70A",
+    "Blok 72", "Blok 73",
+
+    # Česta mikro-naselja / zone
+    "Avala", "Filmski Grad", "Vidikovac", "Petlovo Brdo",
+    "Labudovo Brdo", "Kanarevo Brdo", "Miljakovac",
+    "Miljakovac 1", "Miljakovac 2", "Miljakovac 3",
+    "Resnik", "Kijevo", "Zarkovo", "Julino Brdo",
+    "Kosutnjak", "Topcider", "Autokomanda",
+    "Slavija", "Kalemegdan", "Dorcol",
+    "Donji Dorcol", "Gornji Dorcol",
+    "Crveni Krst", "Cvetkova Pijaca",
+    "Lion", "Gradska Bolnica", "Djeram",
+    "Hadzipopovac", "Bogoslovija",
+    "Visnjicka Banja", "Visnjica",
+    "Rospi Cuprija", "Ada Huja",
+    "Krnjača Most", "Ovca", "Padinska Skela",
+    "Borča Greda", "Borča 3",
+
+    # Zemun / NBG dodatno
+    "Zemun Polje", "Nova Galenika", "Galenika",
+    "Pregrevica", "Gornji Grad", "Donji Grad",
+    "Retenzija", "Ledine", "Surcinsko Polje",
+
+    # Južni deo grada
+    "Jajinci", "Pinosava", "Beli Potok",
+    "Ripanj", "Zuce", "Vrčin", "Leštane",
+    "Kaluđerica",
+
+    # Ostalo često u oglasima
+    "Stepa Stepanovic", "Brace Jerkovic",
+    "Medakovic", "Medakovic 1", "Medakovic 2", "Medakovic 3",
+    "Dušanovac", "Dušanovac Pošta",
+    "Voždovačka Crkva",
+    "Učiteljsko Naselje", "Konjarnik 2",
+    "Plavi Horizonti", "Altina 2"
+], key=len, reverse=True)
+
+def clean_lokacija(item):
+    def extract(text):
+        if not text or str(text) in ('nan','None',''):
+            return None
+        normalizovan = _normalize(str(text))
+        for lokacija in LOKACIJE:
+            pattern = r'\b' + re.escape(_normalize(lokacija)) + r'\b'
+            if re.search(pattern,normalizovan):
+                return lokacija
+            return None
+    result = extract(item['title'].iloc[0]) or extract(item['Dodatni opis'].iloc[0])
+    item['lokacija'] = result if result else 'Nepoznato'
+    return item
 
 def normalize_missing_df(df):
     return df.replace({
@@ -645,6 +725,7 @@ def preprocess(item):
     item = clean_sprat(item)
     item = clean_uk_sprat(item)
     item = clean_opis(item)
+    item = clean_lokacija(item)
     item = clean_uknjizen(item)
     item = clean_terasa(item)
     item = clean_interfon(item)
