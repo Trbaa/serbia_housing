@@ -90,8 +90,8 @@ def _insert_query(table: str) -> str:
             podrum                  = COALESCE({table}.podrum,                  EXCLUDED.podrum),
             linije_gradskog_prevoza = COALESCE(NULLIF({table}.linije_gradskog_prevoza, ''), NULLIF(EXCLUDED.linije_gradskog_prevoza, '')),
             datum_objave            = COALESCE({table}.datum_objave,            EXCLUDED.datum_objave),
-            dodatni_opis            = COALESCE(NULLIF({table}.dodatni_opis, ''),            NULLIF(EXCLUDED.dodatni_opis, ''));
-            lokacija                = COALESCE(NULLIF({table}.lokacija, 'Nepoznato'), NULLIF(EXCLUDED.lokacija, 'Nepoznato'));
+            dodatni_opis            = COALESCE(NULLIF({table}.dodatni_opis, ''),            NULLIF(EXCLUDED.dodatni_opis, '')),
+            "lokacija"              = COALESCE(NULLIF({table}."lokacija", 'Nepoznato'), NULLIF(EXCLUDED."lokacija", 'Nepoznato'));
     """
 
 
@@ -123,8 +123,8 @@ def _update_query(table: str) -> str:
             podrum                  = COALESCE({table}.podrum,                  %(podrum)s),
             linije_gradskog_prevoza = COALESCE({table}.linije_gradskog_prevoza, %(linije_gradskog_prevoza)s),
             datum_objave            = COALESCE({table}.datum_objave,            %(datum_objave)s),
-            dodatni_opis            = COALESCE({table}.dodatni_opis,            %(dodatni_opis)s)
-            lokacija                = COALESCE(NULLIF({table}.lokacija, 'Nepoznato'), %(lokacija)s)
+            dodatni_opis            = COALESCE({table}.dodatni_opis,            %(dodatni_opis)s),
+            "lokacija"              = COALESCE(NULLIF({table}."lokacija", 'Nepoznato'), %(lokacija)s)
         WHERE {table}.oglas_id = %(oglas_id)s;
     """
 
