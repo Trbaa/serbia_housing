@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 from datetime import datetime
 import psycopg2
 from database.db_config import get_scraping_db_connection_params, ensure_connection
-from database.insert_row import insert_row_halo, update_full_row_halo
+from database.insert_row import insert_row_halo, update_full_row_halo,insert_raw_row_halo
 from scraper.url_checker import check_url_status, extract_oglas_id, URL_NEW, URL_INCOMPLETE, URL_COMPLETE
 import random
 from preprocesing.pipeline import preprocess
@@ -330,7 +330,12 @@ def scrape_all_pages_to_csv(listing_page, context, start_url, cursor, conn,
                 item = scrape_listing(context, url)
                 if item is None:
                     continue
- 
+                try:
+                    insert_raw_row_halo(cursor, item)
+                except Exception:
+                    conn.rollback()
+                    conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
+                    insert_raw_row_halo(cursor, item)
                 item = preprocess(item)
                 if item is None:
                     continue
@@ -425,7 +430,8 @@ def run_halo_oglasi(max_pages = None,mode = "daily"):
                     start_url=start_url,
                     cursor=cursor,
                     conn=conn,
-                    max_pages=max_pages
+                    max_pages=max_pages,
+                    mode=mode
                 )
             listing_page.close()
             #detail_page.close()

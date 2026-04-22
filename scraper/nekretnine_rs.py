@@ -4,7 +4,7 @@ from urllib.parse import urljoin
 from datetime import datetime
 import psycopg2
 from database.db_config import get_scraping_db_connection_params, ensure_connection
-from database.insert_row import insert_row_nekretnine
+from database.insert_row import insert_row_nekretnine,insert_raw_row_nekretnine
 from scraper.url_checker import oglas_id_exists
 from scraper.url_checker import extract_oglas_id
 import random
@@ -269,7 +269,15 @@ def scrape_all_pages(listing_page, context, start_url, cursor, conn,
                 item = scrape_listings(context, url)
                 if item is None:
                     continue
-
+                
+                insert_raw_row_nekretnine(cursor,item)
+                try:
+                    insert_raw_row_nekretnine(cursor,item)
+                except Exception:
+                    conn.rollback()
+                    conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
+                    insert_raw_row_nekretnine(cursor,item)
+                    
                 item = preprocess(item)
                 if item is None:
                     continue

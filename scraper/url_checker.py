@@ -57,7 +57,7 @@ def check_url_status(cursor, url: str, table: str) -> str:
     fields_select = ", ".join(REQUIRED_FIELDS)
     query = f"""
         SELECT {fields_select}
-        FROM {table}
+        FROM silver.{table}
         WHERE oglas_id = %s
         LIMIT 1;
     """
@@ -83,7 +83,7 @@ def oglas_id_exists(cursor, oglas_id: str, table: str) -> bool:
         return False
  
     cursor.execute(
-        f"SELECT 1 FROM {table} WHERE oglas_id = %s LIMIT 1;",
+        f"SELECT 1 FROM silver.{table} WHERE oglas_id = %s LIMIT 1;",
         (oglas_id,)
     )
     return cursor.fetchone() is not None
