@@ -46,7 +46,7 @@ def _build_params(item: dict) -> dict:
 
 def _insert_query(table: str) -> str:
     return f"""
-        INSERT INTO public.{table} (
+        INSERT INTO {table} (
             url,oglas_id ,title, price_total, price_per_m2,
             tip_nekretnine, kvadratura, broj_soba, oglasivac,
             tip_objekta, stanje_objekta, grejanje, sprat,
@@ -128,7 +128,7 @@ def _update_query(table: str) -> str:
         WHERE {table}.oglas_id = %(oglas_id)s;
     """
 
-def fetch_urls_to_update(cursor, table: str) -> list[str]:
+def fetch_urls_to_update(cursor, table: str, schema: str = "silver") -> list[str]:
     """
     Vraca URL-ove redova gde bar jedna od REQUIRED_FIELDS kolona je NULL.
     
@@ -139,7 +139,7 @@ def fetch_urls_to_update(cursor, table: str) -> list[str]:
     conditions = " OR ".join(f"{f} IS NULL" for f in REQUIRED_FIELDS)
     query = f"""
         SELECT url
-        FROM {table}
+        FROM {schema}.{table}
         WHERE {conditions}
         ORDER BY id ASC;
     """
@@ -147,29 +147,38 @@ def fetch_urls_to_update(cursor, table: str) -> list[str]:
     return [row[0] for row in cursor.fetchall() if row[0]]
 
 def insert_row_halo(cursor, item: dict) -> None:
-    cursor.execute(_insert_query("halo_oglasi"), _build_params(item))
+    cursor.execute(_insert_query("silver.halo_oglasi"), _build_params(item))
 
 def insert_row_4zida(cursor, item: dict) -> None:
-    cursor.execute(_insert_query("z4ida"), _build_params(item))
+    cursor.execute(_insert_query("silver.z4ida"), _build_params(item))
+
+def insert_raw_row_halo(cursor, item: dict) -> None:
+    cursor.execute(_insert_query("raw.halo_oglasi"), _build_params(item))
+
+def insert_raw_row_4zida(cursor, item: dict) -> None:
+    cursor.execute(_insert_query("raw.z4ida"), _build_params(item))
 
 def insert_row_nekretnine(cursor, item: dict) -> None:
-    cursor.execute(_insert_query("nekretnine_rs"), _build_params(item))
+    cursor.execute(_insert_query("silver.nekretnine_rs"), _build_params(item))
+
+def insert_raw_row_nekretnine(cursor, item: dict) -> None:
+    cursor.execute(_insert_query("raw.nekretnine_rs"), _build_params(item))
 
 def update_full_row_halo(cursor, item: dict) -> int:
     """Vraca broj azuriranih redova (0 ili 1)."""
-    cursor.execute(_update_query("halo_oglasi"), _build_params(item))
+    cursor.execute(_update_query("silver.halo_oglasi"), _build_params(item))
     return cursor.rowcount
  
  
 def update_full_row_4zida(cursor, item: dict) -> int:
     """Vraca broj azuriranih redova (0 ili 1)."""
-    cursor.execute(_update_query("z4ida"), _build_params(item))
+    cursor.execute(_update_query("silver.z4ida"), _build_params(item))
     return cursor.rowcount
  
  
 def update_full_row_nekretnine(cursor, item: dict) -> int:
     """Vraca broj azuriranih redova (0 ili 1)."""
-    cursor.execute(_update_query("nekretnine_rs"), _build_params(item))
+    cursor.execute(_update_query("silver.nekretnine_rs"), _build_params(item))
     return cursor.rowcount
 
 

@@ -77,7 +77,7 @@ def clean_lokacija(item):
             pattern = r'\b' + re.escape(_normalize(lokacija)) + r'\b'
             if re.search(pattern,normalizovan):
                 return lokacija
-            return None
+        return None
     result = extract(item['title'].iloc[0]) or extract(item['Dodatni opis'].iloc[0])
     item['lokacija'] = result if result else 'Nepoznato'
     return item
@@ -668,19 +668,6 @@ def clean_podrum(item):
         item['Podrum'].isna() & neg_mask,
         'Podrum'
     ] = False
-
-    return item
-
-
-
-    item['Topla voda'] = (
-        item['Topla voda']
-        .astype('string')
-        .str.strip()
-        .str.lower()
-        .map({'da': True, 'ne': False})
-        .astype('boolean')
-    )
 
     return item
 
