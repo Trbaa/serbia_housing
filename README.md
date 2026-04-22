@@ -1,5 +1,7 @@
 # Serbia Housing — Real Estate Data Pipeline
 
+**Poslednja izmena:** 22. april 2026.
+
 Projekat za automatsko prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih oglasnih sajtova. Izgrađena je pouzdana baza podataka koja se svakodnevno ažurira i može da se koristi za analizu tržišta, vizuelizaciju trendova i razvoj modela za procenu cena nekretnina u Srbiji.
 
 ---
@@ -19,12 +21,31 @@ Systemd service → python -m main --mode daily
 │ halo_oglasi │    z4ida    │ nekretnine_rs│
 └─────────────┴─────────────┴──────────────┘
         ↓
+Raw upis (sirovi podaci) → raw shema
+        ↓
 Preprocessing pipeline
+        ↓
+Silver upis (očišćeni podaci) → silver shema
         ↓
 RDS PostgreSQL (serbia-housing-db)
         ↓
 EC2 shutdown (automatski)
 ```
+
+---
+
+## Arhitektura baze podataka (Medallion Architecture)
+
+Baza je organizovana po **Medallion Architecture** principu — industry standard u Data Engineeringu. Jedna PostgreSQL baza (`scraping_database`) sadrži tri sheme:
+
+### `raw` shema — Bronze sloj
+Čuva sirove podatke tačno onako kako su stigli sa sajtova, bez ikakve transformacije. Sve kolone su `text` tip. Služi kao backup — u slučaju greške u preprocessingu uvek se može ponoviti čišćenje od sirovog.
+
+### `silver` shema — Silver sloj
+Čuva očišćene i transformisane podatke. Ovo je glavni analitički sloj koji se koristi za upite, analitiku i ML.
+
+### `gold` shema — Gold sloj
+Rezervisano za buduće analitičke modele, feature store i ML tabele.
 
 ---
 
@@ -42,6 +63,13 @@ Svi scraperi koriste **Playwright** za browser automation i **playwright-stealth
 
 - `mode="daily"` — skuplja samo nove oglase, staje čim pronađe 3 uzastopna duplikata (early stop)
 - `mode="full"` — prolazi kroz sve stranice, koristi se samo za inicijalno punjenje baze
+
+#### Tok upisa podataka
+
+Za svaki oglas se radi dupli upis:
+
+1. Sirovi dict → `raw.{tabela}` (pre preprocessinga)
+2. Očišćen dict → `silver.{tabela}` (nakon preprocessinga)
 
 #### Sortiranje i early stop logika
 
@@ -63,20 +91,21 @@ Svaki scraper koristi:
 
 ### Preprocessing (`preprocesing/`)
 
-`pipeline.py` prima sirovi dict od scrapers i vraća očišćen dict spreman za upis u bazu. Pipeline čisti svako polje:
+`pipeline.py` prima sirovi dict od scrapers i vraća očišćen dict spreman za upis u silver shemu. Pipeline čisti svako polje:
 
 - `clean_title` — uklanja cifre, specijalne karaktere
 - `clean_price_total` / `clean_price_per_m2` — parsira cene, uklanja valute
 - `clean_kvadratura` / `clean_br_soba` — parsira numeričke vrednosti
 - `clean_sprat` — konvertuje rimske brojeve, prizemlje, suteren u numeričke vrednosti
 - `clean_datum_objave` — parsira datum u Python `date` objekat
+- `clean_lokacija` — ekstraktuje lokaciju iz naslova ili opisa oglasa
 - `clean_uknjizen`, `clean_terasa`, `clean_lift`... — konvertuje u boolean iz teksta i opisa
 
 ### Baza podataka (`database/`)
 
-#### Tabele
+#### Silver tabele
 
-Sve tri tabele (`halo_oglasi`, `z4ida`, `nekretnine_rs`) imaju identičnu strukturu:
+Sve tri tabele (`silver.halo_oglasi`, `silver.z4ida`, `silver.nekretnine_rs`) imaju identičnu strukturu:
 
 | Kolona | Tip | Opis |
 |--------|-----|------|
@@ -108,17 +137,24 @@ Sve tri tabele (`halo_oglasi`, `z4ida`, `nekretnine_rs`) imaju identičnu strukt
 | `linije_gradskog_prevoza` | text | Linije javnog prevoza |
 | `datum_objave` | date | Datum objave oglasa |
 | `dodatni_opis` | text | Očišćen opis oglasa |
-| `izvor` | text | halo / 4zida / nekretnine |
-| `oglas_id` | text UNIQUE | ID oglasa iz URL-a |
+| `lokacija` | text | Ekstraktovana lokacija u Beogradu |
 | `created_at` | timestamp | Vreme upisa u bazu |
+
+#### Raw tabele
+
+Sve tri tabele (`raw.halo_oglasi`, `raw.z4ida`, `raw.nekretnine_rs`) imaju identičnu strukturu kao silver, ali su **sve kolone `text` tipa** jer čuvaju sirove podatke bez konverzije.
 
 #### Insert logika (`insert_row.py`)
 
 Koristi se `ON CONFLICT (oglas_id) DO UPDATE` — ako oglas već postoji, ažurira samo NULL vrednosti. `COALESCE` logika štiti postojeće podatke od prepisivanja.
 
-#### Provjera duplikata (`oglas_checker.py`)
+Svaki oglas se upisuje dva puta:
+- `insert_raw_row_*` — sirovi podaci u `raw` shemu
+- `insert_row_*` — očišćeni podaci u `silver` shemu
 
-`oglas_id_exists(cursor, oglas_id, table)` — jednostavna provjera da li oglas već postoji u bazi. Koristi se za early stop u daily modu.
+#### Provjera duplikata (`url_checker.py`)
+
+`oglas_id_exists(cursor, oglas_id, table)` — provjera da li oglas već postoji u `silver` shemi. Koristi se za early stop u daily modu.
 
 #### `oglas_id` ekstrakcija (`url_checker.py`)
 
@@ -171,11 +207,20 @@ Pokreće Lambda svaki dan u 08:00 po beogradskom vremenu (`Europe/Belgrade` time
 ### Systemd service (`/etc/systemd/system/scraper.service`)
 Automatski pokreće scraper čim se EC2 startuje:
 ```ini
+[Unit]
+Description=Daily scraper
+After=network.target
+
 [Service]
 Type=oneshot
-TimeoutStartSec=0
-ExecStart=/home/ec2-user/scraper_env/bin/python -u -m main --mode daily
-ExecStartPost=/usr/sbin/shutdown -h now
+User=ec2-user
+WorkingDirectory=/home/ec2-user/serbia_housing
+ExecStart=/home/ec2-user/scraper_env/bin/python -m main --mode daily
+StandardOutput=append:/home/ec2-user/scraper.log
+StandardError=append:/home/ec2-user/scraper.log
+
+[Install]
+WantedBy=multi-user.target
 ```
 
 ---
@@ -210,16 +255,27 @@ tail -f /home/ec2-user/scraper.log
 
 ### Broj oglasa u bazi
 ```sql
-SELECT 
-    (SELECT COUNT(*) FROM halo_oglasi)   AS halo,
-    (SELECT COUNT(*) FROM z4ida)         AS z4ida,
-    (SELECT COUNT(*) FROM nekretnine_rs) AS nekretnine;
+SELECT
+    (SELECT COUNT(*) FROM silver.halo_oglasi)   AS halo,
+    (SELECT COUNT(*) FROM silver.z4ida)         AS z4ida,
+    (SELECT COUNT(*) FROM silver.nekretnine_rs) AS nekretnine;
+```
+
+### Provjera raw vs silver
+```sql
+SELECT
+    (SELECT COUNT(*) FROM raw.halo_oglasi)      AS raw_halo,
+    (SELECT COUNT(*) FROM silver.halo_oglasi)   AS silver_halo,
+    (SELECT COUNT(*) FROM raw.z4ida)            AS raw_z4ida,
+    (SELECT COUNT(*) FROM silver.z4ida)         AS silver_z4ida,
+    (SELECT COUNT(*) FROM raw.nekretnine_rs)    AS raw_nekretnine,
+    (SELECT COUNT(*) FROM silver.nekretnine_rs) AS silver_nekretnine;
 ```
 
 ### Provjera duplikata
 ```sql
 SELECT oglas_id, COUNT(*) AS broj
-FROM halo_oglasi
+FROM silver.halo_oglasi
 WHERE oglas_id IS NOT NULL
 GROUP BY oglas_id
 HAVING COUNT(*) > 1;
@@ -231,17 +287,18 @@ HAVING COUNT(*) > 1;
 
 | Izvor | Oglasa |
 |-------|--------|
-| halooglasi.com | ~8,100 |
-| 4zida.rs | ~2,500 |
-| nekretnine.rs | ~9,300 |
-| **Ukupno** | **~19,900** |
+| halooglasi.com | ~8,200 |
+| 4zida.rs | ~2,800 |
+| nekretnine.rs | ~10,500 |
+| **Ukupno** | **~21,500** |
 
 ---
 
 ## Sledeći koraci
 
+- **dbt** — transformacije i `unified_oglasi` tabela u silver shemi
 - **Analitika** — eksplorativna analiza podataka, vizuelizacija trendova
 - **Feature engineering** — priprema podataka za ML modele
 - **Model za procenu cena** — predikcija cena nekretnina na osnovu karakteristika
-- **Dashboard** — vizuelizacija podataka (Metabase ili custom)
+- **Grafana dashboard** — vizuelizacija podataka
 - **Proxy rotacija** — residential proxy za bolju anti-bot zaštitu
