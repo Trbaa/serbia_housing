@@ -1,0 +1,8 @@
+# dbt generated folders
+target/
+dbt_packages/
+logs/
+
+# Credentials - NEVER commit
+profiles.yml
+.env

@@ -1,0 +1,13 @@
+dbt_serbia_housing:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: YOUR_RDS_ENDPOINT
+      port: 5433
+      user: YOUR_USER
+      password: YOUR_PASSWORD
+      dbname: scraping_database
+      schema: gold
+      threads: 2
+      sslmode: require

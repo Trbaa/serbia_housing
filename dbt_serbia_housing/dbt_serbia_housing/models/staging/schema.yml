@@ -1,0 +1,38 @@
+version: 2
+
+models:
+  - name: stg_halo_oglasi
+    description: "Staging model za halooglasi.com"
+    columns:
+      - name: oglas_id
+        tests:
+          - unique
+          - not_null
+      - name: izvor
+        tests:
+          - accepted_values:
+              values: ['halo_oglasi']
+
+  - name: stg_z4ida
+    description: "Staging model za 4zida.rs"
+    columns:
+      - name: oglas_id
+        tests:
+          - unique
+          - not_null
+      - name: izvor
+        tests:
+          - accepted_values:
+              values: ['z4ida']
+
+  - name: stg_nekretnine_rs
+    description: "Staging model za nekretnine.rs"
+    columns:
+      - name: oglas_id
+        tests:
+          - unique
+          - not_null
+      - name: izvor
+        tests:
+          - accepted_values:
+              values: ['nekretnine_rs']

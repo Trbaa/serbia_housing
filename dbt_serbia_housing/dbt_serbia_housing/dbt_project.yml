@@ -1,0 +1,10 @@
+name: 'dbt_serbia_housing'
+version: '1.0.0'
+profile: 'dbt_serbia_housing'
+
+models:
+  dbt_serbia_housing:
+    staging:
+      +materialized: view
+    marts:
+      +materialized: table
