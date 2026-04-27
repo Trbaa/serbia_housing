@@ -12,6 +12,34 @@ def _normalize(text:str) -> str:
         text = text.replace(origin,repl)
     return text
 
+def _parse_range_or_single(series):
+    def parse_one(val):
+        if pd.isna(val) or str(val).strip() in ("", "<NA>", "None"):
+            return None
+        
+        # Ukloni valutu i jedinice
+        val = re.sub(r"[€eEuUrR/m²m2]", "", str(val)).strip()
+        
+        # Podeli po crtici da dobijemo delove raspona
+        parts = val.split("-")
+        
+        numbers = []
+        for part in parts:
+            # Ukloni razmake unutar broja npr "78 000" -> "78000"
+            clean = re.sub(r"\s", "", part.strip())
+            clean = re.sub(r"[^\d]", "", clean)
+            if clean:
+                numbers.append(int(clean))
+        
+        if not numbers:
+            return None
+        if len(numbers) == 1:
+            return numbers[0]
+        # Raspon — uzmi prosek
+        return round(sum(numbers) / len(numbers))
+    
+    return series.apply(parse_one)
+
 LOKACIJE = sorted([
     # Opštine
     "Stari Grad", "Savski Venac", "Vracar", "Novi Beograd", "Zemun",
@@ -70,15 +98,22 @@ LOKACIJE = sorted([
 
 def clean_lokacija(item):
     def extract(text):
-        if not text or str(text) in ('nan','None',''):
+        if text is None or pd.isna(text) or str(text) in ('nan', 'None', '<NA>', ''):
             return None
         normalizovan = _normalize(str(text))
         for lokacija in LOKACIJE:
             pattern = r'\b' + re.escape(_normalize(lokacija)) + r'\b'
-            if re.search(pattern,normalizovan):
+            if re.search(pattern, normalizovan):
                 return lokacija
         return None
-    result = extract(item['title'].iloc[0]) or extract(item['Dodatni opis'].iloc[0])
+    
+    title = item['title'].iloc[0]
+    opis = item['Dodatni opis'].iloc[0]
+    
+    title_val = None if (title is None or pd.isna(title)) else title
+    opis_val = None if (opis is None or pd.isna(opis)) else opis
+    
+    result = extract(title_val) or extract(opis_val)
     item['lokacija'] = result if result else 'Nepoznato'
     return item
 
@@ -117,14 +152,10 @@ def clean_price_total(item):
     .astype("string")
     .str.split("\n").str[0]
     .str.lower()
-    .str.replace(r"od\s*", "", regex=True)
-   .str.replace(r"eur|€|rsd|din|evra|eura", "", regex=True)
-    .str.replace(r"[.,\s]", "", regex=True)
-    .str.replace(r"od ", "", regex=True)
-    .str.replace(r"[^\d]", "", regex=True)
+    .str.replace(r"eur|€|rsd|din|evra|eura", "", regex=True)
     .str.strip()
-
     )
+    item["price_total"] = _parse_range_or_single(item["price_total"])
     item["price_total"] = pd.to_numeric(item["price_total"], errors="coerce").astype("Int64")
     return item
 
@@ -133,10 +164,11 @@ def clean_price_per_m2(item):
         item["price_per_m2"]
         .astype("string")
         .str.split("\n").str[0]
-        .str.replace(r"od\s+", "", regex=True)
-        .str.replace(r"[^\d]", "", regex=True)
+        .str.lower()
+        .str.replace(r"€/m²|eur/m²|€|eur|/m²|od\s*", "", regex=True)
+        .str.strip()
     )
-
+    item["price_per_m2"] = _parse_range_or_single(item["price_per_m2"])
     item["price_per_m2"] = pd.to_numeric(item["price_per_m2"], errors="coerce").astype("Int64")
     return item
 
