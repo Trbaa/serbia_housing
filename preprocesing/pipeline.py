@@ -87,6 +87,55 @@ LOKACIJE = sorted([
     "Ripanj", "Zuce", "Vrčin", "Leštane",
     "Kaluđerica",
 
+    # --- BELGRADE WATERFRONT / BG NA VODI ---
+    "Beograd na vodi", "BG na vodi", "Bnv", "Belgrade Waterfront",
+    "BW", "BW Residences", "BW Residence", "BW Residences 1",
+    "BW Vista", "BW Vista Tower",
+    "BW Arcadia", "BW Aurora", "BW Magnolia",
+    "BW Parkview", "BW Park View",
+    "BW Verde", "BW Scala", "BW Terra",
+    "BW Metropolitan", "BW Quartet",
+    "BW Riviera", "BW Libera",
+
+    # --- KULA / ST REGIS ---
+    "Kula Beograd", "Kula Belgrade Waterfront",
+    "Belgrade Tower", "BW Tower",
+    "St Regis", "St. Regis", "St Regis Belgrade",
+    "The St. Regis Residences", "St. Regis Residences",
+    "St Regis Kula",
+
+    # --- LUKSUZNI KOMPLEKSI ---
+    "West 65", "West65", "West 65 Tower",
+    "Wellport", "Wellport Kula",
+    "A blok", "A Blok", "A-Block",
+    "Airport City", "Airport City Belgrade",
+    "Green Residence", "Green Residence Novi Beograd",
+    "The One", "The One Novi Beograd",
+    "Savada", "Savada 2", "Savada 3",
+    "Oaza", "Oaza Novi Beograd",
+    "Blok 67a", "Blok 67a Belvil",
+    "Belvil", "Belville",
+
+    # --- DEDINJE / SENJAK LUKSUZ ---
+    "Dedinje vila", "Dedinje luks", "Dedinje rezidencija",
+    "Senjak vila", "Senjak luks",
+
+    # --- CENTAR PREMIUM ---
+    "Knez Mihailova", "Obilicev Venac",
+    "Studentski trg", "Trg republike",
+    "Terazije", "Andricev venac",
+
+    # --- NOVI BEOGRAD POSLOVNI HUB ---
+    "Blok 19a", "Blok 26", "Blok 25",
+    "Blok 12", "Blok 11c", "Blok 9a",
+    "Ušće", "Usce", "Delta City",
+
+    # --- VARIJACIJE / TYPOS ---
+    "Beograd na vodi BW", "BW Beograd",
+    "Belgrade Waterfront BW",
+    "StRegis", "St.Regis",
+    "Kula BW", "BW Kula",
+
     # Ostalo često u oglasima
     "Stepa Stepanovic", "Brace Jerkovic",
     "Medakovic", "Medakovic 1", "Medakovic 2", "Medakovic 3",
