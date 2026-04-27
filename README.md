@@ -1,6 +1,6 @@
 # Serbia Housing — Real Estate Data Pipeline
 
-**Poslednja izmena:** 22. april 2026.
+**Poslednja izmena:** 27. april 2026.
 
 Projekat za automatsko prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih oglasnih sajtova. Izgrađena je pouzdana baza podataka koja se svakodnevno ažurira i može da se koristi za analizu tržišta, vizuelizaciju trendova i razvoj modela za procenu cena nekretnina u Srbiji.
 
@@ -26,6 +26,10 @@ Raw upis (sirovi podaci) → raw shema
 Preprocessing pipeline
         ↓
 Silver upis (očišćeni podaci) → silver shema
+        ↓
+dbt run → transformacije i testovi
+        ↓
+Gold sloj → gold.unified_oglasi
         ↓
 RDS PostgreSQL (serbia-housing-db)
         ↓
@@ -143,6 +147,32 @@ Sve tri tabele (`silver.halo_oglasi`, `silver.z4ida`, `silver.nekretnine_rs`) im
 #### Raw tabele
 
 Sve tri tabele (`raw.halo_oglasi`, `raw.z4ida`, `raw.nekretnine_rs`) imaju identičnu strukturu kao silver, ali su **sve kolone `text` tipa** jer čuvaju sirove podatke bez konverzije.
+
+### dbt transformacije (`dbt_serbia_housing/`)
+
+Nakon što scraperi završe, `main.py` automatski pokreće dbt koji transformiše
+silver podatke u gold sloj.
+
+**Staging modeli** (`models/staging/`) — tanki wrapper oko silver tabela:
+- `stg_halo_oglasi` — standardizuje halooglasi.com podatke, dodaje `izvor` kolonu
+- `stg_z4ida` — standardizuje 4zida.rs podatke
+- `stg_nekretnine_rs` — standardizuje nekretnine.rs podatke
+
+**Mart modeli** (`models/marts/`) — biznis logika:
+- `gold.unified_oglasi` — spaja sva 3 izvora u jednu tabelu (23,000+ oglasa)
+
+**Testovi** — dbt automatski proverava kvalitet podataka pri svakom pokretanju:
+- `unique` na `oglas_id` — nema duplikata
+- `not_null` na `oglas_id` — svaki oglas ima ID
+- `accepted_values` na `izvor` — samo poznati izvori
+
+**Pokretanje:**
+```bash
+cd dbt_serbia_housing
+dbt run    # kreira/ažurira modele
+dbt test   # proverava kvalitet podataka
+dbt docs serve --port 8080  # vizuelna dokumentacija
+```
 
 #### Insert logika (`insert_row.py`)
 
@@ -294,9 +324,7 @@ HAVING COUNT(*) > 1;
 
 ---
 
-## Sledeći koraci
-
-- **dbt** — transformacije i `unified_oglasi` tabela u silver shemi
+- ~~**dbt**~~ ✅ — transformacije i `unified_oglasi` tabela implementirane
 - **Analitika** — eksplorativna analiza podataka, vizuelizacija trendova
 - **Feature engineering** — priprema podataka za ML modele
 - **Model za procenu cena** — predikcija cena nekretnina na osnovu karakteristika
