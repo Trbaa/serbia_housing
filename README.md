@@ -182,9 +182,9 @@ Svaki oglas se upisuje dva puta:
 - `insert_raw_row_*` — sirovi podaci u `raw` shemu
 - `insert_row_*` — očišćeni podaci u `silver` shemu
 
-#### Provjera duplikata (`url_checker.py`)
+#### Provera duplikata (`url_checker.py`)
 
-`oglas_id_exists(cursor, oglas_id, table)` — provjera da li oglas već postoji u `silver` shemi. Koristi se za early stop u daily modu.
+`oglas_id_exists(cursor, oglas_id, table)` — provera da li oglas već postoji u `silver` shemi. Koristi se za early stop u daily modu.
 
 #### `oglas_id` ekstrakcija (`url_checker.py`)
 
@@ -291,7 +291,7 @@ SELECT
     (SELECT COUNT(*) FROM silver.nekretnine_rs) AS nekretnine;
 ```
 
-### Provjera raw vs silver
+### Provera raw vs silver
 ```sql
 SELECT
     (SELECT COUNT(*) FROM raw.halo_oglasi)      AS raw_halo,
@@ -302,7 +302,7 @@ SELECT
     (SELECT COUNT(*) FROM silver.nekretnine_rs) AS silver_nekretnine;
 ```
 
-### Provjera duplikata
+### Provera duplikata
 ```sql
 SELECT oglas_id, COUNT(*) AS broj
 FROM silver.halo_oglasi
