@@ -9,3 +9,14 @@ data/
 *.pyc
 *.csv
 .env.aws
+# Logs i failed pages
+logs/
+*.txt
+
+# Backup
+backup.sql
+
+# dbt
+dbt_serbia_housing/target/
+dbt_serbia_housing/dbt_packages/
+dbt_serbia_housing/logs/
