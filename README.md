@@ -49,7 +49,7 @@ Baza je organizovana po **Medallion Architecture** principu — industry standar
 Čuva očišćene i transformisane podatke. Ovo je glavni analitički sloj koji se koristi za upite, analitiku i ML.
 
 ### `gold` shema — Gold sloj
-Rezervisano za buduće analitičke modele, feature store i ML tabele.
+Sadrži `unified_oglasi` tabelu koja spaja sva 3 izvora, kao i buduće analitičke modele, feature store i ML tabele.
 
 ---
 
@@ -98,7 +98,7 @@ Svaki scraper koristi:
 `pipeline.py` prima sirovi dict od scrapers i vraća očišćen dict spreman za upis u silver shemu. Pipeline čisti svako polje:
 
 - `clean_title` — uklanja cifre, specijalne karaktere
-- `clean_price_total` / `clean_price_per_m2` — parsira cene, uklanja valute
+- `clean_price_total` / `clean_price_per_m2` — parsira cene, uklanja valute, rukuje rasponima (npr. `78 000 - 370 500 EUR` → prosek)
 - `clean_kvadratura` / `clean_br_soba` — parsira numeričke vrednosti
 - `clean_sprat` — konvertuje rimske brojeve, prizemlje, suteren u numeričke vrednosti
 - `clean_datum_objave` — parsira datum u Python `date` objekat
@@ -150,8 +150,7 @@ Sve tri tabele (`raw.halo_oglasi`, `raw.z4ida`, `raw.nekretnine_rs`) imaju ident
 
 ### dbt transformacije (`dbt_serbia_housing/`)
 
-Nakon što scraperi završe, `main.py` automatski pokreće dbt koji transformiše
-silver podatke u gold sloj.
+Nakon što scraperi završe, `main.py` automatski pokreće dbt koji transformiše silver podatke u gold sloj.
 
 **Staging modeli** (`models/staging/`) — tanki wrapper oko silver tabela:
 - `stg_halo_oglasi` — standardizuje halooglasi.com podatke, dodaje `izvor` kolonu
@@ -203,6 +202,26 @@ DB_PORT=5433
 DB_NAME=scraping_database
 DB_USER=postgres
 DB_PASSWORD=...
+```
+
+### Eksplorativna analiza podataka (`eda/`)
+
+Jupyter notebook sa analizom 23,000+ oglasa iz `gold.unified_oglasi` tabele.
+
+**Analize koje su urađene:**
+- Kvalitet podataka — procenat NULL vrednosti po koloni
+- Distribucija cena i kvadrature — medijana cene 224,000 EUR, medijana kvadrature 68 m²
+- Analiza po lokaciji — Dedinje, Kalemegdan i Knez Mihajlova su najskuplje lokacije
+- Trend cena po mesecu (mart 2025 — april 2026)
+- Distribucija broja soba — dvosobni i trosobni stanovi dominiraju tržištem
+- Korelacija između karakteristika
+- Uticaj amenitija na cenu (lift, terasa, parking, garaža, klima, interfon)
+- Analiza oglašivača — agencija vs vlasnik
+
+**Pokretanje:**
+```bash
+cd eda
+jupyter notebook
 ```
 
 ---
@@ -318,14 +337,16 @@ HAVING COUNT(*) > 1;
 | Izvor | Oglasa |
 |-------|--------|
 | halooglasi.com | ~8,200 |
-| 4zida.rs | ~2,800 |
-| nekretnine.rs | ~10,500 |
-| **Ukupno** | **~21,500** |
+| 4zida.rs | ~3,200 |
+| nekretnine.rs | ~12,000 |
+| **Ukupno** | **~23,400** |
 
 ---
 
+## Sledeci koraci
+
 - ~~**dbt**~~ ✅ — transformacije i `unified_oglasi` tabela implementirane
-- **Analitika** — eksplorativna analiza podataka, vizuelizacija trendova
+- ~~**Analitika**~~ ✅ — eksplorativna analiza podataka završena
 - **Feature engineering** — priprema podataka za ML modele
 - **Model za procenu cena** — predikcija cena nekretnina na osnovu karakteristika
 - **Grafana dashboard** — vizuelizacija podataka
