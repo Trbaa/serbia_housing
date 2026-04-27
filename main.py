@@ -6,6 +6,38 @@ from scraper.z4ida import run_4zida
 from scraper.nekretnine_rs import run_nekretnine
 
 import subprocess #za ec2
+import os
+
+def run_dbt():
+    """
+    Pokrece dbt transformacije nakon scrapera
+    dbt run kreira/azurira gold unified_oglasi
+    dbt test proverava kvalitet podataka
+    """
+    print("\n[DBT] Pokrecem transformacije...")
+
+    dbt_project_dir = os.path.join(os.path.dirname(__file__),"dbt_serbia_housing")
+    dbt_exe = os.path.expanduser("~/dbt_env/bin/dbt")
+
+    result = subprocess.run(
+        [dbt_exe,"run","--project-dir",dbt_project_dir],
+        capture_output=True,
+        text= True
+    )
+    print(result.stdout)
+    if result.returncode != 0:
+        print(f"[DBT] Greska u run: \n {result.stderr}")
+        return
+    result = subprocess.run(
+        [dbt_exe,"test","--project-dir",dbt_project_dir],
+        capture_output=True,
+        text=True
+    )
+    print(result.stdout)
+    if result.returncode !=0:
+        print(f"[DBT] Greska u test: \n {result.stderr}")
+    
+    print("[DBT] Transformacije zavrsene")
 
 
 def run_full():
@@ -65,6 +97,7 @@ def main():
     else:
         run_daily()
 
+    run_dbt()
 
 if __name__ == "__main__":
     main()
