@@ -206,10 +206,7 @@ for _, red in df_validni[df_validni["n_oglasa"] == 2].sample(20, random_state=12
 def upisati_u_bazu(df_validni, df, engine):
     print("\nUpisujem u gold.unified_deduplicated...")
 
-    # Ucitaj sve kolone iz unified_oglasi
-    df_full = pd.read_sql("""
-        SELECT * FROM gold.unified_oglasi
-    """, engine)
+    df_full = pd.read_sql("SELECT * FROM gold.unified_oglasi", engine)
 
     redovi = []
     for _, red in df_validni.iterrows():
@@ -225,21 +222,22 @@ def upisati_u_bazu(df_validni, df, engine):
     df_upis = pd.DataFrame(redovi)
     df_upis = df_upis.drop(columns=["unified_id"], errors="ignore")
 
-    # Obrisi postojece podatke i upisi nove
-    with engine.begin() as conn:
-        conn.execute(text("TRUNCATE TABLE gold.unified_deduplicated"))
-
+    # Upiši u temp tabelu
     df_upis.to_sql(
-        "unified_deduplicated",
-        engine,
-        schema="gold",
-        if_exists="append",
-        index=False,
-        method="multi",
-        chunksize=500
+        "_dedup_temp", engine, schema="gold",
+        if_exists="replace", index=False, chunksize=500
     )
 
-    print(f"Upisano: {len(df_upis)} redova")
+    # INSERT iz temp → prava tabela, preskoči postojeće
+    with engine.begin() as conn:
+        conn.execute(text("""
+            INSERT INTO gold.unified_deduplicated
+            SELECT * FROM gold._dedup_temp
+            ON CONFLICT (oglas_id) DO NOTHING
+        """))
+        conn.execute(text("DROP TABLE gold._dedup_temp"))
+
+    print(f"Obradjeno: {len(df_upis)} redova")
 
 # Poziv na kraju
 from sqlalchemy import text
