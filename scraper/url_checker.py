@@ -37,11 +37,6 @@ def extract_oglas_id(url: str, table: str) -> str | None:
         # → stari format: 664845, 1867895
         m = re.search(r'/([A-Za-z0-9_-]{4,20})(?:/)?$', url)
 
-        # Debug log — privremeno dok ne riješiš problem
-        if m:
-            print(f"[extract_oglas_id] URL: {url} → ID: {m.group(1)}")
-        else:
-            print(f"[extract_oglas_id] NIJE NAĐEN ID za URL: {url}")
 
     else:
         return None
