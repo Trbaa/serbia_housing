@@ -39,6 +39,19 @@ def run_dbt():
     
     print("[DBT] Transformacije zavrsene")
 
+def run_dedup():
+    print("\n[DEDUP] Pokrecem deduplikaciju...")
+    dedup_script = os.path.join(os.path.dirname(__file__), "deduplication", "dedup_pipeline.py")
+    result = subprocess.run(
+        ["python", dedup_script],
+        capture_output=True,
+        text=True
+    )
+    print(result.stdout)
+    if result.returncode != 0:
+        print(f"[DEDUP] Greska:\n{result.stderr}")
+        return
+    print("[DEDUP] Deduplikacija zavrsena.")
 
 def run_full():
     """
@@ -98,6 +111,7 @@ def main():
         run_daily()
 
     run_dbt()
+    run_dedup()
 
 if __name__ == "__main__":
     main()
