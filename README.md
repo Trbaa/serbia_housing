@@ -1,6 +1,6 @@
 # Serbia Housing — Real Estate Data Pipeline
 
-**Poslednja izmena:** 27. april 2026.
+**Poslednja izmena:** 28. april 2026.
 
 Projekat za automatsko prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih oglasnih sajtova. Izgrađena je pouzdana baza podataka koja se svakodnevno ažurira i može da se koristi za analizu tržišta, vizuelizaciju trendova i razvoj modela za procenu cena nekretnina u Srbiji.
 
@@ -31,6 +31,10 @@ dbt run → transformacije i testovi
         ↓
 Gold sloj → gold.unified_oglasi
         ↓
+Deduplication pipeline
+        ↓
+gold.unified_deduplicated
+        ↓
 RDS PostgreSQL (serbia-housing-db)
         ↓
 EC2 shutdown (automatski)
@@ -49,7 +53,9 @@ Baza je organizovana po **Medallion Architecture** principu — industry standar
 Čuva očišćene i transformisane podatke. Ovo je glavni analitički sloj koji se koristi za upite, analitiku i ML.
 
 ### `gold` shema — Gold sloj
-Sadrži `unified_oglasi` tabelu koja spaja sva 3 izvora, kao i buduće analitičke modele, feature store i ML tabele.
+Sadrži dve tabele:
+- `unified_oglasi` — spaja sva 3 izvora (24,120 oglasa)
+- `unified_deduplicated` — deduplikovani oglasi (22,039 oglasa, 2,081 duplikata uklonjeno)
 
 ---
 
@@ -158,7 +164,7 @@ Nakon što scraperi završe, `main.py` automatski pokreće dbt koji transformiš
 - `stg_nekretnine_rs` — standardizuje nekretnine.rs podatke
 
 **Mart modeli** (`models/marts/`) — biznis logika:
-- `gold.unified_oglasi` — spaja sva 3 izvora u jednu tabelu (23,000+ oglasa)
+- `gold.unified_oglasi` — spaja sva 3 izvora u jednu tabelu (24,120 oglasa)
 
 **Testovi** — dbt automatski proverava kvalitet podataka pri svakom pokretanju:
 - `unique` na `oglas_id` — nema duplikata
@@ -192,9 +198,44 @@ Svaki sajt ima drugačiji format ID-a u URL-u:
 - 4zida.rs — hex string, 24 karaktera: `69dfc44bf8af725eaf03ca39`
 - nekretnine.rs — alphanumerički, 4-20 karaktera: `NksEAVNuU57`
 
+### Deduplication pipeline (`deduplication/`)
+
+Nakon dbt transformacija, `main.py` pokreće pipeline koji detektuje iste stanove oglašene na više sajtova i grupiše ih pod jedinstvenim `stan_id`.
+
+**Rezultati:**
+
+| Metrika | Vrednost |
+|---------|---------|
+| Ukupno oglasa (`unified_oglasi`) | 24,120 |
+| Nakon deduplikacije (`unified_deduplicated`) | 22,039 |
+| Uklonjenih duplikata | 2,081 |
+
+**Algoritam:**
+
+1. Učitava `gold.unified_oglasi`, filtrira outliere (cena 20k–2M EUR, kvadratura 15–400 m²)
+2. Normalizuje numeričke feature-e: kvadratura, broj_soba, sprat, price_per_m2 (MinMaxScaler)
+3. TF-IDF vektorizacija teksta iz `dodatni_opis` (bigrams, min_df=2, max_df=0.95)
+4. **Blokiranje** — poredi samo oglase unutar iste lokacije i sličnih kvadratura (early break >5 m²)
+5. **Score funkcija** — weighted kombinacija:
+   - kvadratura: 25%
+   - price_per_m2: 25%
+   - tekst (cosine similarity): 25%
+   - broj_soba: 15%
+   - sprat: 5%
+   - lokacija: 5%
+   - Boost: ako `tekst > 0.95` → score = 1.0 (identični opisi = isti oglas)
+6. **Greedy Clique clustering** — oglas ulazi u klaster samo ako je sličan svim postojećim članovima (prag: 0.92)
+7. Filteri kvaliteta: max 10 oglasa po klasteru, max CV cene 10%
+8. Upisuje u `gold.unified_deduplicated` sa `stan_id` i `price_avg`
+
+**Pokretanje:**
+```bash
+python deduplication/dedup_pipeline.py
+```
+
 ### Konfiguracija baze (`database/db_config.py`)
 
-Čita konekcione parametre iz `.env` fajla:
+Čita konekcione parametre iz `.env.aws` fajla:
 
 ```
 DB_HOST=...
@@ -310,6 +351,25 @@ SELECT
     (SELECT COUNT(*) FROM silver.nekretnine_rs) AS nekretnine;
 ```
 
+### Unified vs deduplicated
+```sql
+SELECT
+    (SELECT COUNT(*) FROM gold.unified_oglasi)       AS unified,
+    (SELECT COUNT(*) FROM gold.unified_deduplicated) AS deduplicated,
+    (SELECT COUNT(*) FROM gold.unified_oglasi) -
+    (SELECT COUNT(*) FROM gold.unified_deduplicated) AS uklonjenih_duplikata;
+```
+
+### Provera klastera
+```sql
+SELECT stan_id, COUNT(*) AS n_oglasa, price_avg
+FROM gold.unified_deduplicated
+GROUP BY stan_id, price_avg
+HAVING COUNT(*) > 1
+ORDER BY n_oglasa DESC
+LIMIT 10;
+```
+
 ### Provera raw vs silver
 ```sql
 SELECT
@@ -321,15 +381,6 @@ SELECT
     (SELECT COUNT(*) FROM silver.nekretnine_rs) AS silver_nekretnine;
 ```
 
-### Provera duplikata
-```sql
-SELECT oglas_id, COUNT(*) AS broj
-FROM silver.halo_oglasi
-WHERE oglas_id IS NOT NULL
-GROUP BY oglas_id
-HAVING COUNT(*) > 1;
-```
-
 ---
 
 ## Trenutno stanje baze
@@ -337,9 +388,11 @@ HAVING COUNT(*) > 1;
 | Izvor | Oglasa |
 |-------|--------|
 | halooglasi.com | ~8,200 |
-| 4zida.rs | ~3,200 |
-| nekretnine.rs | ~12,000 |
-| **Ukupno** | **~23,400** |
+| 4zida.rs | ~3,400 |
+| nekretnine.rs | ~12,500 |
+| **Ukupno (unified_oglasi)** | **24,120** |
+| **Nakon deduplikacije** | **22,039** |
+| **Uklonjenih duplikata** | **2,081** |
 
 ---
 
@@ -347,6 +400,7 @@ HAVING COUNT(*) > 1;
 
 - ~~**dbt**~~ ✅ — transformacije i `unified_oglasi` tabela implementirane
 - ~~**Analitika**~~ ✅ — eksplorativna analiza podataka završena
+- ~~**Deduplication**~~ ✅ — pipeline implementiran, 2,081 duplikata uklonjeno
 - **Feature engineering** — priprema podataka za ML modele
 - **Model za procenu cena** — predikcija cena nekretnina na osnovu karakteristika
 - **Grafana dashboard** — vizuelizacija podataka
