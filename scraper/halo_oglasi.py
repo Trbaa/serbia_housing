@@ -5,7 +5,7 @@ from datetime import datetime
 import psycopg2
 from database.db_config import get_scraping_db_connection_params, ensure_connection
 from database.insert_row import insert_row_halo, update_full_row_halo,insert_raw_row_halo
-from scraper.url_checker import check_url_status, extract_oglas_id, URL_NEW, URL_INCOMPLETE, URL_COMPLETE
+from scraper.url_checker import oglas_id_exists, extract_oglas_id, duplicate_exists
 import random
 from preprocesing.pipeline import preprocess
 from scraper.user_agents import get_context_kwargs
@@ -336,10 +336,15 @@ def scrape_all_pages_to_csv(listing_page, context, start_url, cursor, conn,
                     conn.rollback()
                     conn, cursor = ensure_connection(conn, cursor, get_scraping_db_connection_params)
                     insert_raw_row_halo(cursor, item)
+
                 item = preprocess(item)
                 if item is None:
                     continue
  
+                if duplicate_exists(cursor, item.get("title"), item.get("price_total"), 
+                                    item.get("kvadratura"), "halo_oglasi"):
+                    print(f"  [{i}/{len(urls)}] [HALO] Duplikat (title+cena+kv): {url}")
+                    continue
                 item["oglas_id"] = oglas_id
  
                 if inserted_count > 0 and inserted_count % 50 == 0:

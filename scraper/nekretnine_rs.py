@@ -5,8 +5,7 @@ from datetime import datetime
 import psycopg2
 from database.db_config import get_scraping_db_connection_params, ensure_connection
 from database.insert_row import insert_row_nekretnine,insert_raw_row_nekretnine
-from scraper.url_checker import oglas_id_exists
-from scraper.url_checker import extract_oglas_id
+from scraper.url_checker import oglas_id_exists, extract_oglas_id, duplicate_exists
 import random
 from preprocesing.pipeline import preprocess
 from scraper.user_agents import get_context_kwargs
@@ -280,6 +279,11 @@ def scrape_all_pages(listing_page, context, start_url, cursor, conn,
                     
                 item = preprocess(item)
                 if item is None:
+                    continue
+
+                if duplicate_exists(cursor, item.get("title"), item.get("price_total"), 
+                    item.get("kvadratura"), "nekretnine_rs"):
+                    print(f"  [{i}/{len(urls)}] [NEKRETNINE] Duplikat (title+cena+kv): {url}")
                     continue
 
                 item["oglas_id"] = oglas_id

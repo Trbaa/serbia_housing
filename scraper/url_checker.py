@@ -83,3 +83,16 @@ def oglas_id_exists(cursor, oglas_id: str, table: str) -> bool:
     )
     return cursor.fetchone() is not None
  
+def duplicate_exists(cursor, title: str, price_total: float, 
+                     kvadratura: float, table: str) -> bool:
+    if not title or not price_total or not kvadratura:
+        return False
+    cursor.execute(
+        f"""SELECT 1 FROM silver.{table}
+            WHERE title = %s 
+            AND price_total = %s 
+            AND kvadratura = %s 
+            LIMIT 1;""",
+        (title, price_total, kvadratura)
+    )
+    return cursor.fetchone() is not None
