@@ -41,9 +41,10 @@ def run_dbt():
 
 def run_dedup():
     print("\n[DEDUP] Pokrecem deduplikaciju...")
+    python_exe = os.path.expanduser("~/scraper_env/bin/python")
     dedup_script = os.path.join(os.path.dirname(__file__), "deduplication", "dedup_pipeline.py")
     result = subprocess.run(
-        ["python", dedup_script],
+        [python_exe, dedup_script],
         capture_output=True,
         text=True
     )
