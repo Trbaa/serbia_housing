@@ -7,25 +7,30 @@ load_dotenv(".env.aws")
 
 # ── Lista lokacija (sortirana po duzini — duze ime ima prioritet) ──────────
 LOKACIJE = sorted([
-    # Opstine
+    # Opštine
     "Stari Grad", "Savski Venac", "Vracar", "Novi Beograd", "Zemun",
     "Palilula", "Vozdovac", "Cukarica", "Rakovica", "Zvezdara",
     "Grocka", "Barajevo", "Mladenovac", "Lazarevac", "Obrenovac",
     "Surcin", "Sopot",
-    # Sira gradska naselja
+
+    # Šira gradska naselja
     "Banjica", "Dedinje", "Senjak", "Banovo Brdo", "Cerak",
     "Cerak Vinogradi", "Konjarnik", "Karaburma", "Mirijevo",
     "Mirijevo 1", "Mirijevo 2", "Mirijevo 3",
-    "Zeleznik", "Altina", "Borca", "Krnjaca", "Kotez",
+    "Zeleznik", "Altina", "Borca", "Borca 2", "Borca 3",
+    "Krnjaca", "Kotez",
     "Batajnica", "Bezanijska Kosa", "Bezanijska Kosa 1",
     "Bezanijska Kosa 2", "Bezanijska Kosa 3",
     "Blok 1", "Blok 2", "Blok 3", "Blok 4", "Blok 7",
-    "Blok 21", "Blok 22", "Blok 23", "Blok 28", "Blok 29",
+    "Blok 9", "Blok 9a", "Blok 11c", "Blok 12",
+    "Blok 19a", "Blok 21", "Blok 22", "Blok 23",
+    "Blok 25", "Blok 26", "Blok 28", "Blok 29",
     "Blok 30", "Blok 33", "Blok 37", "Blok 38",
     "Blok 44", "Blok 45", "Blok 61", "Blok 62",
-    "Blok 63", "Blok 64", "Blok 70", "Blok 70A",
-    "Blok 72", "Blok 73",
-    # Cesta mikro-naselja / zone
+    "Blok 63", "Blok 64", "Blok 67", "Blok 67a",
+    "Blok 70", "Blok 70A", "Blok 72", "Blok 73",
+
+    # Mikro lokacije
     "Avala", "Filmski Grad", "Vidikovac", "Petlovo Brdo",
     "Labudovo Brdo", "Kanarevo Brdo", "Miljakovac",
     "Miljakovac 1", "Miljakovac 2", "Miljakovac 3",
@@ -34,30 +39,102 @@ LOKACIJE = sorted([
     "Slavija", "Kalemegdan", "Dorcol",
     "Donji Dorcol", "Gornji Dorcol",
     "Crveni Krst", "Cvetkova Pijaca",
-    "Lion", "Gradska Bolnica", "Djeram",
-    "Hadzipopovac", "Bogoslovija",
+    "Lion", "Djeram", "Hadzipopovac",
+    "Bogoslovija", "Gradska Bolnica",
     "Visnjicka Banja", "Visnjica",
     "Rospi Cuprija", "Ada Huja",
-    "Krnjaca Most", "Ovca", "Padinska Skela",
-    "Borca Greda", "Borca 3",
-    # Zemun / NBG dodatno
+    "Ovca", "Padinska Skela",
+    "Kovilovo", "Besni Fok", "Dunavac",
+
+    # Zemun / NBG
     "Zemun Polje", "Nova Galenika", "Galenika",
-    "Pregrevica", "Gornji Grad", "Donji Grad",
+    "Altina 2", "Pregrevica",
+    "Gornji Grad", "Donji Grad",
     "Retenzija", "Ledine", "Surcinsko Polje",
-    # Juzni deo grada
+    "Plavi Horizonti",
+
+    # Južni deo
     "Jajinci", "Pinosava", "Beli Potok",
     "Ripanj", "Zuce", "Vrcin", "Lestane",
-    "Kaludjerica",
-    # Ostalo cesto u oglasima
+    "Kaludjerica", "Kumodraz",
+
+    # Šira naselja BG (iz tvoje liste)
+    "Veliki Mokri Lug", "Mali Mokri Lug",
+    "Knezevac", "Stara Rakovica",
+    "Sremcica", "Rucka", "Umka",
+    "Velika Mostanica", "Mala Mostanica",
+    "Ruzanj",
+
+    # Grocka
+    "Grocka", "Begaljica", "Bolec",
+    "Vinca", "Ritopek", "Zaklopaca",
+    "Leštane", "Vrcin",
+
+    # Barajevo
+    "Barajevo", "Arandjelovac", "Bacevac",
+    "Beljina", "Meljak", "Lisovic",
+    "Manic", "Guncati",
+
+    # Lazarevac
+    "Lazarevac", "Veliki Crljeni", "Mali Crljeni",
+    "Vreoci", "Rudovci", "Zeoke",
+    "Junkovac", "Petka", "Dudovica",
+
+    # Mladenovac
+    "Mladenovac", "Kovacevac", "Koracica",
+    "Velika Ivanca", "Velika Krsna",
+    "Jagnjilo", "Dubona", "Markovac",
+
+    # Obrenovac
+    "Obrenovac", "Baric", "Zabrezje",
+    "Zvecka", "Skela", "Stubline",
+    "Urovci", "Grabovac", "Piroman",
+
+    # Palilula šira
+    "Veliko Selo", "Slanci",
+
+    # Sopot
+    "Sopot", "Ralja", "Rogaca",
+    "Nemenikuce", "Popovic", "Slatina",
+    "Sibnica", "Parcani",
+
+    # --- BELGRADE WATERFRONT ---
+    "Beograd na vodi", "BG na vodi", "Bnv", "Belgrade Waterfront",
+    "BW", "BW Residences", "BW Residence",
+    "BW Vista", "BW Vista Tower",
+    "BW Arcadia", "BW Aurora", "BW Magnolia",
+    "BW Parkview", "BW Park View",
+    "BW Verde", "BW Scala", "BW Terra",
+    "BW Metropolitan", "BW Quartet",
+    "BW Riviera", "BW Libera",
+
+    # --- KULA / ST REGIS ---
+    "Kula Beograd", "Kula Belgrade Waterfront",
+    "Belgrade Tower", "BW Tower",
+    "St Regis", "St. Regis", "St Regis Belgrade",
+    "St Regis Residences", "St. Regis Residences",
+    "StRegis", "St.Regis",
+
+    # --- LUKSUZ ---
+    "West 65", "West65", "West 65 Tower",
+    "Wellport", "Wellport Kula",
+    "A blok", "A Blok", "A-Block",
+    "Airport City", "Airport City Belgrade",
+    "Green Residence",
+    "The One", "The One Novi Beograd",
+    "Savada", "Savada 2", "Savada 3",
+    "Oaza", "Belvil", "Belville",
+
+    # Premium centar
+    "Knez Mihailova", "Obilicev Venac",
+    "Studentski trg", "Trg republike",
+    "Terazije", "Andricev venac",
+
+    # Ostalo
     "Stepa Stepanovic", "Brace Jerkovic",
     "Medakovic", "Medakovic 1", "Medakovic 2", "Medakovic 3",
     "Dusanovac", "Dusanovac Posta",
-    "Vozdovacka Crkva",
-    "Uciteljsko Naselje", "Konjarnik 2",
-    "Plavi Horizonti", "Altina 2","Zelena Avenija", "Hajd Park", "Centar",
-    "Knez Mihailova", "Skadarlija", "Vracar Centar",
-    "Beograd Centar","Neimar", "Kalenić", "Kosančićev Venac", "Tašmajdan",
-    "Sava Promenada", "Čuburski Park", "Čubura","Lekino Brdo", "Kosančićev Venac", "Mirijevski Bulevar"
+    "Učiteljsko Naselje", "Konjarnik 2"
 ], key=len, reverse=True)
 
 
