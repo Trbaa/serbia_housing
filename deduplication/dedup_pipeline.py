@@ -208,10 +208,13 @@ def upisati_u_bazu(df_validni, df, engine):
 
     df_full = pd.read_sql("SELECT * FROM gold.unified_oglasi", engine)
 
+    oglas_lookup = {row['oglas_id']: row.to_dict()
+                    for _, row in df_full.iterrows()}
+
     redovi = []
     for _, red in df_validni.iterrows():
         for oglas_id in red["oglas_ids"]:
-            oglas = df_full[df_full["oglas_id"] == oglas_id]
+            oglas = oglas_lookup.get(oglas_id) # bolja vremenska slozenost
             if oglas.empty:
                 continue
             oglas = oglas.iloc[0].to_dict()
