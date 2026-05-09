@@ -122,7 +122,7 @@ print(f"Pronađeno kandidat parova: {len(kandidati)}")
 
 # ── CLUSTERING ────────────────────────────────────────────────────────────────
 
-print("Klasterijem...")
+print("Klasterujem...")
 susedi = {}
 for par in kandidati:
     susedi.setdefault(par["oglas_a"], set()).add(par["oglas_b"]) # ukoliko oglas_a ne postoji u recniku dodaj ga kao prazan i stavi mu par b
@@ -231,10 +231,13 @@ def upisati_u_bazu(df_validni, df, engine):
     # INSERT iz temp → prava tabela, preskoči postojeće
     with engine.begin() as conn:
         conn.execute(text("""
-            INSERT INTO gold.unified_deduplicated
-            SELECT * FROM gold._dedup_temp
-            ON CONFLICT (oglas_id) DO NOTHING
-        """))
+        INSERT INTO gold.unified_deduplicated
+        SELECT * FROM gold._dedup_temp
+        ON CONFLICT (oglas_id) DO UPDATE SET
+            lokacija   = EXCLUDED.lokacija,
+            price_avg  = EXCLUDED.price_avg,
+            stan_id    = EXCLUDED.stan_id
+"""))
         conn.execute(text("DROP TABLE gold._dedup_temp"))
 
     print(f"Obradjeno: {len(df_upis)} redova")
