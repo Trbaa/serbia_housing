@@ -1,3 +1,9 @@
+{{ config(
+    materialized='incremental',
+    unique_key='unified_id',
+    incremental_strategy='merge'
+) }}
+
 WITH halo AS (
     SELECT * FROM {{ ref('stg_halo_oglasi') }}
 ),
