@@ -1,6 +1,6 @@
 # Serbia Housing — Real Estate Data Pipeline
 
-**Poslednja izmena:** 28. april 2026.
+**Poslednja izmena:** 9. maj 2026.
 
 Projekat za automatsko prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih oglasnih sajtova. Izgrađena je pouzdana baza podataka koja se svakodnevno ažurira i može da se koristi za analizu tržišta, vizuelizaciju trendova i razvoj modela za procenu cena nekretnina u Srbiji.
 
@@ -27,7 +27,7 @@ Preprocessing pipeline
         ↓
 Silver upis (očišćeni podaci) → silver shema
         ↓
-dbt run → transformacije i testovi
+dbt run → transformacije i testovi (incremental merge)
         ↓
 Gold sloj → gold.unified_oglasi
         ↓
@@ -54,8 +54,8 @@ Baza je organizovana po **Medallion Architecture** principu — industry standar
 
 ### `gold` shema — Gold sloj
 Sadrži dve tabele:
-- `unified_oglasi` — spaja sva 3 izvora (24,120 oglasa)
-- `unified_deduplicated` — deduplikovani oglasi (22,039 oglasa, 2,081 duplikata uklonjeno)
+- `unified_oglasi` — spaja sva 3 izvora (~27,200 oglasa)
+- `unified_deduplicated` — deduplikovani oglasi (~20,700 jedinstvenih stanova)
 
 ---
 
@@ -88,7 +88,7 @@ Svi sajtovi sortiraju oglase od najnovijih:
 - 4zida.rs — `?sortiranje=najnoviji`
 - nekretnine.rs — `?order=2`
 
-U `daily` modu, scraper prolazi oglase od najnovijeg ka starijem. Čim nađe 3 uzastopna oglasa koji već postoje u bazi (`oglas_id_exists`) — staje. Ovo garantuje da se ne preskoče novi oglasi u slučaju da sortiranje nije savršeno.
+U `daily` modu, scraper prolazi oglase od najnovijeg ka starijem. Čim nađe 3 uzastopna oglasa koji već postoje u bazi (`oglas_id_exists`) — staje.
 
 #### Anti-bot zaštita
 
@@ -101,15 +101,29 @@ Svaki scraper koristi:
 
 ### Preprocessing (`preprocesing/`)
 
-`pipeline.py` prima sirovi dict od scrapers i vraća očišćen dict spreman za upis u silver shemu. Pipeline čisti svako polje:
+`pipeline.py` prima sirovi dict od scrapers i vraća očišćen dict spreman za upis u silver shemu:
 
 - `clean_title` — uklanja cifre, specijalne karaktere
-- `clean_price_total` / `clean_price_per_m2` — parsira cene, uklanja valute, rukuje rasponima (npr. `78 000 - 370 500 EUR` → prosek)
+- `clean_price_total` / `clean_price_per_m2` — parsira cene, uklanja valute, rukuje rasponima
 - `clean_kvadratura` / `clean_br_soba` — parsira numeričke vrednosti
 - `clean_sprat` — konvertuje rimske brojeve, prizemlje, suteren u numeričke vrednosti
 - `clean_datum_objave` — parsira datum u Python `date` objekat
 - `clean_lokacija` — ekstraktuje lokaciju iz naslova ili opisa oglasa
-- `clean_uknjizen`, `clean_terasa`, `clean_lift`... — konvertuje u boolean iz teksta i opisa
+- `clean_uknjizen`, `clean_terasa`, `clean_lift`... — konvertuje u boolean
+
+### Lokacija update (`database/update_lokacija.py`)
+
+Skripta koja ažurira `lokacija` kolonu u silver tabelama za oglase gde je vrednost `NULL` ili `'Nepoznato'`. Koristi regex matching sa listom od 200+ beogradskih lokacija, normalizovanih za dijakritike.
+
+- Čita oglase gde je `lokacija IS NULL OR lokacija = 'Nepoznato'`
+- Traži lokaciju u `title` i `dodatni_opis` poljima
+- Batch UPDATE koristeći `psycopg2.extras.execute_values` (10-50x brže od executemany)
+- Nakon pokretanja, `dbt run` automatski propaguje izmene u gold sloj
+
+**Pokretanje:**
+```bash
+python database/update_lokacija.py
+```
 
 ### Baza podataka (`database/`)
 
@@ -124,7 +138,7 @@ Sve tri tabele (`silver.halo_oglasi`, `silver.z4ida`, `silver.nekretnine_rs`) im
 | `oglas_id` | text UNIQUE | Jedinstveni ID izvučen iz URL-a |
 | `title` | text | Naslov oglasa |
 | `price_total` | numeric | Ukupna cena u EUR |
-| `price_per_m2` | numeric | Cena po m² |
+| `price_per_m2` | numeric | Cena po m² (može biti korumpirana — koristiti `price_per_m2_calc`) |
 | `tip_nekretnine` | text | stan / kuća |
 | `kvadratura` | numeric | Površina u m² |
 | `broj_soba` | numeric | Broj soba |
@@ -152,118 +166,99 @@ Sve tri tabele (`silver.halo_oglasi`, `silver.z4ida`, `silver.nekretnine_rs`) im
 
 #### Raw tabele
 
-Sve tri tabele (`raw.halo_oglasi`, `raw.z4ida`, `raw.nekretnine_rs`) imaju identičnu strukturu kao silver, ali su **sve kolone `text` tipa** jer čuvaju sirove podatke bez konverzije.
+Identična struktura kao silver, ali su **sve kolone `text` tipa**.
 
 ### dbt transformacije (`dbt_serbia_housing/`)
 
 Nakon što scraperi završe, `main.py` automatski pokreće dbt koji transformiše silver podatke u gold sloj.
 
-**Staging modeli** (`models/staging/`) — tanki wrapper oko silver tabela:
-- `stg_halo_oglasi` — standardizuje halooglasi.com podatke, dodaje `izvor` kolonu
+**Staging modeli** (`models/staging/`) — svi konfigurisani kao `incremental` sa `merge` strategijom:
+- `stg_halo_oglasi` — standardizuje halooglasi.com podatke
 - `stg_z4ida` — standardizuje 4zida.rs podatke
 - `stg_nekretnine_rs` — standardizuje nekretnine.rs podatke
 
-**Mart modeli** (`models/marts/`) — biznis logika:
-- `gold.unified_oglasi` — spaja sva 3 izvora u jednu tabelu (24,120 oglasa)
+**Mart modeli** (`models/marts/`):
+- `gold.unified_oglasi` — spaja sva 3 izvora, `incremental` + `merge` strategija
 
-**Testovi** — dbt automatski proverava kvalitet podataka pri svakom pokretanju:
-- `unique` na `oglas_id` — nema duplikata
-- `not_null` na `oglas_id` — svaki oglas ima ID
-- `accepted_values` na `izvor` — samo poznati izvori
+**Incremental strategija:**
+```sql
+{{ config(
+    materialized='incremental',
+    unique_key='unified_id',
+    incremental_strategy='merge'
+) }}
+```
+- Novi oglasi → INSERT
+- Postojeći oglasi → UPDATE (lokacija, price_avg, stan_id)
+- Brže od `DROP + CREATE` svaki run
+
+**Testovi** — 13/13 prolaze pri svakom pokretanju:
+- `unique` na `oglas_id` i `unified_id`
+- `not_null` na ključnim kolonama
+- `accepted_values` na `izvor`
 
 **Pokretanje:**
 ```bash
 cd dbt_serbia_housing
-dbt run    # kreira/ažurira modele
-dbt test   # proverava kvalitet podataka
-dbt docs serve --port 8080  # vizuelna dokumentacija
+dbt run
+dbt test
+dbt docs serve --port 8080
 ```
 
-#### Insert logika (`insert_row.py`)
+### Deduplication pipeline (`deduplication/dedup_pipeline.py`)
 
-Koristi se `ON CONFLICT (oglas_id) DO UPDATE` — ako oglas već postoji, ažurira samo NULL vrednosti. `COALESCE` logika štiti postojeće podatke od prepisivanja.
-
-Svaki oglas se upisuje dva puta:
-- `insert_raw_row_*` — sirovi podaci u `raw` shemu
-- `insert_row_*` — očišćeni podaci u `silver` shemu
-
-#### Provera duplikata (`url_checker.py`)
-
-`oglas_id_exists(cursor, oglas_id, table)` — provera da li oglas već postoji u `silver` shemi. Koristi se za early stop u daily modu.
-
-#### `oglas_id` ekstrakcija (`url_checker.py`)
-
-Svaki sajt ima drugačiji format ID-a u URL-u:
-- halooglasi.com — numerički, 10+ cifara: `5425647022667`
-- 4zida.rs — hex string, 24 karaktera: `69dfc44bf8af725eaf03ca39`
-- nekretnine.rs — alphanumerički, 4-20 karaktera: `NksEAVNuU57`
-
-### Deduplication pipeline (`deduplication/`)
-
-Nakon dbt transformacija, `main.py` pokreće pipeline koji detektuje iste stanove oglašene na više sajtova i grupiše ih pod jedinstvenim `stan_id`.
-
-**Rezultati:**
-
-| Metrika | Vrednost |
-|---------|---------|
-| Ukupno oglasa (`unified_oglasi`) | 24,120 |
-| Nakon deduplikacije (`unified_deduplicated`) | 22,039 |
-| Uklonjenih duplikata | 2,081 |
+Nakon dbt transformacija, pipeline detektuje iste stanove oglašene na više sajtova.
 
 **Algoritam:**
-
 1. Učitava `gold.unified_oglasi`, filtrira outliere (cena 20k–2M EUR, kvadratura 15–400 m²)
-2. Normalizuje numeričke feature-e: kvadratura, broj_soba, sprat, price_per_m2 (MinMaxScaler)
-3. TF-IDF vektorizacija teksta iz `dodatni_opis` (bigrams, min_df=2, max_df=0.95)
-4. **Blokiranje** — poredi samo oglase unutar iste lokacije i sličnih kvadratura (early break >5 m²)
-5. **Score funkcija** — weighted kombinacija:
-   - kvadratura: 25%
-   - price_per_m2: 25%
-   - tekst (cosine similarity): 25%
-   - broj_soba: 15%
-   - sprat: 5%
-   - lokacija: 5%
-   - Boost: ako `tekst > 0.95` → score = 1.0 (identični opisi = isti oglas)
-6. **Greedy Clique clustering** — oglas ulazi u klaster samo ako je sličan svim postojećim članovima (prag: 0.92)
+2. Normalizuje numeričke feature-e (MinMaxScaler)
+3. TF-IDF vektorizacija `dodatni_opis` (bigrams, min_df=2, max_df=0.95)
+4. Blokiranje — poredi samo oglase unutar iste lokacije i sličnih kvadratura (break >5 m²)
+5. Score funkcija — weighted kombinacija (kvadratura 25%, price_per_m2 25%, tekst 25%, broj_soba 15%, sprat 5%, lokacija 5%)
+6. Greedy Clique clustering (prag: 0.92)
 7. Filteri kvaliteta: max 10 oglasa po klasteru, max CV cene 10%
-8. Upisuje u `gold.unified_deduplicated` sa `stan_id` i `price_avg`
+
+**Upis u bazu** — `ON CONFLICT DO UPDATE` ažurira lokaciju i cenu za postojeće oglase:
+```sql
+ON CONFLICT (oglas_id) DO UPDATE SET
+    lokacija  = EXCLUDED.lokacija,
+    price_avg = EXCLUDED.price_avg,
+    stan_id   = EXCLUDED.stan_id
+```
 
 **Pokretanje:**
 ```bash
 python deduplication/dedup_pipeline.py
 ```
 
-### Konfiguracija baze (`database/db_config.py`)
+---
 
-Čita konekcione parametre iz `.env.aws` fajla:
+## Poznati problemi sa podacima
 
-```
-DB_HOST=...
-DB_PORT=5433
-DB_NAME=scraping_database
-DB_USER=postgres
-DB_PASSWORD=...
+### `price_per_m2` kolona je korumpirana
+`price_per_m2` u gold tabelama je kalkulisana pre normalizacije valute (pre konverzije RSD → EUR). Za ML i analitiku uvek koristiti ručno kalkulisanu vrednost:
+```python
+df["price_per_m2_calc"] = df["price_total"] / df["kvadratura"]
 ```
 
-### Eksplorativna analiza podataka (`eda/`)
-
-Jupyter notebook sa analizom 23,000+ oglasa iz `gold.unified_oglasi` tabele.
-
-**Analize koje su urađene:**
-- Kvalitet podataka — procenat NULL vrednosti po koloni
-- Distribucija cena i kvadrature — medijana cene 224,000 EUR, medijana kvadrature 68 m²
-- Analiza po lokaciji — Dedinje, Kalemegdan i Knez Mihajlova su najskuplje lokacije
-- Trend cena po mesecu (mart 2025 — april 2026)
-- Distribucija broja soba — dvosobni i trosobni stanovi dominiraju tržištem
-- Korelacija između karakteristika
-- Uticaj amenitija na cenu (lift, terasa, parking, garaža, klima, interfon)
-- Analiza oglašivača — agencija vs vlasnik
-
-**Pokretanje:**
-```bash
-cd eda
-jupyter notebook
+### `sprat_ratio > 1` — dirty podaci
+18 oglasa sa nekretnine.rs ima `sprat > ukupna_spratnost` zbog greške oglašivača. Za ML pipeline filtrirati:
+```python
+mask_valid = df["sprat_ratio"].between(0, 1)
+df = df[mask_valid].copy()
 ```
+
+### Boolean kolone čitaju se kao `object`
+PostgreSQL `boolean` kolone sa NULL vrednostima pandas učitava kao `object` tip sa vrednostima `True`, `False`, `None`. Konverzija:
+```python
+bool_cols = ["uknjizen", "terasa", "interfon", "klima", "video_nadzor",
+             "internet", "parking", "garaza", "lift", "podrum"]
+df[bool_cols] = df[bool_cols].apply(lambda col: col.map({True: True, False: False}))
+```
+
+### Lokacija — ~40% oglasa bez lokacije
+Po izvoru: 4zida 53.5%, halooglasi 35.9%, nekretnine.rs 39.5% nema lokaciju.
+Rešenje: pokrenuti `update_lokacija.py` koji regex-om iz naslova i opisa ekstraktuje lokaciju.
 
 ---
 
@@ -274,16 +269,15 @@ jupyter notebook
 - OS: Amazon Linux 2023
 - Swap: 2GB (zaštita od OOM crash-a)
 - Region: us-east-1
+- IAM role: `ec2-cloudwatch-role` (CloudWatchAgentServerPolicy)
 
 ### RDS — serbia-housing-db
 - Engine: PostgreSQL 16
 - Instance: `db.t3.micro`
 - Storage: 20GB gp2
 - Port: 5433
-- Public access: Yes (zaštićeno security grupom)
 
 ### Lambda — start-ec2-scraper
-Startuje EC2 instancu:
 ```python
 import boto3
 def lambda_handler(event, context):
@@ -292,10 +286,16 @@ def lambda_handler(event, context):
 ```
 
 ### EventBridge Scheduler
-Pokreće Lambda svaki dan u 08:00 po beogradskom vremenu (`Europe/Belgrade` timezone).
+Pokreće Lambda svaki dan u 08:00 po beogradskom vremenu (`Europe/Belgrade`).
 
-### Systemd service (`/etc/systemd/system/scraper.service`)
-Automatski pokreće scraper čim se EC2 startuje:
+### CloudWatch Logs
+Agent instaliran na EC2, prati `/home/ec2-user/scraper.log`:
+- Log group: `serbia-housing-scraper`
+- Log stream: `{instance_id}`
+- Retention: 30 dana
+- Live Tail dostupan u AWS konzoli
+
+### Systemd service
 ```ini
 [Unit]
 Description=Daily scraper
@@ -315,23 +315,49 @@ WantedBy=multi-user.target
 
 ---
 
+## Feature Engineering (u toku)
+
+Polazna tabela: `gold.unified_deduplicated`, vremenski split:
+- Train: `datum_objave <= feb 2026`
+- Validacija: `mart 2026`
+- Test: `>= april 2026`
+
+| Feature | Formula | Status |
+|---------|---------|--------|
+| `price_per_m2_calc` | `price_total / kvadratura` | ✅ |
+| `sprat_ratio` | `sprat / ukupna_spratnost` | ✅ |
+| `amenity_score` | broj `True` boolean kolona | ✅ |
+| `je_novogradnja`, `je_agencija` | preskočeno — dostupno iz `stanje_objekta` i `oglasivac` | ⏭️ |
+| `lokacija_encoded` | target encoding (cross-fold) | ⏳ |
+| `starost_oglasa` | dani od `datum_objave` | ⏳ |
+
+---
+
+## ML Model (planirano)
+
+- **Model:** LightGBM (nativno rukuje NULL vrednostima)
+- **Ciljna promenljiva:** `price_total`
+- **Evaluacija:** RMSE, MAE, R², SHAP vrednosti
+- **Deployment:** FastAPI `/predict` endpoint
+- **Pipeline:** sklearn `ColumnTransformer` + `Pipeline` (jedan objekat za deployment)
+
+---
+
 ## Pokretanje
 
 ### Daily update (automatski svaki dan)
 ```bash
 python -m main --mode daily
 ```
-Skuplja samo nove oglase. Brzo završava — obično par minuta.
 
 ### Full scrape (inicijalno punjenje baze)
 ```bash
 python -m main --mode full
 ```
-Prolazi kroz sve stranice. Traje nekoliko sati.
 
-### Pojedinačni scraper
+### Lokacija update
 ```bash
-python -c "from scraper.halo_oglasi import run_halo_oglasi; run_halo_oglasi(max_pages=2, mode='daily')"
+python database/update_lokacija.py
 ```
 
 ---
@@ -342,6 +368,9 @@ python -c "from scraper.halo_oglasi import run_halo_oglasi; run_halo_oglasi(max_
 ```bash
 tail -f /home/ec2-user/scraper.log
 ```
+
+### CloudWatch Live Tail
+AWS konzola → CloudWatch → Live Tail → log group: `serbia-housing-scraper`
 
 ### Broj oglasa u bazi
 ```sql
@@ -370,38 +399,29 @@ ORDER BY n_oglasa DESC
 LIMIT 10;
 ```
 
-### Provera raw vs silver
-```sql
-SELECT
-    (SELECT COUNT(*) FROM raw.halo_oglasi)      AS raw_halo,
-    (SELECT COUNT(*) FROM silver.halo_oglasi)   AS silver_halo,
-    (SELECT COUNT(*) FROM raw.z4ida)            AS raw_z4ida,
-    (SELECT COUNT(*) FROM silver.z4ida)         AS silver_z4ida,
-    (SELECT COUNT(*) FROM raw.nekretnine_rs)    AS raw_nekretnine,
-    (SELECT COUNT(*) FROM silver.nekretnine_rs) AS silver_nekretnine;
-```
-
 ---
 
 ## Trenutno stanje baze
 
 | Izvor | Oglasa |
 |-------|--------|
-| halooglasi.com | ~8,200 |
-| 4zida.rs | ~3,400 |
-| nekretnine.rs | ~12,500 |
-| **Ukupno (unified_oglasi)** | **24,120** |
-| **Nakon deduplikacije** | **22,039** |
-| **Uklonjenih duplikata** | **2,081** |
+| halooglasi.com | ~8,300 |
+| 4zida.rs | ~3,900 |
+| nekretnine.rs | ~15,000 |
+| **Ukupno (unified_oglasi)** | **~27,200** |
+| **Nakon deduplikacije** | **~20,700** |
 
 ---
 
-## Sledeci koraci
+## Sledeći koraci
 
-- ~~**dbt**~~ ✅ — transformacije i `unified_oglasi` tabela implementirane
+- ~~**dbt**~~ ✅ — incremental merge transformacije implementirane
 - ~~**Analitika**~~ ✅ — eksplorativna analiza podataka završena
-- ~~**Deduplication**~~ ✅ — pipeline implementiran, 2,081 duplikata uklonjeno
-- **Feature engineering** — priprema podataka za ML modele
-- **Model za procenu cena** — predikcija cena nekretnina na osnovu karakteristika
+- ~~**Deduplication**~~ ✅ — pipeline sa ON CONFLICT DO UPDATE implementiran
+- ~~**CloudWatch**~~ ✅ — logovanje na AWS podešeno
+- ~~**Lokacija update**~~ ✅ — batch update skripta implementirana
+- **Feature engineering** ⏳ — u toku (price_per_m2_calc, sprat_ratio, amenity_score gotovi)
+- **ML model** ⏳ — LightGBM hedonic pricing model
+- **FastAPI deployment** ⏳ — `/predict` endpoint
 - **Grafana dashboard** — vizuelizacija podataka
 - **Proxy rotacija** — residential proxy za bolju anti-bot zaštitu
