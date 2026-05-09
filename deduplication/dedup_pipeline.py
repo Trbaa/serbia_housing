@@ -52,8 +52,8 @@ df = pd.read_sql("""
 """, engine)
 
 df = df[
-    (df["price_total"].between(20_000, 2_000_000)) &
-    (df["kvadratura"].between(15, 400))
+    (df["price_total"].between(20_000, 3_000_000)) &
+    (df["kvadratura"].between(10, 600))
 ].copy()
 
 print(f"Učitano: {len(df)} oglasa")
@@ -224,6 +224,9 @@ def upisati_u_bazu(df_validni, df, engine):
 
     df_upis = pd.DataFrame(redovi)
     df_upis = df_upis.drop(columns=["unified_id"], errors="ignore")
+
+    df_upis["price_avg"] = pd.to_numeric(df_upis["price_avg"], errors="coerce")
+    df_upis["stan_id"] = df_upis["stan_id"].astype(str)
 
     # Upiši u temp tabelu
     df_upis.to_sql(
