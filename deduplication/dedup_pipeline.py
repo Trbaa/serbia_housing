@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, text, Numeric, Text, Boolean, Date, DateTime, Integer
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
@@ -26,6 +26,29 @@ TEZINE = {
     "sprat":        0.05,
     "lokacija":     0.05,
     "tekst":        0.25,
+}
+
+# Eksplicitni tipovi za to_sql — sprečava SQLAlchemy da inferuje TEXT za numeričke kolone
+DTYPE_MAP = {
+    "price_total":          Numeric(),
+    "price_avg":            Numeric(),
+    "price_per_m2":         Numeric(),
+    "kvadratura":           Numeric(),
+    "broj_soba":            Numeric(),
+    "sprat":                Numeric(),
+    "ukupna_spratnost":     Integer(),
+    "uknjizen":             Boolean(),
+    "terasa":               Boolean(),
+    "interfon":             Boolean(),
+    "klima":                Boolean(),
+    "video_nadzor":         Boolean(),
+    "internet":             Boolean(),
+    "parking":              Boolean(),
+    "garaza":               Boolean(),
+    "lift":                 Boolean(),
+    "podrum":               Boolean(),
+    "datum_objave":         Date(),
+    "created_at":           DateTime(),
 }
 
 # ── KONEKCIJA ─────────────────────────────────────────────────────────────────
@@ -125,8 +148,8 @@ print(f"Pronađeno kandidat parova: {len(kandidati)}")
 print("Klasterujem...")
 susedi = {}
 for par in kandidati:
-    susedi.setdefault(par["oglas_a"], set()).add(par["oglas_b"]) # ukoliko oglas_a ne postoji u recniku dodaj ga kao prazan i stavi mu par b
-    susedi.setdefault(par["oglas_b"], set()).add(par["oglas_a"]) #ista prica
+    susedi.setdefault(par["oglas_a"], set()).add(par["oglas_b"])
+    susedi.setdefault(par["oglas_b"], set()).add(par["oglas_a"])
 
 poseceni, klasteri = set(), []
 for oglas_id in df["oglas_id"]:
@@ -201,53 +224,87 @@ for _, red in df_validni[df_validni["n_oglasa"] == 2].sample(20, random_state=12
         print(f"  [{oglas['izvor']}]: {str(oglas['dodatni_opis'])[:150]}")
     print("-" * 80)
 """
+
 # ── UPIS U BAZU ───────────────────────────────────────────────────────────────
+
+import io
+from psycopg2.extras import execute_values
 
 def upisati_u_bazu(df_validni, df, engine):
     print("\nUpisujem u gold.unified_deduplicated...")
 
     df_full = pd.read_sql("SELECT * FROM gold.unified_oglasi", engine)
-
-    oglas_lookup = {row['oglas_id']: row.to_dict()
-                    for _, row in df_full.iterrows()}
+    oglas_lookup = {row["oglas_id"]: row.to_dict() for _, row in df_full.iterrows()}
 
     redovi = []
     for _, red in df_validni.iterrows():
         for oglas_id in red["oglas_ids"]:
             oglas = oglas_lookup.get(oglas_id)
-            if oglas is None:          # ← fix: was `if oglas.empty:`
+            if oglas is None:
                 continue
-            # ← fix: removed the `oglas = oglas.iloc[0].to_dict()` line
+            oglas = oglas.copy()
             oglas["stan_id"]   = red["stan_id"]
-            oglas["price_avg"] = red["price_avg"]
+            oglas["price_avg"] = float(red["price_avg"]) if red["price_avg"] is not None else None
             redovi.append(oglas)
 
     df_upis = pd.DataFrame(redovi)
     df_upis = df_upis.drop(columns=["unified_id"], errors="ignore")
 
-    df_upis["price_avg"] = pd.to_numeric(df_upis["price_avg"], errors="coerce")
-    df_upis["stan_id"] = df_upis["stan_id"].astype(str)
+    # --- type conversions (same as before) ---
+    NUMERIC_COLS = ["price_total", "price_avg", "price_per_m2", "kvadratura", "broj_soba", "sprat"]
+    for col in NUMERIC_COLS:
+        if col in df_upis.columns:
+            df_upis[col] = pd.to_numeric(df_upis[col], errors="coerce")
 
-    # Upiši u temp tabelu
-    df_upis.to_sql(
-        "_dedup_temp", engine, schema="gold",
-        if_exists="replace", index=False, chunksize=500
-    )
+    if "ukupna_spratnost" in df_upis.columns:
+        df_upis["ukupna_spratnost"] = pd.to_numeric(
+            df_upis["ukupna_spratnost"], errors="coerce"
+        ).astype("Int64")
 
-    # INSERT iz temp → prava tabela, preskoči postojeće
-    with engine.begin() as conn:
-        conn.execute(text("""
-        INSERT INTO gold.unified_deduplicated
-        SELECT * FROM gold._dedup_temp
-        ON CONFLICT (oglas_id) DO UPDATE SET
-            lokacija   = EXCLUDED.lokacija,
-            price_avg  = EXCLUDED.price_avg,
-            stan_id    = EXCLUDED.stan_id
-"""))
-        conn.execute(text("DROP TABLE gold._dedup_temp"))
+    BOOL_COLS = ["uknjizen", "terasa", "interfon", "klima",
+                 "video_nadzor", "internet", "parking", "garaza", "lift", "podrum"]
+    for col in BOOL_COLS:
+        if col in df_upis.columns:
+            df_upis[col] = df_upis[col].where(df_upis[col].notna(), None)
+            df_upis[col] = df_upis[col].map(lambda x: bool(x) if x is not None else None)
 
-    print(f"Obradjeno: {len(df_upis)} redova")
+    df_upis = df_upis.where(pd.notna(df_upis), None)
 
-# Poziv na kraju
-from sqlalchemy import text
+    kolone = list(df_upis.columns)
+    kolone_str = ", ".join(kolone)
+
+    # Serialize DataFrame to CSV in memory — no disk I/O
+    buffer = io.StringIO()
+    df_upis.to_csv(buffer, index=False, header=False, na_rep="\\N")
+    buffer.seek(0)
+
+    with engine.connect() as conn:
+        raw_conn = conn.connection
+        cursor = raw_conn.cursor()
+
+        # 1. Temp table with same structure, auto-dropped at end of session
+        cursor.execute(f"""
+            CREATE TEMP TABLE tmp_dedup (LIKE gold.unified_deduplicated INCLUDING ALL)
+            ON COMMIT DROP
+        """)
+
+        # 2. COPY CSV buffer directly into temp table — fastest possible load
+        cursor.copy_expert(f"""
+            COPY tmp_dedup ({kolone_str})
+            FROM STDIN WITH (FORMAT csv, NULL '\\N')
+        """, buffer)
+
+        # 3. Upsert from temp into real table in one SQL statement
+        update_set = ", ".join([
+            f"{col} = EXCLUDED.{col}"
+            for col in ["lokacija", "price_avg", "stan_id"]
+        ])
+        cursor.execute(f"""
+            INSERT INTO gold.unified_deduplicated ({kolone_str})
+            SELECT {kolone_str} FROM tmp_dedup
+            ON CONFLICT (oglas_id) DO UPDATE SET {update_set}
+        """)
+
+        raw_conn.commit()
+        print(f"Upisano: {len(df_upis)} redova")
 upisati_u_bazu(df_validni, df, engine)
