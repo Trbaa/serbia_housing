@@ -1,6 +1,6 @@
 {{ config(
     materialized='incremental',
-    unique_key='unified_id',
+    unique_key='oglas_id',
     incremental_strategy='merge'
 ) }}
 
