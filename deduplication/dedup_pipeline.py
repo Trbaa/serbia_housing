@@ -214,10 +214,10 @@ def upisati_u_bazu(df_validni, df, engine):
     redovi = []
     for _, red in df_validni.iterrows():
         for oglas_id in red["oglas_ids"]:
-            oglas = oglas_lookup.get(oglas_id) # bolja vremenska slozenost
-            if oglas.empty:
+            oglas = oglas_lookup.get(oglas_id)
+            if oglas is None:          # ← fix: was `if oglas.empty:`
                 continue
-            oglas = oglas.iloc[0].to_dict()
+            # ← fix: removed the `oglas = oglas.iloc[0].to_dict()` line
             oglas["stan_id"]   = red["stan_id"]
             oglas["price_avg"] = red["price_avg"]
             redovi.append(oglas)
