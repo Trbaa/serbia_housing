@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Procena cene nekretnine — Beograd</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏠</text></svg>" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0b0d12;
+      --bg-elev: #141821;
+      --bg-card: #1a1f2b;
+      --bg-card-hover: #222837;
+      --border: #2a3142;
+      --border-strong: #3a4356;
+      --text: #f5f7fa;
+      --text-muted: #98a2b3;
+      --accent: #6366f1;
+      --accent-hover: #818cf8;
+      --accent-glow: rgba(99, 102, 241, 0.35);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.12);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.12);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+      --radius: 14px;
+      --radius-lg: 20px;
+    }
+
+    [data-theme="light"] {
+      --bg: #f7f8fb;
+      --bg-elev: #ffffff;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f3f9;
+      --border: #e4e7ee;
+      --border-strong: #d0d5dd;
+      --text: #101828;
+      --text-muted: #667085;
+      --accent: #4f46e5;
+      --accent-hover: #6366f1;
+      --accent-glow: rgba(79, 70, 229, 0.25);
+      --shadow: 0 10px 40px rgba(16, 24, 40, 0.08);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      transition: background 0.4s ease, color 0.4s ease;
+    }
+
+    .theme-toggle {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      color: var(--text);
+      cursor: pointer;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.3s ease;
+      z-index: 100;
+    }
+    .theme-toggle:hover {
+      transform: scale(1.08);
+      border-color: var(--accent);
+      box-shadow: 0 0 20px var(--accent-glow);
+    }
+
+    .hero {
+      padding: 100px 24px 60px;
+      text-align: center;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--text) 0%, var(--accent-hover) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+    }
+    .hero p {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px 80px;
+    }
+
+    .card {
+      background: var(--bg-elev);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 36px;
+      box-shadow: var(--shadow);
+      transition: background 0.4s ease, border 0.4s ease;
+    }
+
+    form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    @media (max-width: 768px) {
+      form { grid-template-columns: 1fr; gap: 28px; }
+      .hero { padding: 80px 20px 40px; }
+      .card { padding: 24px; }
+    }
+
+    .column h3 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      font-weight: 600;
+    }
+
+    .field {
+      margin-bottom: 18px;
+    }
+    .field label {
+      display: block;
+      font-size: 0.875rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+    .field input {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+    }
+    .field input:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    .field input.invalid {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px var(--danger-bg);
+    }
+
+    .amenities {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+    .amenity { position: relative; }
+    .amenity input { position: absolute; opacity: 0; pointer-events: none; }
+    .amenity label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      background: var(--bg-card);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+    .amenity label:hover {
+      border-color: var(--border-strong);
+      background: var(--bg-card-hover);
+    }
+    .amenity .check-box {
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--border-strong);
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+    .amenity input:checked + label {
+      border-color: var(--accent);
+      background: var(--accent-glow);
+      color: var(--text);
+    }
+    .amenity input:checked + label .check-box {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+    .amenity input:checked + label .check-box::after {
+      content: "";
+      width: 5px;
+      height: 9px;
+      border: solid white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translate(-1px, -1px);
+    }
+
+    .submit-wrap {
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+    }
+    .submit-btn {
+      position: relative;
+      padding: 16px 52px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: var(--radius);
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      min-width: 220px;
+      min-height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .submit-btn:hover:not(:disabled) {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 10px 30px var(--accent-glow);
+    }
+    .submit-btn:active:not(:disabled) { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .submit-btn.loading .btn-text { opacity: 0; }
+    .submit-btn.loading .spinner { display: block; }
+    .spinner {
+      display: none;
+      position: absolute;
+      width: 22px;
+      height: 22px;
+      border: 2.5px solid rgba(255, 255, 255, 0.3);
+      border-top-color: white;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .result {
+      margin-top: 40px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+      pointer-events: none;
+    }
+    .result.visible {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+
+    .result-card {
+      background: linear-gradient(135deg, var(--bg-elev) 0%, var(--bg-card) 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      box-shadow: var(--shadow);
+      text-align: center;
+    }
+    .result-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+      font-weight: 600;
+    }
+    .result-price {
+      font-size: clamp(2.5rem, 7vw, 4.5rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      margin-bottom: 8px;
+    }
+    .result-per-m2 {
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .confidence {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 18px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+    .confidence::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+    }
+
+    .similar-wrap { margin-top: 50px; }
+    .similar-wrap h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+      letter-spacing: -0.02em;
+    }
+    .similar-wrap .subtitle {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .similar-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 18px;
+    }
+    .listing-card {
+      background: var(--bg-card);
+      border: 3px solid var(--border-strong);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      position: relative;
+    }
+    .listing-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--accent);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+      background: var(--bg-card-hover);
+    }
+    .listing-title {
+      font-size: 1rem;
+      font-weight: 600;
+      line-height: 1.4;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      -webkit-box-orient: vertical;
+      min-height: 2.8em;
+    }
+    .listing-price {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .listing-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 14px;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .listing-meta span { display: inline-flex; align-items: center; gap: 4px; }
+    .badge {
+      display: inline-block;
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      align-self: flex-start;
+    }
+    .badge.cheaper { background: var(--success-bg); color: var(--success); }
+    .badge.pricier { background: var(--danger-bg); color: var(--danger); }
+
+    .empty-state {
+      text-align: center;
+      padding: 30px;
+      color: var(--text-muted);
+      background: var(--bg-card);
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius);
+    }
+
+    .error-msg {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: var(--danger-bg);
+      border: 1px solid var(--danger);
+      border-radius: var(--radius);
+      color: var(--danger);
+      text-align: center;
+      font-size: 0.9rem;
+      display: none;
+    }
+    .error-msg.visible { display: block; }
+  </style>
+</head>
+<body>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">🌙</button>
+
+  <section class="hero">
+    <h1>Procena cene nekretnine</h1>
+    <p>Unesite parametre stana u Beogradu i dobijte trenutnu procenu tržišne vrednosti zasnovanu na ML modelu treniranom na hiljadama oglasa.</p>
+  </section>
+
+  <div class="container">
+    <div class="card">
+      <form id="predictForm" novalidate>
+        <div class="column">
+          <h3>Osnovni podaci</h3>
+          <div class="field">
+            <label for="kvadratura">Kvadratura (m²) *</label>
+            <input type="number" id="kvadratura" name="kvadratura" min="1" step="0.1" required />
+          </div>
+          <div class="field">
+            <label for="broj_soba">Broj soba *</label>
+            <input type="number" id="broj_soba" name="broj_soba" min="0.5" step="0.5" required />
+          </div>
+          <div class="field">
+            <label for="sprat">Sprat</label>
+            <input type="number" id="sprat" name="sprat" min="0" step="1" />
+          </div>
+          <div class="field">
+            <label for="ukupna_spratnost">Ukupna spratnost</label>
+            <input type="number" id="ukupna_spratnost" name="ukupna_spratnost" min="1" step="1" />
+          </div>
+          <div class="field">
+            <label for="lokacija">Lokacija</label>
+            <input type="text" id="lokacija" name="lokacija" placeholder="npr. Vračar, Novi Beograd..." />
+          </div>
+        </div>
+
+        <div class="column">
+          <h3>Amenitiji</h3>
+          <div class="amenities" id="amenitiesGrid"></div>
+        </div>
+      </form>
+
+      <div class="submit-wrap">
+        <button type="button" id="submitBtn" class="submit-btn" disabled>
+          <span class="btn-text">Proceni</span>
+          <span class="spinner"></span>
+        </button>
+      </div>
+
+      <div class="error-msg" id="errorMsg"></div>
+    </div>
+
+    <div class="result" id="result">
+      <div class="result-card">
+        <div class="result-label">Procenjena vrednost</div>
+        <div class="result-price" id="resultPrice">—</div>
+        <div class="result-per-m2" id="resultPerM2">—</div>
+        <div class="confidence">Model tačan ±83.000 EUR (MAE na test skupu)</div>
+      </div>
+
+      <div class="similar-wrap">
+        <h2>Slični oglasi</h2>
+        <p class="subtitle">Aktivni oglasi sa sličnom kvadraturom, brojem soba i lokacijom</p>
+        <div id="similarGrid" class="similar-grid"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const AMENITIES = [
+      "lift", "parking", "terasa", "garaza", "internet",
+      "klima", "interfon", "video_nadzor", "uknjizen"
+    ];
+    const AMENITY_LABELS = {
+      lift: "Lift",
+      parking: "Parking",
+      terasa: "Terasa",
+      garaza: "Garaža",
+      internet: "Internet",
+      klima: "Klima",
+      interfon: "Interfon",
+      video_nadzor: "Video nadzor",
+      uknjizen: "Uknjižen"
+    };
+    const API_BASE = "http://localhost:8000";
+    const $ = (id) => document.getElementById(id);
+
+    const amenitiesGrid = $("amenitiesGrid");
+    AMENITIES.forEach((key) => {
+      const wrap = document.createElement("div");
+      wrap.className = "amenity";
+      wrap.innerHTML = `
+        <input type="checkbox" id="am_${key}" name="${key}" />
+        <label for="am_${key}">
+          <span class="check-box"></span>
+          <span>${AMENITY_LABELS[key]}</span>
+        </label>
+      `;
+      amenitiesGrid.appendChild(wrap);
+    });
+
+    const themeToggle = $("themeToggle");
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    if (savedTheme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+      themeToggle.textContent = "☀️";
+    }
+    themeToggle.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      if (current === "light") {
+        document.documentElement.removeAttribute("data-theme");
+        themeToggle.textContent = "🌙";
+        localStorage.setItem("theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+        themeToggle.textContent = "☀️";
+        localStorage.setItem("theme", "light");
+      }
+    });
+
+    const requiredFields = ["kvadratura", "broj_soba"];
+    const submitBtn = $("submitBtn");
+    const updateBtnState = () => {
+      const allFilled = requiredFields.every((id) => {
+        const v = $(id).value;
+        return v !== "" && parseFloat(v) > 0;
+      });
+      submitBtn.disabled = !allFilled;
+    };
+    requiredFields.forEach((id) => {
+      $(id).addEventListener("input", () => {
+        $(id).classList.remove("invalid");
+        updateBtnState();
+      });
+    });
+    ["sprat", "ukupna_spratnost"].forEach((id) => {
+      $(id).addEventListener("input", () => $(id).classList.remove("invalid"));
+    });
+
+    const fmtEUR = (n) =>
+      new Intl.NumberFormat("sr-RS", { maximumFractionDigits: 0 }).format(Math.round(n)) + " EUR";
+
+    const validateForm = () => {
+      let valid = true;
+      const numericFields = ["kvadratura", "broj_soba", "sprat", "ukupna_spratnost"];
+      numericFields.forEach((id) => {
+        const el = $(id);
+        const v = el.value;
+        if (requiredFields.includes(id)) {
+          if (v === "" || parseFloat(v) <= 0) {
+            el.classList.add("invalid");
+            valid = false;
+          }
+        } else if (v !== "" && parseFloat(v) < 0) {
+          el.classList.add("invalid");
+          valid = false;
+        }
+      });
+      return valid;
+    };
+
+    const buildPayload = () => {
+      const checkedAmenities = {};
+      let amenityScore = 0;
+      AMENITIES.forEach((key) => {
+        const checked = $(`am_${key}`).checked ? 1 : 0;
+        checkedAmenities[key] = checked;
+        amenityScore += checked;
+      });
+      return {
+        kvadratura: parseFloat($("kvadratura").value),
+        broj_soba: parseFloat($("broj_soba").value),
+        sprat: $("sprat").value === "" ? null : parseFloat($("sprat").value),
+        ukupna_spratnost: $("ukupna_spratnost").value === "" ? null : parseFloat($("ukupna_spratnost").value),
+        lokacija: $("lokacija").value || null,
+        amenity_score: amenityScore,
+        ...checkedAmenities,
+      };
+    };
+
+    const renderSimilar = (listings, prediction) => {
+      const grid = $("similarGrid");
+      grid.innerHTML = "";
+      if (!listings || listings.length === 0) {
+        grid.innerHTML = `<div class="empty-state" style="grid-column: 1 / -1;">Nema sličnih oglasa za zadate parametre.</div>`;
+        return;
+      }
+      listings.forEach((l) => {
+        const diff = (l.price_total || 0) - prediction;
+        const badgeClass = diff < 0 ? "cheaper" : "pricier";
+        const badgeText = diff < 0
+          ? `Jeftiniji za ${fmtEUR(Math.abs(diff))}`
+          : `Skuplji za ${fmtEUR(diff)}`;
+        const card = document.createElement("a");
+        card.className = "listing-card";
+        card.href = l.url || "#";
+        card.target = "_blank";
+        card.rel = "noopener noreferrer";
+        const sprat = l.sprat ?? "—";
+        const uk = l.ukupna_spratnost ?? "—";
+        card.innerHTML = `
+          <span class="badge ${badgeClass}">${badgeText}</span>
+          <div class="listing-title">${l.title || "Bez naslova"}</div>
+          <div class="listing-price">${l.price_total ? fmtEUR(l.price_total) : "—"}</div>
+          <div class="listing-meta">
+            <span>${l.price_per_m2 ? fmtEUR(l.price_per_m2) + "/m²" : "—"}</span>
+            <span>${l.kvadratura ?? "—"} m²</span>
+            <span>Sprat ${sprat}/${uk}</span>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    };
+
+    const showError = (msg) => {
+      const el = $("errorMsg");
+      el.textContent = msg;
+      el.classList.add("visible");
+    };
+    const clearError = () => $("errorMsg").classList.remove("visible");
+
+    submitBtn.addEventListener("click", async () => {
+      clearError();
+      if (!validateForm()) return;
+
+      const payload = buildPayload();
+      submitBtn.classList.add("loading");
+      submitBtn.disabled = true;
+
+      try {
+        const [predRes, simRes] = await Promise.all([
+          fetch(`${API_BASE}/predict`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }),
+          fetch(`${API_BASE}/slicni`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          }),
+        ]);
+
+        if (!predRes.ok) throw new Error(`Predict greška: ${predRes.status}`);
+        const predData = await predRes.json();
+        const prediction = predData.predikcija_eur;
+        const perM2 = prediction / payload.kvadratura;
+
+        $("resultPrice").textContent = fmtEUR(prediction);
+        $("resultPerM2").textContent = `${fmtEUR(perM2)} / m²`;
+
+        let listings = [];
+        if (simRes.ok) {
+          listings = await simRes.json();
+        }
+        renderSimilar(listings, prediction);
+
+        const result = $("result");
+        result.classList.add("visible");
+        setTimeout(() => {
+          result.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 80);
+      } catch (err) {
+        console.error(err);
+        showError(err.message || "Došlo je do greške pri komunikaciji sa serverom.");
+      } finally {
+        submitBtn.classList.remove("loading");
+        updateBtnState();
+      }
+    });
+
+    updateBtnState();
+  </script>
+</body>
+</html>
