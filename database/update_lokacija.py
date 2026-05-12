@@ -1,5 +1,6 @@
 import re
 import psycopg2
+from psycopg2.extras import execute_values
 from dotenv import load_dotenv
 import os
 
@@ -172,6 +173,14 @@ def izvuci_lokaciju(title: str | None, opis: str | None) -> str:
                 return lokacija
     return "Nepoznato"
 
+def ukloni_nepoznato(lokacija: str | None) -> str:
+    """
+    trazi gde je nepoznato i onda pretvori u Nan
+    """
+
+    if lokacija == 'Nepoznato':
+        return None
+    return lokacija
 
 # ── Glavni update ──────────────────────────────────────────────────────────
 def update_tabela(conn, tabela: str) -> None:
@@ -180,9 +189,9 @@ def update_tabela(conn, tabela: str) -> None:
 
     with conn.cursor() as cur:
         cur.execute(f"""
-            SELECT id, title, dodatni_opis
-            FROM {tabela}
-            WHERE lokacija IS NULL
+            SELECT id, title, dodatni_opis,lokacija
+            FROM silver.{tabela}
+            WHERE lokacija = 'Nepoznato'
             ORDER BY id ASC
         """)
         rows = cur.fetchall()
@@ -196,19 +205,21 @@ def update_tabela(conn, tabela: str) -> None:
 
     # Izracunaj sve lokacije lokalno u Pythonu
     values = []
-    for row_id, title, opis in rows:
+    for row_id, title, opis, _ in rows:
         lokacija = izvuci_lokaciju(title, opis)
+        lokacija = ukloni_nepoznato(lokacija)
         values.append((lokacija, row_id))
 
-    nepoznato = sum(1 for lok, _ in values if lok == "Nepoznato")
+    nepoznato = sum(1 for lok, _ in values if lok == None)
     nadjena   = ukupno - nepoznato
 
-    # Jedan batch UPDATE umesto 8000+ pojedinacnih
+# SVAKI ROW IDE PO 1 UPDATE
     with conn.cursor() as cur:
-        cur.executemany(
-            f"UPDATE {tabela} SET lokacija = %s WHERE id = %s",
+        execute_values(
+            cur,
+            f"UPDATE silver.{tabela} SET lokacija = data.lokacija FROM (VALUES %s) AS data(lokacija, id) WHERE silver.{tabela}.id = data.id",
             values
-        )
+    )
     conn.commit()
 
     print(f"Zavrseno: {nadjena} lokacija nadjena | {nepoznato} Nepoznato")
