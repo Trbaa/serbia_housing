@@ -315,12 +315,13 @@ WantedBy=multi-user.target
 
 ---
 
-## Feature Engineering (u toku)
+## Feature Engineering
 
-Polazna tabela: `gold.unified_deduplicated`, vremenski split:
-- Train: `datum_objave <= feb 2026`
-- Validacija: `mart 2026`
-- Test: `>= april 2026`
+Polazna tabela: `gold.unified_deduplicated`, 
+Vremenski split:
+- Train: 15.876 oglasa (do 22. aprila 2026.)
+- Validacija: 1.984 oglasa (22–27. april 2026.)
+- Test: 1.986 oglasa (od 27. aprila 2026.)
 
 | Feature | Formula | Status |
 |---------|---------|--------|
@@ -328,19 +329,38 @@ Polazna tabela: `gold.unified_deduplicated`, vremenski split:
 | `sprat_ratio` | `sprat / ukupna_spratnost` | ✅ |
 | `amenity_score` | broj `True` boolean kolona | ✅ |
 | `je_novogradnja`, `je_agencija` | preskočeno — dostupno iz `stanje_objekta` i `oglasivac` | ⏭️ |
-| `lokacija_encoded` | target encoding (cross-fold) | ⏳ |
-| `starost_oglasa` | dani od `datum_objave` | ⏳ |
+| `lokacija_encoded` | target encoding (cross-fold) | ✅ |
+| `starost_oglasa` | dani od `datum_objave` | ✅ |
 
 ---
 
 ## ML Model (planirano)
 
-- **Model:** LightGBM (nativno rukuje NULL vrednostima)
-- **Ciljna promenljiva:** `price_total`
-- **Evaluacija:** RMSE, MAE, R², SHAP vrednosti
-- **Deployment:** FastAPI `/predict` endpoint
-- **Pipeline:** sklearn `ColumnTransformer` + `Pipeline` (jedan objekat za deployment)
+## ML Model
 
+Testirani modeli (Test skup):
+
+| Model | MAE | RMSE | R² |
+|-------|-----|------|----|
+| LightGBM bazni | 96.082 EUR | 153.780 EUR | 0.541 |
+| LightGBM (Optuna) | 87.074 EUR | 148.097 EUR | 0.574 |
+| CatBoost | 93.272 EUR | 149.057 EUR | 0.568 |
+| Random Forest | 83.461 EUR | 146.841 EUR | 0.581 |
+
+Najbolji model: **Random Forest sa default parametrima (Test R² 0.581)**.
+
+Isprobane dodatne tehnike — sve dale lošije rezultate:
+
+| Tehnika | Val R² | Test R² |
+|---------|--------|---------|
+| Hibridni model (LinReg + RF na rezidualima) | 0.751 | 0.476 |
+| RF + exp(broj_dana) feature | 0.734 | 0.426 |
+| RF + PolynomialFeatures | 0.736 | 0.424 |
+| LinReg + PolynomialFeatures | 0.547 | 0.385 |
+
+Pad R² između validacije (0.899) i testa (0.581) pripisuje se distribucijskom pomaku
+— scraper je u ranijem periodu pokupio više skupih oglasa, a u kasnijem više jeftinijih,
+pa vremenski signal u podacima nije stvarni tržišni trend.
 ---
 
 ## Pokretanje
@@ -420,8 +440,8 @@ LIMIT 10;
 - ~~**Deduplication**~~ ✅ — pipeline sa ON CONFLICT DO UPDATE implementiran
 - ~~**CloudWatch**~~ ✅ — logovanje na AWS podešeno
 - ~~**Lokacija update**~~ ✅ — batch update skripta implementirana
-- **Feature engineering** ⏳ — u toku (price_per_m2_calc, sprat_ratio, amenity_score gotovi)
-- **ML model** ⏳ — LightGBM hedonic pricing model
+- ~~**Feature engineering**~~ ✅ — svi featurei implementirani
+- ~~**ML model**~~ ✅ — Random Forest, R² 0.581 na test skupu
 - **FastAPI deployment** ⏳ — `/predict` endpoint
 - **Grafana dashboard** — vizuelizacija podataka
 - **Proxy rotacija** — residential proxy za bolju anti-bot zaštitu
