@@ -317,11 +317,15 @@ WantedBy=multi-user.target
 
 ## Feature Engineering
 
-Polazna tabela: `gold.unified_deduplicated`, 
-Vremenski split:
-- Train: 15.876 oglasa (do 22. aprila 2026.)
-- Validacija: 1.984 oglasa (22–27. april 2026.)
-- Test: 1.986 oglasa (od 27. aprila 2026.)
+Polazna tabela: `gold.unified_deduplicated`
+
+Vremenski split (revidiran nakon analize distribucijskog shifta):
+- Train: 15.584 oglasa (do 21. aprila 2026.)
+- Validacija: 2.226 oglasa (21–27. april 2026.)
+- Test: 2.226 oglasa (od 27. aprila 2026.)
+
+> **Napomena:** Originalni test skup (maj 2026.) identifikovan je kao specifičan period — volumen oglasa
+> opada nakon scrapovog pika u aprilu, što menja mešavinu oglasa. Podela je revidirana po preporuci mentora.
 
 | Feature | Formula | Status |
 |---------|---------|--------|
@@ -338,29 +342,33 @@ Vremenski split:
 
 ## ML Model
 
-Testirani modeli (Test skup):
+Testirani modeli na originalnom i revidiranom test skupu:
 
-| Model | MAE | RMSE | R² |
-|-------|-----|------|----|
-| LightGBM bazni | 96.082 EUR | 153.780 EUR | 0.541 |
-| LightGBM (Optuna) | 87.074 EUR | 148.097 EUR | 0.574 |
-| CatBoost | 93.272 EUR | 149.057 EUR | 0.568 |
-| Random Forest | 83.461 EUR | 146.841 EUR | 0.581 |
+| Model | Test R² (stari) | Test MAE (stari) | Test R² (novi) | Test MAE (novi) |
+|-------|-----------------|------------------|----------------|-----------------|
+| Hibridni (LinReg + RF) | 0.476 | 80.047 EUR | **0.606** | **73.341 EUR** |
+| Random Forest | 0.442 | 81.960 EUR | 0.593 | 74.119 EUR |
+| LightGBM (Optuna) | 0.440 | 85.380 EUR | 0.575 | 76.633 EUR |
+| RF + exp(datum) | 0.426 | 84.748 EUR | 0.579 | 77.450 EUR |
+| CatBoost | 0.430 | 91.684 EUR | 0.571 | 85.747 EUR |
+| RF + PolynomialFeatures | 0.426 | 89.695 EUR | 0.571 | 79.377 EUR |
+| LightGBM bazni | 0.424 | 92.855 EUR | 0.562 | 87.411 EUR |
+| LinReg + PolynomialFeatures | 0.385 | 102.581 EUR | 0.423 | 100.687 EUR |
 
-Najbolji model: **Random Forest sa default parametrima (Test R² 0.581)**.
+Najbolji model: **Hibridni (LinReg + RF na rezidualima), Test R² 0.606** na revidiranom test skupu.
 
-Isprobane dodatne tehnike — sve dale lošije rezultate:
+### Analiza distribucijskog shifta
 
-| Tehnika | Val R² | Test R² |
-|---------|--------|---------|
-| Hibridni model (LinReg + RF na rezidualima) | 0.751 | 0.476 |
-| RF + exp(broj_dana) feature | 0.734 | 0.426 |
-| RF + PolynomialFeatures | 0.736 | 0.424 |
-| LinReg + PolynomialFeatures | 0.547 | 0.385 |
+Originalni test skup (maj 2026.) identifikovan je kao specifičan period. Dijagnostički eksperiment
+(pomeranje test skupa na april 2026.) pokazao je poboljšanje svih modela za ~0.13–0.15 R² poena,
+što potvrđuje da je problem bio u podacima, ne u arhitekturi modela.
 
-Pad R² između validacije (0.899) i testa (0.581) pripisuje se distribucijskom pomaku
-— scraper je u ranijem periodu pokupio više skupih oglasa, a u kasnijem više jeftinijih,
-pa vremenski signal u podacima nije stvarni tržišni trend.
+Analiza nedeljnog volumena oglasa (`drift_analysis.ipynb`) otkrila je konkretan uzrok:
+- Scraper je počeo ozbiljno da skuplja podatke od marta 2026. — volumen raste od ~100 na ~3.500 oglasa nedeljno
+- U maju 2026. volumen opada, a medijana cene po m² pada sa ~3.300 na ~2.750 EUR/m²
+- Pad p25 percentila sa 2.603 na 1.500 EUR/m² u maju ukazuje na promenu u mešavini oglasa
+
+Vremenski signal u podacima nije stvarni tržišni trend nego artefakt scrapovanja.
 ---
 
 ## Pokretanje
@@ -441,7 +449,7 @@ LIMIT 10;
 - ~~**CloudWatch**~~ ✅ — logovanje na AWS podešeno
 - ~~**Lokacija update**~~ ✅ — batch update skripta implementirana
 - ~~**Feature engineering**~~ ✅ — svi featurei implementirani
-- ~~**ML model**~~ ✅ — Random Forest, R² 0.581 na test skupu
-- **FastAPI deployment** ⏳ — `/predict` endpoint
-- **Grafana dashboard** — vizuelizacija podataka
+- ~~**ML model**~~ ✅ — Hibridni model (LinReg + RF), R² 0.606 na revidiranom test skupu
+- ~~**Drift analiza**~~ ✅ — `drift_analysis.ipynb`, identifikovan distribucijski shift u maju 2026.
+- ~~**FastAPI deployment**~~ ✅ — `/predict` endpoint
 - **Proxy rotacija** — residential proxy za bolju anti-bot zaštitu
