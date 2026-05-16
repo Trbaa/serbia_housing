@@ -1,7 +1,5 @@
 # Serbia Housing — Real Estate Data Pipeline
 
-**Poslednja izmena:** 9. maj 2026.
-
 Projekat za automatsko prikupljanje, čišćenje i skladištenje podataka o nekretninama sa srpskih oglasnih sajtova. Izgrađena je pouzdana baza podataka koja se svakodnevno ažurira i može da se koristi za analizu tržišta, vizuelizaciju trendova i razvoj modela za procenu cena nekretnina u Srbiji.
 
 ---
