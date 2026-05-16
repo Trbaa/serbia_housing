@@ -1,0 +1,223 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1360" height="1256" viewBox="0 0 680 628">
+<defs>
+  <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="#534AB7" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+<style>
+  text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; }
+  .th { font-size: 11px; font-weight: 600; fill: #0C447C; }
+  .ts { font-size: 10px; font-weight: 400; fill: #185FA5; }
+  .tph { font-size: 11px; font-weight: 600; fill: #3C3489; }
+  .tps { font-size: 10px; font-weight: 400; fill: #534AB7; }
+  .tah { font-size: 11px; font-weight: 600; fill: #633806; }
+  .tas { font-size: 10px; font-weight: 400; fill: #854F0B; }
+  .tgh { font-size: 11px; font-weight: 600; fill: #3F3E3B; }
+  .tgs { font-size: 10px; font-weight: 400; fill: #5F5E5A; }
+  .tth { font-size: 11px; font-weight: 600; fill: #085041; }
+  .tts { font-size: 10px; font-weight: 400; fill: #0F6E56; }
+  .tgrh { font-size: 11px; font-weight: 600; fill: #27500A; }
+  .tgrs { font-size: 10px; font-weight: 400; fill: #3B6D11; }
+  .tch { font-size: 11px; font-weight: 600; fill: #712B13; }
+  .tcs { font-size: 10px; font-weight: 400; fill: #993C1D; }
+  .trkh { font-size: 11px; font-weight: 600; fill: #791F1F; }
+  .trks { font-size: 10px; font-weight: 400; fill: #A32D2D; }
+</style>
+
+<!-- ═══ OPERATIONS BAR ═══ -->
+<rect x="6" y="6" width="668" height="52" rx="8" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="73" y="26" text-anchor="middle" dominant-baseline="central">EventBridge</text>
+<text class="ts" x="73" y="43" text-anchor="middle" dominant-baseline="central">08:00 Europe/Belgrade</text>
+<line x1="139" y1="8" x2="139" y2="56" stroke="#185FA5" stroke-width="0.5" opacity="0.3"/>
+<text class="th" x="206" y="26" text-anchor="middle" dominant-baseline="central">Lambda</text>
+<text class="ts" x="206" y="43" text-anchor="middle" dominant-baseline="central">start-ec2-scraper</text>
+<line x1="272" y1="8" x2="272" y2="56" stroke="#185FA5" stroke-width="0.5" opacity="0.3"/>
+<text class="th" x="339" y="26" text-anchor="middle" dominant-baseline="central">EC2 t3.micro</text>
+<text class="ts" x="339" y="43" text-anchor="middle" dominant-baseline="central">Systemd → python -m main</text>
+<line x1="405" y1="8" x2="405" y2="56" stroke="#185FA5" stroke-width="0.5" opacity="0.3"/>
+<text class="th" x="472" y="26" text-anchor="middle" dominant-baseline="central">CloudWatch</text>
+<text class="ts" x="472" y="43" text-anchor="middle" dominant-baseline="central">Live Tail, scraper.log</text>
+<line x1="538" y1="8" x2="538" y2="56" stroke="#185FA5" stroke-width="0.5" opacity="0.3"/>
+<text class="th" x="605" y="26" text-anchor="middle" dominant-baseline="central">Cost Mgmt</text>
+<text class="ts" x="605" y="43" text-anchor="middle" dominant-baseline="central">EC2 auto-shutdown</text>
+
+<!-- ═══ SOURCES ═══ -->
+<rect x="6" y="64" width="88" height="498" rx="8" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="tth" x="50" y="82" text-anchor="middle" dominant-baseline="central">Izvori</text>
+
+<rect x="12" y="98" width="76" height="52" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="tth" x="50" y="117" text-anchor="middle" dominant-baseline="central">Halo</text>
+<text class="tts" x="50" y="135" text-anchor="middle" dominant-baseline="central">Oglasi</text>
+
+<rect x="12" y="160" width="76" height="52" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="tth" x="50" y="179" text-anchor="middle" dominant-baseline="central">4zida</text>
+<text class="tts" x="50" y="197" text-anchor="middle" dominant-baseline="central">.rs</text>
+
+<rect x="12" y="222" width="76" height="52" rx="5" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="tth" x="50" y="241" text-anchor="middle" dominant-baseline="central">Nekretni</text>
+<text class="tts" x="50" y="259" text-anchor="middle" dominant-baseline="central">ne.rs</text>
+
+<text class="tts" x="50" y="298" text-anchor="middle">~27k oglasa</text>
+<text class="tts" x="50" y="315" text-anchor="middle">3 izvora</text>
+
+<!-- Arrow Sources → Ingestion -->
+<line x1="94" y1="196" x2="103" y2="196" stroke="#185FA5" stroke-width="1" marker-end="url(#a)"/>
+
+<!-- ═══ MAIN OUTER ═══ -->
+<rect x="98" y="64" width="496" height="498" rx="8" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text class="tgh" x="346" y="76" text-anchor="middle" dominant-baseline="central">Data platforma</text>
+
+<!-- ═══ INGESTION ═══ -->
+<rect x="103" y="72" width="112" height="484" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="88" text-anchor="middle" dominant-baseline="central">Ingestion</text>
+
+<rect x="108" y="100" width="102" height="50" rx="4" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="119" text-anchor="middle" dominant-baseline="central">Playwright</text>
+<text class="ts" x="159" y="137" text-anchor="middle" dominant-baseline="central">halooglasi.com</text>
+
+<rect x="108" y="156" width="102" height="50" rx="4" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="175" text-anchor="middle" dominant-baseline="central">Playwright</text>
+<text class="ts" x="159" y="193" text-anchor="middle" dominant-baseline="central">4zida.rs</text>
+
+<rect x="108" y="212" width="102" height="50" rx="4" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="231" text-anchor="middle" dominant-baseline="central">Playwright</text>
+<text class="ts" x="159" y="249" text-anchor="middle" dominant-baseline="central">nekretnine.rs</text>
+
+<rect x="108" y="272" width="102" height="50" rx="4" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="291" text-anchor="middle" dominant-baseline="central">daily mode</text>
+<text class="ts" x="159" y="309" text-anchor="middle" dominant-baseline="central">early stop x3</text>
+
+<rect x="108" y="328" width="102" height="50" rx="4" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="347" text-anchor="middle" dominant-baseline="central">full mode</text>
+<text class="ts" x="159" y="365" text-anchor="middle" dominant-baseline="central">init punjenje</text>
+
+<rect x="108" y="388" width="102" height="50" rx="4" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="407" text-anchor="middle" dominant-baseline="central">Anti-bot</text>
+<text class="ts" x="159" y="425" text-anchor="middle" dominant-baseline="central">stealth + delays</text>
+
+<rect x="108" y="444" width="102" height="50" rx="4" fill="#B5D4F4" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="159" y="463" text-anchor="middle" dominant-baseline="central">User Agents</text>
+<text class="ts" x="159" y="481" text-anchor="middle" dominant-baseline="central">rotacija</text>
+
+<!-- Arrows Ingestion → DE and DS -->
+<line x1="215" y1="138" x2="220" y2="138" stroke="#185FA5" stroke-width="1" marker-end="url(#a)"/>
+<line x1="215" y1="294" x2="220" y2="294" stroke="#185FA5" stroke-width="1" marker-end="url(#a)"/>
+
+<!-- ═══ PostgreSQL + dbt OUTER ═══ -->
+<rect x="220" y="72" width="238" height="300" rx="6" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text class="th" x="339" y="88" text-anchor="middle" dominant-baseline="central">PostgreSQL RDS + dbt</text>
+
+<!-- ── PREPROCESSING + dbt ── -->
+<rect x="225" y="96" width="228" height="112" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="339" y="112" text-anchor="middle" dominant-baseline="central">Preprocessing + dbt</text>
+
+<rect x="230" y="122" width="106" height="42" rx="4" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="283" y="137" text-anchor="middle" dominant-baseline="central">Preprocessing</text>
+<text class="tps" x="283" y="154" text-anchor="middle" dominant-baseline="central">pipeline.py</text>
+
+<rect x="342" y="122" width="106" height="42" rx="4" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="395" y="137" text-anchor="middle" dominant-baseline="central">dbt</text>
+<text class="tps" x="395" y="154" text-anchor="middle" dominant-baseline="central">incremental merge</text>
+
+<!-- Arrow preprocessing → storage -->
+<line x1="339" y1="208" x2="339" y2="214" stroke="#534AB7" stroke-width="1" marker-end="url(#a3)"/>
+
+<!-- ── DATA STORAGE (Medallion) ── -->
+<rect x="225" y="214" width="228" height="152" rx="4" fill="#FAEEDA" stroke="#BA7517" stroke-width="0.5"/>
+<text class="tah" x="339" y="230" text-anchor="middle" dominant-baseline="central">Medallion Architecture</text>
+<text class="tas" x="339" y="247" text-anchor="middle" dominant-baseline="central">PostgreSQL (db.t3.micro, port 5433)</text>
+
+<rect x="231" y="256" width="62" height="56" rx="4" fill="#F5C4B3" stroke="#993C1D" stroke-width="0.5"/>
+<text class="tch" x="262" y="272" text-anchor="middle" dominant-baseline="central">Bronze</text>
+<text class="tcs" x="262" y="288" text-anchor="middle" dominant-baseline="central">raw</text>
+<text class="tcs" x="262" y="303" text-anchor="middle" dominant-baseline="central">schema</text>
+
+<line x1="293" y1="284" x2="301" y2="284" stroke="#888780" stroke-width="1" marker-end="url(#a2)"/>
+
+<rect x="301" y="256" width="62" height="56" rx="4" fill="#D3D1C7" stroke="#5F5E5A" stroke-width="0.5"/>
+<text class="tgh" x="332" y="272" text-anchor="middle" dominant-baseline="central">Silver</text>
+<text class="tgs" x="332" y="288" text-anchor="middle" dominant-baseline="central">cleaned</text>
+<text class="tgs" x="332" y="303" text-anchor="middle" dominant-baseline="central">schema</text>
+
+<line x1="363" y1="284" x2="371" y2="284" stroke="#888780" stroke-width="1" marker-end="url(#a2)"/>
+
+<rect x="371" y="256" width="76" height="56" rx="4" fill="#FAC775" stroke="#BA7517" stroke-width="0.5"/>
+<text class="tah" x="409" y="272" text-anchor="middle" dominant-baseline="central">Gold</text>
+<text class="tas" x="409" y="288" text-anchor="middle" dominant-baseline="central">unified +</text>
+<text class="tas" x="409" y="303" text-anchor="middle" dominant-baseline="central">dedup</text>
+
+<text class="tas" x="339" y="328" text-anchor="middle">~20k oglasa  •  TF-IDF dedup pipeline</text>
+<text class="tas" x="339" y="344" text-anchor="middle">ON CONFLICT DO UPDATE  •  update_lokacija.py</text>
+
+<!-- Arrow DS → ML -->
+<line x1="453" y1="275" x2="461" y2="275" stroke="#185FA5" stroke-width="1" marker-end="url(#a)"/>
+
+<!-- GOVERNANCE -->
+<rect x="220" y="378" width="238" height="66" rx="5" fill="#F1EFE8" stroke="#888780" stroke-width="0.5"/>
+<text class="tgh" x="339" y="395" text-anchor="middle" dominant-baseline="central">Governance</text>
+<text class="tgs" x="339" y="413" text-anchor="middle" dominant-baseline="central">dbt testovi: 13/13 ✓</text>
+<text class="tgs" x="339" y="430" text-anchor="middle" dominant-baseline="central">unique · not_null · accepted_values</text>
+
+<!-- ═══ ML MODELI ═══ -->
+<rect x="461" y="72" width="128" height="208" rx="6" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="525" y="90" text-anchor="middle" dominant-baseline="central">ML Modeli</text>
+
+<rect x="466" y="100" width="118" height="46" rx="4" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="525" y="117" text-anchor="middle" dominant-baseline="central">Hibridni ★</text>
+<text class="tps" x="525" y="134" text-anchor="middle" dominant-baseline="central">LinReg+RF  R²=0.606</text>
+
+<rect x="466" y="152" width="118" height="38" rx="4" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="525" y="167" text-anchor="middle" dominant-baseline="central">Random Forest</text>
+<text class="tps" x="525" y="182" text-anchor="middle" dominant-baseline="central">R²=0.593</text>
+
+<rect x="466" y="196" width="118" height="38" rx="4" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="525" y="211" text-anchor="middle" dominant-baseline="central">LightGBM</text>
+<text class="tps" x="525" y="226" text-anchor="middle" dominant-baseline="central">Optuna  R²=0.575</text>
+
+<rect x="466" y="240" width="118" height="34" rx="4" fill="#CECBF6" stroke="#534AB7" stroke-width="0.5"/>
+<text class="tph" x="525" y="255" text-anchor="middle" dominant-baseline="central">CatBoost</text>
+<text class="tps" x="525" y="269" text-anchor="middle" dominant-baseline="central">R²=0.571</text>
+
+<!-- Arrow ML → Analysis -->
+<line x1="525" y1="280" x2="525" y2="286" stroke="#534AB7" stroke-width="1" marker-end="url(#a3)"/>
+
+<!-- ═══ ANALIZA ═══ -->
+<rect x="461" y="286" width="128" height="116" rx="6" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="tth" x="525" y="302" text-anchor="middle" dominant-baseline="central">Analiza</text>
+
+<rect x="466" y="312" width="118" height="42" rx="4" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="tth" x="525" y="328" text-anchor="middle" dominant-baseline="central">drift_analysis</text>
+<text class="tts" x="525" y="344" text-anchor="middle" dominant-baseline="central">.ipynb</text>
+
+<rect x="466" y="360" width="118" height="36" rx="4" fill="#9FE1CB" stroke="#0F6E56" stroke-width="0.5"/>
+<text class="tth" x="525" y="375" text-anchor="middle" dominant-baseline="central">train_eval_fin</text>
+<text class="tts" x="525" y="389" text-anchor="middle" dominant-baseline="central">.ipynb</text>
+
+<!-- ═══ OUTPUT (planned) ═══ -->
+<rect x="461" y="412" width="128" height="106" rx="6" fill="#EAF3DE" stroke="#3B6D11" stroke-width="0.5"/>
+<text class="tgrh" x="525" y="428" text-anchor="middle" dominant-baseline="central">Output ⏳</text>
+
+<rect x="466" y="442" width="118" height="38" rx="4" fill="#C0DD97" stroke="#3B6D11" stroke-width="0.5"/>
+<text class="tgrh" x="525" y="457" text-anchor="middle" dominant-baseline="central">FastAPI</text>
+<text class="tgrs" x="525" y="472" text-anchor="middle" dominant-baseline="central">/predict endpoint</text>
+
+<rect x="466" y="486" width="118" height="26" rx="4" fill="#C0DD97" stroke="#3B6D11" stroke-width="0.5"/>
+<text class="tgrs" x="525" y="503" text-anchor="middle" dominant-baseline="central">Grafana dashboard</text>
+
+<!-- ═══ SECURITY BAR ═══ -->
+<rect x="6" y="568" width="668" height="52" rx="8" fill="#FBEAF0" stroke="#993556" stroke-width="0.5"/>
+<text class="trkh" x="117" y="585" text-anchor="middle" dominant-baseline="central">AWS IAM</text>
+<text class="trks" x="117" y="603" text-anchor="middle" dominant-baseline="central">EC2 + RDS pristup</text>
+<line x1="228" y1="570" x2="228" y2="618" stroke="#993556" stroke-width="0.5" opacity="0.3"/>
+<text class="trkh" x="339" y="585" text-anchor="middle" dominant-baseline="central">VPC + Security Groups</text>
+<text class="trks" x="339" y="603" text-anchor="middle" dominant-baseline="central">mrezna izolacija</text>
+<line x1="450" y1="570" x2="450" y2="618" stroke="#993556" stroke-width="0.5" opacity="0.3"/>
+<text class="trkh" x="561" y="585" text-anchor="middle" dominant-baseline="central">PostgreSQL RDS</text>
+<text class="trks" x="561" y="603" text-anchor="middle" dominant-baseline="central">port 5433, .env credentials</text>
+</svg>

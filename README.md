@@ -8,6 +8,9 @@ Projekat za automatsko prikupljanje, čišćenje i skladištenje podataka o nekr
 
 ## Arhitektura sistema
 
+![Arhitektura](arhitektura.svg)
+
+
 ```
 EventBridge (08:00 svaki dan)
         ↓
