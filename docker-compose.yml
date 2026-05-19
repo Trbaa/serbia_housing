@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: fast_api/Dockerfile
+    ports:
+    - "8000:8000"
+    env_file:
+    - fast_api/.env
+    restart: unless-stopped

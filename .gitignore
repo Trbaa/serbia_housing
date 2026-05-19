@@ -23,3 +23,6 @@ dbt_serbia_housing/logs/
 
 
 *.joblib
+serbia_housing_backup.dump
+machine_learning/catboost_info/
+*.dump

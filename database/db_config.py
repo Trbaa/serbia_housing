@@ -3,8 +3,8 @@ from dotenv import load_dotenv
 import psycopg2
 from psycopg2 import OperationalError, InterfaceError,DatabaseError
 
-load_dotenv(".env.aws")
-#load_dotenv(".env") Odkomentarisi samo kad hoces lokalno da radis
+#load_dotenv(".env.aws")
+load_dotenv(".env")# Odkomentarisi samo kad hoces lokalno da radis
 
 
 DB_HOST = os.getenv("DB_HOST")

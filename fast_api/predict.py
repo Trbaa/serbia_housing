@@ -7,8 +7,9 @@ from pydantic import BaseModel
 from sqlalchemy import create_engine, text
 from dotenv import load_dotenv
 import os
+from fastapi.responses import FileResponse
 
-load_dotenv("/Users/trba/Documents/Projects/Serbia_housing/.env.aws")
+load_dotenv()
 
 engine = create_engine(
     f"postgresql+psycopg2://{os.getenv('DB_USER')}:{os.getenv('DB_PASSWORD')}"
@@ -138,6 +139,10 @@ def slicni(stan: Stan):
         }
         for row in rows
     ]
+@app.get("/")
+def root():
+    return FileResponse("frontend.html")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
