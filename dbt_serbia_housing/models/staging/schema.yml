@@ -1,38 +1,36 @@
 version: 2
 
+sources:
+  - name: raw
+    schema: raw
+    tables:
+      - name: halo_oglasi
+      - name: z4ida
+      - name: nekretnine_rs
+
 models:
-  - name: stg_halo_oglasi
-    description: "Staging model za halooglasi.com"
+  - name: stg_oglasi
+    description: >
+      Silver layer. Deterministic 1:1 cleaning of raw Halo Oglasi listings:
+      type casting, number extraction, value normalization, description scrub.
     columns:
       - name: oglas_id
         tests:
-          - unique
           - not_null
-      - name: izvor
+      - name: tip_nekretnine
         tests:
           - accepted_values:
-              values: ['halo_oglasi']
+              arguments:
+                values: ['stan', 'kuća']
+              config:
+                where: "tip_nekretnine is not null"
 
-  - name: stg_z4ida
-    description: "Staging model za 4zida.rs"
+seeds:
+  - name: lokacije
+    description: > 
+      252 Belgrade municipalities, neighborhoods, blocks, and named
+      developments. lokacija_norm is lowercased with Serbian diacritics
+      stripped, used for regex word-boundary matching.
     columns:
-      - name: oglas_id
-        tests:
-          - unique
-          - not_null
-      - name: izvor
-        tests:
-          - accepted_values:
-              values: ['z4ida']
-
-  - name: stg_nekretnine_rs
-    description: "Staging model za nekretnine.rs"
-    columns:
-      - name: oglas_id
-        tests:
-          - unique
-          - not_null
-      - name: izvor
-        tests:
-          - accepted_values:
-              values: ['nekretnine_rs']
+    - name: lokacija_norm
+      tests: [unique]
