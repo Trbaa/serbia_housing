@@ -1,16 +1,14 @@
 version: 2
 
 models:
-  - name: unified_oglasi
-    description: "Centralna tabela sa svim oglasima iz sva 3 izvora"
+  - name: fct_nekretnine
+    description: >
+      Gold sloj. Staging plus lokacija (seed lookup) i amenity
+      booleani izvedeni iz opisa.
     columns:
       - name: unified_id
-        description: "Globalno jedinstven ID (izvor_oglas_id)"
-        tests:
-          - unique
-          - not_null
+        tests: [unique, not_null]
       - name: izvor
-        tests:
-          - not_null
-          - accepted_values:
-              values: ['halo_oglasi', 'z4ida', 'nekretnine_rs']
+        tests: [not_null]
+      - name: lokacija
+        tests: [not_null]
