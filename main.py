@@ -116,5 +116,5 @@ def main():
 
 if __name__ == "__main__":
     main()
-    print("[MAIN] Scraper završen — stopiranje EC2...")
-    subprocess.run(["sudo", "shutdown", "-h", "now"])
+    #print("[MAIN] Scraper završen — stopiranje EC2...")
+    #subprocess.run(["sudo", "shutdown", "-h", "now"])
